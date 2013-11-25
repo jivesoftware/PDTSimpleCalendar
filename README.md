@@ -11,7 +11,7 @@ PDTSimpleCalendar is a very simple calendar/date picker component for your iOS a
 
 We recommend using Cocoapods, in your Podfile just add:
 
-`pod 'PDTSimpleCalendar', :git => "https://github.com/jivesoftware/PDTSimpleCalendar.git"`
+`pod 'PDTSimpleCalendar', '~> 0.4'`
 
 then run `pod install`
 
@@ -23,11 +23,9 @@ If you don't like cocoapods, you can still import it using `git submodule` or si
 ##Customize it
 
 ###Calendar
-`firstDate` : When the calendar must starts. If you don't specify anything, it will default to the current month (based on `[NSDate date]`)
-
-`lastDate` : When the calendar must ends. If you don't specify anything, it will default to the `firstDate` + 1 year.
-
-`calendar` : Which calendar to use for display and date calculations. You can set any calendar supported by `NSCalendar`. the default value will be `[NSCalendar currentCalendar]`.
+* `firstDate` : When the calendar must starts. If you don't specify anything, it will default to the current month (based on `[NSDate date]`)
+* `lastDate` : When the calendar must ends. If you don't specify anything, it will default to the `firstDate` + 1 year.
+* `calendar` : Which calendar to use for display and date calculations. You can set any calendar supported by `NSCalendar`. the default value will be `[NSCalendar currentCalendar]`.
 
 ###Colors
 You can change the display of the calendar using `backgroundColor` & `overlayTextColor` properties on `PDTSimpleCalendarViewController`.
