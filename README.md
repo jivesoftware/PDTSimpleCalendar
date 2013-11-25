@@ -3,8 +3,8 @@ PDTSimpleCalendar
 
 PDTSimpleCalendar is a very simple calendar/date picker component for your iOS apps based on UICollectionView.
 
-![Default](https://github.com/producteev/PDTSimpleCalendar/raw/master/Documentation/default.png)
-![Hebrew](https://github.com/producteev/PDTSimpleCalendar/raw/master/Documentation/hebrew.png)
+![Default](https://github.com/jivesoftware/PDTSimpleCalendar/raw/master/Documentation/default.png)
+![Hebrew](https://github.com/jivesoftware/PDTSimpleCalendar/raw/master/Documentation/hebrew.png)
 
 
 ##Install
@@ -43,10 +43,10 @@ Other colors can be set using UIAppearance on `PDTSimpleCalendarViewCell` & `PDT
 
     [[PDTSimpleCalendarViewHeader appearance] setTextColor:[UIColor redColor]];
     [[PDTSimpleCalendarViewHeader appearance] setSeparatorColor:[UIColor orangeColor]];
-    
+
 Here is how it looks in the Producteev app:
 
-![Producteev](https://github.com/producteev/PDTSimpleCalendar/raw/master/Documentation/producteev.png)
+![Producteev](https://github.com/jivesoftware/PDTSimpleCalendar/raw/master/Documentation/producteev.png)
 
 
 ##License
