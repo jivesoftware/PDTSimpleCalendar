@@ -1,0 +1,339 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		89594315180CB350007DEC5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89594314180CB350007DEC5D /* Foundation.framework */; };
+		89594317180CB350007DEC5D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89594316180CB350007DEC5D /* CoreGraphics.framework */; };
+		89594319180CB350007DEC5D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89594318180CB350007DEC5D /* UIKit.framework */; };
+		8959431F180CB350007DEC5D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8959431D180CB350007DEC5D /* InfoPlist.strings */; };
+		89594321180CB350007DEC5D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89594320180CB350007DEC5D /* main.m */; };
+		89594325180CB350007DEC5D /* PDTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89594324180CB350007DEC5D /* PDTAppDelegate.m */; };
+		89594327180CB350007DEC5D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89594326180CB350007DEC5D /* Images.xcassets */; };
+		8959434C180CB47B007DEC5D /* PDTSimpleCalendarViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89594345180CB47B007DEC5D /* PDTSimpleCalendarViewHeader.m */; };
+		8959434D180CB47B007DEC5D /* PDTSimpleCalendarViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89594347180CB47B007DEC5D /* PDTSimpleCalendarViewCell.m */; };
+		8959434E180CB47B007DEC5D /* PDTSimpleCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89594349180CB47B007DEC5D /* PDTSimpleCalendarViewController.m */; };
+		8959434F180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8959434B180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		89594311180CB350007DEC5D /* PDTSimpleCalendarDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDTSimpleCalendarDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		89594314180CB350007DEC5D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		89594316180CB350007DEC5D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		89594318180CB350007DEC5D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8959431C180CB350007DEC5D /* PDTSimpleCalendarDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PDTSimpleCalendarDemo-Info.plist"; sourceTree = "<group>"; };
+		8959431E180CB350007DEC5D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		89594320180CB350007DEC5D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		89594322180CB350007DEC5D /* PDTSimpleCalendarDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PDTSimpleCalendarDemo-Prefix.pch"; sourceTree = "<group>"; };
+		89594323180CB350007DEC5D /* PDTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDTAppDelegate.h; sourceTree = "<group>"; };
+		89594324180CB350007DEC5D /* PDTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDTAppDelegate.m; sourceTree = "<group>"; };
+		89594326180CB350007DEC5D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		8959432D180CB350007DEC5D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		89594344180CB47B007DEC5D /* PDTSimpleCalendarViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PDTSimpleCalendarViewHeader.h; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewHeader.h; sourceTree = "<group>"; };
+		89594345180CB47B007DEC5D /* PDTSimpleCalendarViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PDTSimpleCalendarViewHeader.m; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewHeader.m; sourceTree = "<group>"; };
+		89594346180CB47B007DEC5D /* PDTSimpleCalendarViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PDTSimpleCalendarViewCell.h; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewCell.h; sourceTree = "<group>"; };
+		89594347180CB47B007DEC5D /* PDTSimpleCalendarViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PDTSimpleCalendarViewCell.m; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewCell.m; sourceTree = "<group>"; };
+		89594348180CB47B007DEC5D /* PDTSimpleCalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PDTSimpleCalendarViewController.h; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewController.h; sourceTree = "<group>"; };
+		89594349180CB47B007DEC5D /* PDTSimpleCalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PDTSimpleCalendarViewController.m; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewController.m; sourceTree = "<group>"; };
+		8959434A180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PDTSimpleCalendarViewFlowLayout.h; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewFlowLayout.h; sourceTree = "<group>"; };
+		8959434B180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PDTSimpleCalendarViewFlowLayout.m; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewFlowLayout.m; sourceTree = "<group>"; };
+		89D411BF18109DA1001584CC /* PDTSimpleCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PDTSimpleCalendar.h; path = ../PDTSimpleCalendar/PDTSimpleCalendar.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8959430E180CB350007DEC5D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89594317180CB350007DEC5D /* CoreGraphics.framework in Frameworks */,
+				89594319180CB350007DEC5D /* UIKit.framework in Frameworks */,
+				89594315180CB350007DEC5D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		89594308180CB350007DEC5D = {
+			isa = PBXGroup;
+			children = (
+				89594343180CB46B007DEC5D /* PDTSimpleCalendar */,
+				8959431A180CB350007DEC5D /* PDTSimpleCalendarDemo */,
+				89594313180CB350007DEC5D /* Frameworks */,
+				89594312180CB350007DEC5D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		89594312180CB350007DEC5D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				89594311180CB350007DEC5D /* PDTSimpleCalendarDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		89594313180CB350007DEC5D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				89594314180CB350007DEC5D /* Foundation.framework */,
+				89594316180CB350007DEC5D /* CoreGraphics.framework */,
+				89594318180CB350007DEC5D /* UIKit.framework */,
+				8959432D180CB350007DEC5D /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8959431A180CB350007DEC5D /* PDTSimpleCalendarDemo */ = {
+			isa = PBXGroup;
+			children = (
+				89594323180CB350007DEC5D /* PDTAppDelegate.h */,
+				89594324180CB350007DEC5D /* PDTAppDelegate.m */,
+				89594326180CB350007DEC5D /* Images.xcassets */,
+				8959431B180CB350007DEC5D /* Supporting Files */,
+			);
+			path = PDTSimpleCalendarDemo;
+			sourceTree = "<group>";
+		};
+		8959431B180CB350007DEC5D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8959431C180CB350007DEC5D /* PDTSimpleCalendarDemo-Info.plist */,
+				8959431D180CB350007DEC5D /* InfoPlist.strings */,
+				89594320180CB350007DEC5D /* main.m */,
+				89594322180CB350007DEC5D /* PDTSimpleCalendarDemo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		89594343180CB46B007DEC5D /* PDTSimpleCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				89D411BF18109DA1001584CC /* PDTSimpleCalendar.h */,
+				89594348180CB47B007DEC5D /* PDTSimpleCalendarViewController.h */,
+				89594349180CB47B007DEC5D /* PDTSimpleCalendarViewController.m */,
+				89594344180CB47B007DEC5D /* PDTSimpleCalendarViewHeader.h */,
+				89594345180CB47B007DEC5D /* PDTSimpleCalendarViewHeader.m */,
+				89594346180CB47B007DEC5D /* PDTSimpleCalendarViewCell.h */,
+				89594347180CB47B007DEC5D /* PDTSimpleCalendarViewCell.m */,
+				8959434A180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.h */,
+				8959434B180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.m */,
+			);
+			name = PDTSimpleCalendar;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		89594310180CB350007DEC5D /* PDTSimpleCalendarDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8959433D180CB350007DEC5D /* Build configuration list for PBXNativeTarget "PDTSimpleCalendarDemo" */;
+			buildPhases = (
+				8959430D180CB350007DEC5D /* Sources */,
+				8959430E180CB350007DEC5D /* Frameworks */,
+				8959430F180CB350007DEC5D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PDTSimpleCalendarDemo;
+			productName = PDTSimpleCalendarDemo;
+			productReference = 89594311180CB350007DEC5D /* PDTSimpleCalendarDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		89594309180CB350007DEC5D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = PDT;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = Producteev;
+			};
+			buildConfigurationList = 8959430C180CB350007DEC5D /* Build configuration list for PBXProject "PDTSimpleCalendarDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 89594308180CB350007DEC5D;
+			productRefGroup = 89594312180CB350007DEC5D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				89594310180CB350007DEC5D /* PDTSimpleCalendarDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8959430F180CB350007DEC5D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8959431F180CB350007DEC5D /* InfoPlist.strings in Resources */,
+				89594327180CB350007DEC5D /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8959430D180CB350007DEC5D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8959434E180CB47B007DEC5D /* PDTSimpleCalendarViewController.m in Sources */,
+				89594321180CB350007DEC5D /* main.m in Sources */,
+				8959434F180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.m in Sources */,
+				89594325180CB350007DEC5D /* PDTAppDelegate.m in Sources */,
+				8959434C180CB47B007DEC5D /* PDTSimpleCalendarViewHeader.m in Sources */,
+				8959434D180CB47B007DEC5D /* PDTSimpleCalendarViewCell.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8959431D180CB350007DEC5D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8959431E180CB350007DEC5D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8959433B180CB350007DEC5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8959433C180CB350007DEC5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8959433E180CB350007DEC5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PDTSimpleCalendarDemo/PDTSimpleCalendarDemo-Prefix.pch";
+				INFOPLIST_FILE = "PDTSimpleCalendarDemo/PDTSimpleCalendarDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8959433F180CB350007DEC5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PDTSimpleCalendarDemo/PDTSimpleCalendarDemo-Prefix.pch";
+				INFOPLIST_FILE = "PDTSimpleCalendarDemo/PDTSimpleCalendarDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8959430C180CB350007DEC5D /* Build configuration list for PBXProject "PDTSimpleCalendarDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8959433B180CB350007DEC5D /* Debug */,
+				8959433C180CB350007DEC5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8959433D180CB350007DEC5D /* Build configuration list for PBXNativeTarget "PDTSimpleCalendarDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8959433E180CB350007DEC5D /* Debug */,
+				8959433F180CB350007DEC5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 89594309180CB350007DEC5D /* Project object */;
+}
