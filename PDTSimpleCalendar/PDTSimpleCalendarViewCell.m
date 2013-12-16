@@ -15,6 +15,8 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 @property (nonatomic, strong) UILabel *dayLabel;
 @property (nonatomic, strong) NSDate *date;
 
+- (void)setCircleColor:(BOOL)today selected:(BOOL)selected enabled:(BOOL)enabled;
+
 @end
 
 @implementation PDTSimpleCalendarViewCell
@@ -40,7 +42,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize]];
 
-        [self setCircleColor:NO selected:NO];
+        [self setCircleColor:NO selected:NO enabled:NO];
     }
 
     return self;
@@ -60,17 +62,22 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 - (void)setIsToday:(BOOL)isToday
 {
     _isToday = isToday;
-    [self setCircleColor:isToday selected:self.selected];
+    [self setCircleColor:isToday selected:self.selected enabled:self.enabled];
 }
 
 - (void)setSelected:(BOOL)selected
 {
     [super setSelected:selected];
-    [self setCircleColor:self.isToday selected:selected];
+    [self setCircleColor:self.isToday selected:selected enabled:self.enabled];
 }
 
+- (void)setEnabled:(BOOL)enabled
+{
+    _enabled = enabled;
+    [self setCircleColor:self.isToday selected:self.selected enabled:enabled];
+}
 
-- (void)setCircleColor:(BOOL)today selected:(BOOL)selected
+- (void)setCircleColor:(BOOL)today selected:(BOOL)selected enabled:(BOOL)enabled
 {
     UIColor *circleColor = (today) ? [self circleTodayColor] : [self circleDefaultColor];
     UIColor *labelColor = (today) ? [self textTodayColor] : [self textDefaultColor];
@@ -93,6 +100,10 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         labelColor = [self textSelectedColor];
     }
 
+    if (!enabled) {
+        labelColor = [self textDisabledColor];
+    }
+    
     [self.dayLabel setBackgroundColor:circleColor];
     [self.dayLabel setTextColor:labelColor];
 }
@@ -100,7 +111,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 - (void)refreshCellColors
 {
-    [self setCircleColor:self.isToday selected:self.isSelected];
+    [self setCircleColor:self.isToday selected:self.isSelected enabled:self.enabled];
 }
 
 
@@ -111,6 +122,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     [super prepareForReuse];
     _date = nil;
     _isToday = NO;
+    _enabled = NO;
     [self.dayLabel setText:@""];
     [self.dayLabel setBackgroundColor:[self circleDefaultColor]];
     [self.dayLabel setTextColor:[self textDefaultColor]];
@@ -196,6 +208,19 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     }
 
     return [UIColor whiteColor];
+}
+
+- (UIColor *)textDisabledColor
+{
+    if(_textDisabledColor == nil) {
+        _textDisabledColor = [[[self class] appearance] textDisabledColor];
+    }
+
+    if(_textDisabledColor != nil) {
+        return _textDisabledColor;
+    }
+
+    return [UIColor lightGrayColor];
 }
 
 @end

@@ -61,6 +61,11 @@
  */
 @property (nonatomic, weak) id<PDTSimpleCalendarViewCellDelegate> delegate;
 
+/*
+ *  Define if the cell is able to be selected.
+ */
+@property (nonatomic, assign) BOOL enabled;
+
 /**
  *  Define if the cell is today in the calendar.
  */
@@ -98,7 +103,12 @@
 
 
 /**
- * Sets the date for this cell
+ *  Customize the day's number color when cell is disabled using UIAppearance.
+ */
+@property (nonatomic, strong) UIColor *textDisabledColor UI_APPEARANCE_SELECTOR;
+
+/**
+ *  Set the day number to display for the cell
  *
  * @param date the date (Midnight GMT).
  *
