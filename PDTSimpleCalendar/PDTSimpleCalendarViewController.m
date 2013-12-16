@@ -25,6 +25,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 @property (nonatomic, strong) UILabel *overlayView;
 @property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
 
+// First and last date of the months of the first and last dates
+@property (nonatomic, readonly) NSDate *firstDateMonth;
+@property (nonatomic, readonly) NSDate *lastDateMonth;
+
 @end
 
 
@@ -33,6 +37,8 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 //Explicitely @synthesize the var (it will create the iVar for us automatically as we redefine both getter and setter)
 @synthesize firstDate = _firstDate;
 @synthesize lastDate = _lastDate;
+@synthesize firstDateMonth = _firstDateMonth;
+@synthesize lastDateMonth = _lastDateMonth;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -88,7 +94,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (NSDate *)firstDate
 {
     if (!_firstDate) {
-        [self setFirstDate:[NSDate date]];
+        self.firstDate = [NSDate date];
     }
 
     return _firstDate;
@@ -97,7 +103,17 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (void)setFirstDate:(NSDate *)firstDate
 {
     NSDateComponents *components = [self.calendar components:NSMonthCalendarUnit|NSYearCalendarUnit fromDate:firstDate];
-    _firstDate = [self.calendar dateFromComponents:components];
+    _firstDate = firstDate;
+    _firstDateMonth = [self.calendar dateFromComponents:components];
+}
+
+- (NSDate *)firstDateMonth
+{
+    if (!_firstDateMonth) {
+        self.firstDate = [NSDate date];
+    }
+
+    return _firstDateMonth;
 }
 
 - (NSDate *)lastDate
@@ -105,7 +121,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if (!_lastDate) {
         NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
         offsetComponents.year = 1;
-        [self setLastDate:[self.calendar dateByAddingComponents:offsetComponents toDate:self.firstDate options:0]];
+        self.lastDate = [self.calendar dateByAddingComponents:offsetComponents toDate:self.firstDate options:0];
     }
     return _lastDate;
 }
@@ -118,28 +134,38 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
     offsetComponents.month = 1;
     offsetComponents.day = -1;
-    _lastDate = [self.calendar dateByAddingComponents:offsetComponents toDate:firstOfMonth options:0];
+    _lastDate = lastDate;
+    _lastDateMonth = [self.calendar dateByAddingComponents:offsetComponents toDate:firstOfMonth options:0];
+}
+
+- (NSDate *)lastDateMonth
+{
+    if (!_lastDateMonth) {
+        NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
+        offsetComponents.year = 1;
+        self.lastDate = [self.calendar dateByAddingComponents:offsetComponents toDate:self.firstDate options:0];
+    }
+    return _lastDateMonth;
 }
 
 - (void)setSelectedDate:(NSDate *)newSelectedDate
 {
-    [self setSelectedDate:newSelectedDate animated:NO];
+    [self setSelectedDate:newSelectedDate animated:YES];
 }
 
 - (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated
 {
     //Test if selectedDate between first & last date
     NSDate *startOfDay = [self clampDate:newSelectedDate toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
-    if (([startOfDay compare:self.firstDate] == NSOrderedAscending) || ([startOfDay compare:self.lastDate] == NSOrderedDescending)) {
+    if (![self isEnabledDate:startOfDay]) {
         return;
     }
 
-    [[self cellForItemAtDate:_selectedDate] setSelected:NO];
-    [[self cellForItemAtDate:startOfDay] setSelected:YES];
+    // Select the new date cell
+    NSIndexPath *newSelectedIndexPath = [self indexPathForCellAtDate:startOfDay];
+    [self.collectionView selectItemAtIndexPath:newSelectedIndexPath animated:animated scrollPosition:UICollectionViewScrollPositionCenteredVertically];
 
     _selectedDate = startOfDay;
-
-    [self scrollToDate:_selectedDate animated:animated];
 
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewDidSelectDate:)]) {
         [self.delegate simpleCalendarViewDidSelectDate:self.selectedDate];
@@ -204,7 +230,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     [self.view addSubview:self.overlayView];
     [self.overlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
     NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView};
-    NSDictionary *metricsDictionary = @{@"overlayViewHeight": [NSNumber numberWithFloat:PDTSimpleCalendarFlowLayoutHeaderHeight]};
+    NSDictionary *metricsDictionary = @{@"overlayViewHeight": @(PDTSimpleCalendarFlowLayoutHeaderHeight)};
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" options:NSLayoutFormatAlignAllTop metrics:nil views:viewsDictionary]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView(==overlayViewHeight)]" options:NSLayoutFormatAlignAllTop metrics:metricsDictionary views:viewsDictionary]];
@@ -228,7 +254,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     //Each Section is a Month
-    return [self.calendar components:NSMonthCalendarUnit fromDate:self.firstDate toDate:self.lastDate options:0].month + 1;
+    return [self.calendar components:NSMonthCalendarUnit fromDate:self.firstDateMonth toDate:self.lastDateMonth options:0].month + 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -254,22 +280,22 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     NSString *cellTitleString = @"";
     BOOL isToday = NO;
-    BOOL isSelected = NO;
+    BOOL isEnabled = NO;
 
     if (cellDateComponents.month == firstOfMonthsComponents.month) {
         cellTitleString = [NSString stringWithFormat:@"%@", @(cellDateComponents.day)];
-        isSelected = ([self isSelectedDate:cellDate] && (indexPath.section == [self sectionForDate:cellDate]));
+        isEnabled = [self isEnabledDate:cellDate];
         isToday = [self isTodayDate:cellDate];
     }
 
     [cell setDayNumber:cellTitleString];
 
     if (isToday) {
-        [cell setIsToday:isToday];
+        [cell setIsToday:YES];
     }
 
-    if (isSelected) {
-        [cell setSelected:isSelected];
+    if (isEnabled) {
+        [cell setEnabled:YES];
     }
 
     //We rasterize the cell for performances purposes.
@@ -284,13 +310,8 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDate *firstOfMonth = [self firstOfMonthForSection:indexPath.section];
-    NSDate *cellDate = [self dateForCellAtIndexPath:indexPath];
-
-    NSDateComponents *cellDateComponents = [self.calendar components:NSDayCalendarUnit|NSMonthCalendarUnit fromDate:cellDate];
-    NSDateComponents *firstOfMonthsComponents = [self.calendar components:NSMonthCalendarUnit fromDate:firstOfMonth];
-
-    return (cellDateComponents.month == firstOfMonthsComponents.month);
+    PDTSimpleCalendarViewCell *cell = (PDTSimpleCalendarViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    return cell.enabled;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -384,6 +405,20 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     return [self clampAndCompareDate:date withReferenceDate:self.selectedDate];
 }
 
+- (BOOL)isEnabledDate:(NSDate *)date
+{
+    if ([date compare:self.firstDate] == NSOrderedAscending)
+        return NO;
+
+    if (!self.lastDate)
+        return YES;
+
+    if ([date compare:self.lastDate] == NSOrderedDescending)
+        return NO;
+    
+    return YES;
+}
+
 - (BOOL)clampAndCompareDate:(NSDate *)date withReferenceDate:(NSDate *)referenceDate
 {
     NSDate *refDate = [self clampDate:referenceDate toComponents:(NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit)];
@@ -399,12 +434,12 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     NSDateComponents *offset = [NSDateComponents new];
     offset.month = section;
 
-    return [self.calendar dateByAddingComponents:offset toDate:self.firstDate options:0];
+    return [self.calendar dateByAddingComponents:offset toDate:self.firstDateMonth options:0];
 }
 
 - (NSInteger)sectionForDate:(NSDate *)date
 {
-    return [self.calendar components:NSMonthCalendarUnit fromDate:self.firstDate toDate:date options:0].month;
+    return [self.calendar components:NSMonthCalendarUnit fromDate:self.firstDateMonth toDate:date options:0].month;
 }
 
 
