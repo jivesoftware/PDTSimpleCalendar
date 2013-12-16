@@ -14,6 +14,11 @@
 @interface PDTSimpleCalendarViewCell : UICollectionViewCell
 
 /**
+ *  Define if the cell is able to be selected.
+ */
+@property (nonatomic, assign) BOOL enabled;
+
+/**
  *  Define if the cell is today in the calendar.
  */
 @property (nonatomic, assign) BOOL isToday;
@@ -47,6 +52,11 @@
  *  Customize the day's number color when cell is selected using UIAppearance.
  */
 @property (nonatomic, strong) UIColor *textSelectedColor UI_APPEARANCE_SELECTOR;
+
+/**
+ *  Customize the day's number color when cell is disabled using UIAppearance.
+ */
+@property (nonatomic, strong) UIColor *textDisabledColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  Set the day number to display for the cell
