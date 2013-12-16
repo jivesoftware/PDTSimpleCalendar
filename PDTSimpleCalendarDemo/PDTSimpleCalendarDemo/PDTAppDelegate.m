@@ -36,6 +36,17 @@
 //    hebrewCalendar.locale = [NSLocale currentLocale];
 //    [calendarViewController setCalendar:hebrewCalendar];
 
+    // Enable 10th of current month until the 10th of next month
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+    NSDate *date = [NSDate date];
+    NSDateComponents *comps = [calendar components:unitFlags fromDate:date];
+    comps.day = 10;
+    calendarViewController.firstDate = [calendar dateFromComponents:comps];
+    comps.month += 1;
+    calendarViewController.lastDate = [calendar dateFromComponents:comps];
+
+
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:calendarViewController];
     [calendarViewController setTitle:@"SimpleCalendar"];
     
