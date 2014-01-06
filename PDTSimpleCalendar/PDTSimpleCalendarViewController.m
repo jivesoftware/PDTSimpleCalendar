@@ -139,6 +139,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     _selectedDate = startOfDay;
 
+    NSIndexPath *indexPath = [self indexPathForCellAtDate:_selectedDate];
+    [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
+
     [self scrollToDate:_selectedDate animated:animated];
 
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewDidSelectDate:)]) {
