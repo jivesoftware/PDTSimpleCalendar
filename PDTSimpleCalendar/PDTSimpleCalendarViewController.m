@@ -194,8 +194,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
   }
 
   // Select the new date cell
-  NSIndexPath *newSelectedIndexPath = [self indexPathForCellAtDate:startOfDay];
-  [self.collectionView selectItemAtIndexPath:newSelectedIndexPath animated:animated scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+  NSIndexPath *indexPath = [self indexPathForCellAtDate:startOfDay];
+  [self.collectionView selectItemAtIndexPath:indexPath animated:animated scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+  [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
 
   _selectedDate = startOfDay;
 
