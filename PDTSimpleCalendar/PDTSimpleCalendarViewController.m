@@ -184,8 +184,8 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     _selectedDate = startOfDay;
 
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewDidSelectDate:)]) {
-        [self.delegate simpleCalendarViewDidSelectDate:self.selectedDate];
+  if (callDelegate && [self.delegate respondsToSelector:@selector(simpleCalendarViewController:didSelectDate:)]) {
+    [self.delegate simpleCalendarViewController:self didSelectDate:self.selectedDate];
     }
 }
 
