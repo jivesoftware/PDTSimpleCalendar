@@ -55,6 +55,16 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+  self = [super initWithCollectionViewLayout:[[PDTSimpleCalendarViewFlowLayout alloc] init]];
+  if (self) {
+    [self simpleCalendarCommonInit];
+  }
+
+  return self;
+}
+
 - (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
 {
     self = [super initWithCollectionViewLayout:layout];
