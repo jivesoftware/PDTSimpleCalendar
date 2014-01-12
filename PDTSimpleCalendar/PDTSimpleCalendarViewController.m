@@ -154,8 +154,8 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     [self scrollToDate:_selectedDate animated:animated];
 
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewDidSelectDate:)]) {
-        [self.delegate simpleCalendarViewDidSelectDate:self.selectedDate];
+    if (callDelegate && [self.delegate respondsToSelector:@selector(simpleCalendarViewController:didSelectDate:)]) {
+        [self.delegate simpleCalendarViewController:self didSelectDate:self.selectedDate];
     }
 }
 

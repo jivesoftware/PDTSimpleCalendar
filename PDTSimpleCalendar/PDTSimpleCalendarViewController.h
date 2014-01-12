@@ -103,6 +103,6 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
 
  @param date the date being selected (Midnight GMT).
  */
-- (void)simpleCalendarViewDidSelectDate:(NSDate *)date;
+- (void)simpleCalendarViewController:(PDTSimpleCalendarViewController*)controller didSelectDate:(NSDate *)date;
 
 @end;
