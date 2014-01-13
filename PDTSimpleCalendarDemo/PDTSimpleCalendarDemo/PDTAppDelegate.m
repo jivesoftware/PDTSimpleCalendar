@@ -32,12 +32,27 @@
     PDTSimpleCalendarViewController *calendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     [calendarViewController setDelegate:self];
     //Example of how you can change the default calendar
-//    NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
-//    hebrewCalendar.locale = [NSLocale currentLocale];
-//    [calendarViewController setCalendar:hebrewCalendar];
+    //#define TRY_ARAB
+    //#define TRY_HEBREW
+    //#define TRY_FARSI
+    //#define TRY_INDIAN
 
-    // Enable 10th of current month until the 10th of next month
+
+#if defined(TRY_HEBREW)
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
+#elif defined(TRY_FARSI)
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSPersianCalendar];
+#elif defined(TRY_ARAB)
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSIslamicCalendar];
+#elif defined(TRY_INDIAN)
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSIndianCalendar];
+#else
     NSCalendar *calendar = [NSCalendar currentCalendar];
+#endif
+    [calendarViewController setCalendar:calendar];
+    NSLog(@"Calendar ID = %@", calendar.calendarIdentifier);
+    NSLog(@"Language = %@", [[NSLocale preferredLanguages] firstObject]);
+
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
     NSDate *date = [NSDate date];
     NSDateComponents *comps = [calendar components:unitFlags fromDate:date];
@@ -46,10 +61,8 @@
     comps.month += 1;
     calendarViewController.lastDate = [calendar dateFromComponents:comps];
 
-
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:calendarViewController];
     [calendarViewController setTitle:@"SimpleCalendar"];
-    
     //Example of how you can now customize the calendar colors
 //    [[PDTSimpleCalendarViewCell appearance] setCircleDefaultColor:[UIColor whiteColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setCircleSelectedColor:[UIColor orangeColor]];
@@ -57,6 +70,7 @@
 //    [[PDTSimpleCalendarViewCell appearance] setTextDefaultColor:[UIColor redColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setTextSelectedColor:[UIColor purpleColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setTextTodayColor:[UIColor magentaColor]];
+//    [[PDTSimpleCalendarViewCell appearance] setTextDisabledColor:[UIColor purpleColor]];
 //
 //    [[PDTSimpleCalendarViewHeader appearance] setTextColor:[UIColor redColor]];
 //    [[PDTSimpleCalendarViewHeader appearance] setSeparatorColor:[UIColor orangeColor]];
