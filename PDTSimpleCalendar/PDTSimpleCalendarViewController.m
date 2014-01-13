@@ -322,7 +322,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if (isEnabled) {
         [cell setEnabled:YES];
     }
-    NSLog(@"Cell %@ enabled = %d", cellDate, isEnabled);
 
     if (isSelected) {
         [cell setSelected:YES];
