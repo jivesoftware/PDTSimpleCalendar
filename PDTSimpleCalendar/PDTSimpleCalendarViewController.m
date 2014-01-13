@@ -146,10 +146,11 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (NSDate *)lastDateMonth
 {
-    NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
-    offsetComponents.month = 1;
-    offsetComponents.day = -1;
-    return [self.calendar dateByAddingComponents:offsetComponents toDate:self.lastDate options:0];
+    NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
+                                                    fromDate:self.lastDate];
+    components.month++;
+    components.day = -1;
+    return [self.calendar dateFromComponents:components];
 }
 
 - (void)setSelectedDate:(NSDate *)newSelectedDate
