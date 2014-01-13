@@ -35,6 +35,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 @implementation PDTSimpleCalendarViewController
 
+@synthesize calendar = _calendar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -83,7 +84,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if (!_headerDateFormatter) {
         _headerDateFormatter = [[NSDateFormatter alloc] init];
         _headerDateFormatter.calendar = self.calendar;
-        _headerDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyyLLLL" options:0 locale:[NSLocale currentLocale]];
+        _headerDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy LLLL" options:0 locale:self.calendar.locale];
     }
     return _headerDateFormatter;
 }
@@ -93,7 +94,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if (!_dayDateFormatter) {
         _dayDateFormatter = [[NSDateFormatter alloc] init];
         _dayDateFormatter.calendar = self.calendar;
-        _dayDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"d" options:0 locale:[NSLocale currentLocale]];
+        _dayDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"d" options:0 locale:self.calendar.locale];
     }
     return _dayDateFormatter;
 }
@@ -104,6 +105,13 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         _calendar = [NSCalendar currentCalendar];
     }
     return _calendar;
+}
+
+-(void)setCalendar:(NSCalendar*)calendar
+{
+    _calendar = calendar;
+    self.dayDateFormatter.calendar = calendar;
+    self.headerDateFormatter.calendar = calendar;
 }
 
 - (NSDate *)firstDate
