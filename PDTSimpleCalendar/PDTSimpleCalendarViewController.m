@@ -131,12 +131,12 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     _lastDate = [self.calendar dateByAddingComponents:offsetComponents toDate:firstOfMonth options:0];
 }
 
-- (void)setSelectedDate:(NSDate *)newSelectedDate
-{
-    [self setSelectedDate:newSelectedDate animated:NO];
+- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated {
+  [self setSelectedDate:newSelectedDate animated:YES callDelegate:NO];
 }
 
-- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated
+
+- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated callDelegate:(BOOL)callDelegate
 {
     //Test if selectedDate between first & last date
     NSDate *startOfDay = [self clampDate:newSelectedDate toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
@@ -148,6 +148,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     [[self cellForItemAtDate:startOfDay] setSelected:YES];
 
     _selectedDate = startOfDay;
+
 
     NSIndexPath *indexPath = [self indexPathForCellAtDate:_selectedDate];
     [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
@@ -308,7 +309,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedDate = [self dateForCellAtIndexPath:indexPath];
+    [self setSelectedDate:[self dateForCellAtIndexPath:indexPath] animated:YES callDelegate:YES];
 }
 
 
