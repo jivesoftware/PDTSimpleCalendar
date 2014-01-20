@@ -6,6 +6,26 @@
 //  Copyright (c) 2013 Producteev. All rights reserved.
 //
 
+@protocol PDTSimpleCalendarViewCellDelegate <NSObject>
+
+@required
+
+/**
+ * Asks the delegate for the circle color for a custom added date
+ *
+ * @param date the date (Midnight GMT).
+ */
+- (UIColor*)circleColorForDate:(NSDate*)date;
+
+/**
+ * Asks the delegate for the text color for a custom added date
+ *
+ * @param date the date (Midnight GMT).
+ */
+- (UIColor*)textColorForDate:(NSDate*)date;
+
+@end
+
 #import <UIKit/UIKit.h>
 
 /**
@@ -14,9 +34,22 @@
 @interface PDTSimpleCalendarViewCell : UICollectionViewCell
 
 /**
+ *  The delegate of the cell.
+ *  Must adopt the `PDTSimpleCalendarViewCellDelegate` protocol.
+ *
+ *  @see PDTSimpleCalendarViewCellDelegate
+ */
+@property (nonatomic, weak) id<PDTSimpleCalendarViewCellDelegate> delegate;
+
+/**
  *  Define if the cell is today in the calendar.
  */
 @property (nonatomic, assign) BOOL isToday;
+
+/**
+ *  Define if the cell is today in the calendar.
+ */
+@property (nonatomic, assign) BOOL isOtherDate;
 
 /**
  *  Customize the circle behind the day's number color using UIAppearance.
@@ -49,11 +82,11 @@
 @property (nonatomic, strong) UIColor *textSelectedColor UI_APPEARANCE_SELECTOR;
 
 /**
- *  Set the day number to display for the cell
+ * Sets the date for this cell
  *
- *  @param dayNumber from 1 to 31.
+ * @param date the date (Midnight GMT).
+ *
+ * @param calendar the calendar.
  */
-- (void)setDayNumber:(NSString *)dayNumber;
-
-
+- (void) setDate:(NSDate*)date calendar:(NSCalendar*)calendar;
 @end

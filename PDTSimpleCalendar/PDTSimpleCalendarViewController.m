@@ -20,7 +20,7 @@ static NSString *PDTSimpleCalendarViewCellIdentifier = @"com.producteev.collecti
 static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collection.header.identifier";
 
 
-@interface PDTSimpleCalendarViewController ()
+@interface PDTSimpleCalendarViewController () <PDTSimpleCalendarViewCellDelegate>
 
 @property (nonatomic, strong) UILabel *overlayView;
 @property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
@@ -28,7 +28,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 @end
 
 
-@implementation PDTSimpleCalendarViewController
+@implementation PDTSimpleCalendarViewController {
+    NSMutableArray* _otherDates;
+}
 
 //Explicitely @synthesize the var (it will create the iVar for us automatically as we redefine both getter and setter)
 @synthesize firstDate = _firstDate;
@@ -63,6 +65,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     self.overlayView = [[UILabel alloc] init];
     self.backgroundColor = [UIColor whiteColor];
     self.overlayTextColor = [UIColor blackColor];
+    _otherDates = [[NSMutableArray alloc] init];
 }
 
 #pragma mark - Accessors
@@ -174,6 +177,43 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     }
 }
 
+- (void)addOtherDate:(NSDate *)date
+{
+    //Test if selectedDate between first & last date
+    NSDate *startOfDay = [self clampDate:date toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
+    if (([startOfDay compare:self.firstDate] == NSOrderedAscending) || ([startOfDay compare:self.lastDate] == NSOrderedDescending)) {
+        return;
+    }
+    
+    //Check if the object has already been added
+    if([_otherDates containsObject:startOfDay]){
+        return;
+    }
+    
+    [_otherDates addObject:startOfDay];
+    
+    NSIndexPath *indexPath = [self indexPathForCellAtDate:startOfDay];
+    [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
+}
+
+- (void)removeOtherDate:(NSDate *)date
+{
+    NSDate *startOfDay = [self clampDate:date toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
+    if([_otherDates containsObject:startOfDay]){
+        [_otherDates removeObject:startOfDay];
+    }
+    
+    NSIndexPath *indexPath = [self indexPathForCellAtDate:startOfDay];
+    [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
+}
+
+- (void)clearOtherDates
+{
+    for (NSDate* date in _otherDates) {
+        [self removeOtherDate:date];
+    }
+}
+
 - (void)setOverlayTextColor:(UIColor *)overlayTextColor
 {
     _overlayTextColor = overlayTextColor;
@@ -249,23 +289,25 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     PDTSimpleCalendarViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:PDTSimpleCalendarViewCellIdentifier
                                                                            forIndexPath:indexPath];
 
+    cell.delegate = self;
+    
     NSDate *firstOfMonth = [self firstOfMonthForSection:indexPath.section];
     NSDate *cellDate = [self dateForCellAtIndexPath:indexPath];
 
     NSDateComponents *cellDateComponents = [self.calendar components:NSDayCalendarUnit|NSMonthCalendarUnit fromDate:cellDate];
     NSDateComponents *firstOfMonthsComponents = [self.calendar components:NSMonthCalendarUnit fromDate:firstOfMonth];
 
-    NSString *cellTitleString = @"";
     BOOL isToday = NO;
     BOOL isSelected = NO;
+    BOOL isOtherDate = NO;
 
     if (cellDateComponents.month == firstOfMonthsComponents.month) {
-        cellTitleString = [NSString stringWithFormat:@"%@", @(cellDateComponents.day)];
         isSelected = ([self isSelectedDate:cellDate] && (indexPath.section == [self sectionForDate:cellDate]));
         isToday = [self isTodayDate:cellDate];
+        isOtherDate = [self isOtherDate:cellDate];
     }
 
-    [cell setDayNumber:cellTitleString];
+    [cell setDate:cellDate calendar:self.calendar];
 
     if (isToday) {
         [cell setIsToday:isToday];
@@ -273,6 +315,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     if (isSelected) {
         [cell setSelected:isSelected];
+    }
+    
+    if (isOtherDate) {
+        [cell setIsOtherDate:isOtherDate];
     }
 
     //We rasterize the cell for performances purposes.
@@ -387,6 +433,12 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     return [self clampAndCompareDate:date withReferenceDate:self.selectedDate];
 }
 
+- (BOOL)isOtherDate:(NSDate *)date
+{
+    NSDate *startOfDay = [self clampDate:date toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
+    return [_otherDates containsObject:startOfDay];
+}
+
 - (BOOL)clampAndCompareDate:(NSDate *)date withReferenceDate:(NSDate *)referenceDate
 {
     NSDate *refDate = [self clampDate:referenceDate toComponents:(NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit)];
@@ -446,4 +498,20 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     return (PDTSimpleCalendarViewCell *)[self.collectionView cellForItemAtIndexPath:[self indexPathForCellAtDate:date]];
 }
 
+#pragma mark PDTSimpleCalendarViewCellDelegate
+- (UIColor *)circleColorForDate:(NSDate *)date
+{
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarCircleColorForDate:)]) {
+        return [self.delegate simpleCalendarCircleColorForDate:date];
+    }
+    return nil;
+}
+
+- (UIColor *)textColorForDate:(NSDate *)date
+{
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
+        return [self.delegate simpleCalendarTextColorForDate:date];
+    }
+    return nil;
+}
 @end
