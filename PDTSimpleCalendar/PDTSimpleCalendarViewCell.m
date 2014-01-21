@@ -13,14 +13,11 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 @interface PDTSimpleCalendarViewCell ()
 
 @property (nonatomic, strong) UILabel *dayLabel;
-
-- (void)setCircleColor:(BOOL)today selected:(BOOL)selected otherDate:(BOOL)otherDate;
+@property (nonatomic, strong) NSDate *date;
 
 @end
 
-@implementation PDTSimpleCalendarViewCell {
-    NSDate* _date;
-}
+@implementation PDTSimpleCalendarViewCell
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -28,7 +25,6 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     if (self) {
         _date = nil;
         _isToday = NO;
-        _isOtherDate = NO;
         _dayLabel = [[UILabel alloc] init];
         [self.dayLabel setTextAlignment:NSTextAlignmentCenter];
         [self.contentView addSubview:self.dayLabel];
@@ -44,7 +40,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize]];
 
-        [self setCircleColor:NO selected:NO otherDate:NO];
+        [self setCircleColor:NO selected:NO];
     }
 
     return self;
@@ -64,35 +60,31 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 - (void)setIsToday:(BOOL)isToday
 {
     _isToday = isToday;
-    [self setCircleColor:isToday selected:self.selected otherDate:self.isOtherDate];
-}
-
-- (void)setIsOtherDate:(BOOL)isOtherDate
-{
-    _isOtherDate = isOtherDate;
-    [self setCircleColor:self.isToday selected:self.selected otherDate:isOtherDate];
+    [self setCircleColor:isToday selected:self.selected];
 }
 
 - (void)setSelected:(BOOL)selected
 {
     [super setSelected:selected];
-    [self setCircleColor:self.isToday selected:selected otherDate:self.isOtherDate];
+    [self setCircleColor:self.isToday selected:selected];
 }
 
-- (void)setCircleColor:(BOOL)today selected:(BOOL)selected otherDate:(BOOL)otherDate
+
+- (void)setCircleColor:(BOOL)today selected:(BOOL)selected
 {
     UIColor *circleColor = (today) ? [self circleTodayColor] : [self circleDefaultColor];
     UIColor *labelColor = (today) ? [self textTodayColor] : [self textDefaultColor];
-    
-    if(otherDate && self.delegate) {
-        UIColor* otherCircleColor = [self.delegate circleColorForDate:_date];
-        if (otherCircleColor) {
-            circleColor = otherCircleColor;
-        }
-        
-        UIColor* otherLabelColor = [self.delegate textColorForDate:_date];
-        if(otherLabelColor) {
-            labelColor = otherLabelColor;
+
+    if (self.date && self.delegate) {
+        if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:shouldUseCustomColorsForDate:)] && [self.delegate simpleCalendarViewCell:self shouldUseCustomColorsForDate:self.date]) {
+
+            if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:textColorForDate:)] && [self.delegate simpleCalendarViewCell:self textColorForDate:self.date]) {
+                labelColor = [self.delegate simpleCalendarViewCell:self textColorForDate:self.date];
+            }
+
+            if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:circleColorForDate:)] && [self.delegate simpleCalendarViewCell:self circleColorForDate:self.date]) {
+                circleColor = [self.delegate simpleCalendarViewCell:self circleColorForDate:self.date];
+            }
         }
     }
     
@@ -106,6 +98,12 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 }
 
 
+- (void)refreshCellColors
+{
+    [self setCircleColor:self.isToday selected:self.isSelected];
+}
+
+
 #pragma mark - Prepare for Reuse
 
 - (void)prepareForReuse
@@ -113,9 +111,8 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     [super prepareForReuse];
     _date = nil;
     _isToday = NO;
-    _isOtherDate = NO;
     [self.dayLabel setText:@""];
-    [self setCircleColor:NO selected:NO otherDate:NO];
+    [self setCircleColor:NO selected:NO];
 }
 
 #pragma mark - Circle Color Customization Methods

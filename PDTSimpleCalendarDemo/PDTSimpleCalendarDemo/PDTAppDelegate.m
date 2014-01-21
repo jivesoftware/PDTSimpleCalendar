@@ -27,12 +27,16 @@
     
     PDTSimpleCalendarViewController *calendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     [calendarViewController setDelegate:self];
-    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"28/01/2014"]];
-    
     //Example of how you can change the default calendar
 //    NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
 //    hebrewCalendar.locale = [NSLocale currentLocale];
 //    [calendarViewController setCalendar:hebrewCalendar];
+
+    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"15/01/2014"]];
+    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"31/01/2014"]];
+    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"15/02/2014"]];
+    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"28/02/2014"]];
+    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"15/03/2014"]];
 
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:calendarViewController];
     [calendarViewController setTitle:@"SimpleCalendar"];
@@ -91,12 +95,12 @@
 
 - (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date
 {
-    return [UIColor blueColor];
+    return [UIColor whiteColor];
 }
 
 - (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date
 {
-    return [UIColor whiteColor];
+    return [UIColor orangeColor];
 }
 
 @end

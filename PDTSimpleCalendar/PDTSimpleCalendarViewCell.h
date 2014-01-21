@@ -6,23 +6,43 @@
 //  Copyright (c) 2013 Producteev. All rights reserved.
 //
 
+@class PDTSimpleCalendarViewCell;
+
 @protocol PDTSimpleCalendarViewCellDelegate <NSObject>
 
-@required
+@optional
 
 /**
- * Asks the delegate for the circle color for a custom added date
+ *  Asks the delegate if the Cell should use custom colors.
  *
- * @param date the date (Midnight GMT).
+ *  @param cell the current cell
+ *  @param date the date associated with the cell
+ *
+ *  @return YES if the cell must ask the delegate for text and circle color, NO if it should use default values.
  */
-- (UIColor*)circleColorForDate:(NSDate*)date;
+- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;
 
 /**
- * Asks the delegate for the text color for a custom added date
+ *  Asks the delegate for the text color for a specific date.
+ *  Will be called only if the delegate returns YES for `- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;`
  *
- * @param date the date (Midnight GMT).
+ *  @param cell the current cell
+ *  @param date the date associated with the cell
+ *
+ *  @return The text desired color
  */
-- (UIColor*)textColorForDate:(NSDate*)date;
+- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell textColorForDate:(NSDate *)date;
+
+/**
+ *  Asks the delegate for the circle color for a specific date.
+ *  Will be called only if the delegate returns YES for `- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;`
+ *
+ *  @param cell the current cell
+ *  @param date the date associated with the cell
+ *
+ *  @return The circle desired color
+ */
+- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date;
 
 @end
 
@@ -45,11 +65,6 @@
  *  Define if the cell is today in the calendar.
  */
 @property (nonatomic, assign) BOOL isToday;
-
-/**
- *  Define if the cell is today in the calendar.
- */
-@property (nonatomic, assign) BOOL isOtherDate;
 
 /**
  *  Customize the circle behind the day's number color using UIAppearance.
@@ -81,6 +96,7 @@
  */
 @property (nonatomic, strong) UIColor *textSelectedColor UI_APPEARANCE_SELECTOR;
 
+
 /**
  * Sets the date for this cell
  *
@@ -89,4 +105,10 @@
  * @param calendar the calendar.
  */
 - (void) setDate:(NSDate*)date calendar:(NSCalendar*)calendar;
+
+/**
+ *  Force the refresh of the colors for the circle and the text
+ */
+- (void)refreshCellColors;
+
 @end

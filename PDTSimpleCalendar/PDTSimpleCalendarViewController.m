@@ -317,9 +317,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if (isSelected) {
         [cell setSelected:isSelected];
     }
-    
+
     if (isOtherDate) {
-        [cell setIsOtherDate:isOtherDate];
+        [cell refreshCellColors];
     }
 
     //We rasterize the cell for performances purposes.
@@ -500,7 +500,13 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 }
 
 #pragma mark PDTSimpleCalendarViewCellDelegate
-- (UIColor *)circleColorForDate:(NSDate *)date
+
+- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date
+{
+    return [self isOtherDate:date];
+}
+
+- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date
 {
     if ([self.delegate respondsToSelector:@selector(simpleCalendarCircleColorForDate:)]) {
         return [self.delegate simpleCalendarCircleColorForDate:date];
@@ -508,11 +514,12 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     return nil;
 }
 
-- (UIColor *)textColorForDate:(NSDate *)date
+- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell textColorForDate:(NSDate *)date
 {
     if ([self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
         return [self.delegate simpleCalendarTextColorForDate:date];
     }
     return nil;
 }
+
 @end
