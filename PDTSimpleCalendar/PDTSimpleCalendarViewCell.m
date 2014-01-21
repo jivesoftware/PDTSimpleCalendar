@@ -112,7 +112,8 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     _date = nil;
     _isToday = NO;
     [self.dayLabel setText:@""];
-    [self setCircleColor:NO selected:NO];
+    [self.dayLabel setBackgroundColor:[self circleDefaultColor]];
+    [self.dayLabel setTextColor:[self textDefaultColor]];
 }
 
 #pragma mark - Circle Color Customization Methods
