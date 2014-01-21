@@ -52,9 +52,13 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 - (void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar
 {
-    _date = date;
-    NSDateComponents *dateComponents = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit fromDate:_date];
-    self.dayLabel.text = [NSString stringWithFormat:@"%@", @(dateComponents.day)];;
+    NSString* day = @"";
+    if (date && calendar) {
+        _date = date;
+        NSDateComponents *dateComponents = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit fromDate:_date];
+        day = [NSString stringWithFormat:@"%@", @(dateComponents.day)];
+    }
+    self.dayLabel.text = day;
 }
 
 - (void)setIsToday:(BOOL)isToday

@@ -305,9 +305,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         isSelected = ([self isSelectedDate:cellDate] && (indexPath.section == [self sectionForDate:cellDate]));
         isToday = [self isTodayDate:cellDate];
         isOtherDate = [self isOtherDate:cellDate];
+        [cell setDate:cellDate calendar:self.calendar];
+    } else {
+        [cell setDate:nil calendar:nil];
     }
-
-    [cell setDate:cellDate calendar:self.calendar];
 
     if (isToday) {
         [cell setIsToday:isToday];
