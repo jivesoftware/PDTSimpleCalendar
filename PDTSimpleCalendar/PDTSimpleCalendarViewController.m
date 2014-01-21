@@ -28,9 +28,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 @end
 
 
-@implementation PDTSimpleCalendarViewController {
-    NSMutableArray* _otherDates;
-}
+@implementation PDTSimpleCalendarViewController
 
 //Explicitely @synthesize the var (it will create the iVar for us automatically as we redefine both getter and setter)
 @synthesize firstDate = _firstDate;
@@ -65,7 +63,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     self.overlayView = [[UILabel alloc] init];
     self.backgroundColor = [UIColor whiteColor];
     self.overlayTextColor = [UIColor blackColor];
-    _otherDates = [[NSMutableArray alloc] init];
 }
 
 #pragma mark - Accessors
@@ -177,43 +174,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     }
 }
 
-- (void)addOtherDate:(NSDate *)date
-{
-    //Test if selectedDate between first & last date
-    NSDate *startOfDay = [self clampDate:date toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
-    if (([startOfDay compare:self.firstDate] == NSOrderedAscending) || ([startOfDay compare:self.lastDate] == NSOrderedDescending)) {
-        return;
-    }
-    
-    //Check if the object has already been added
-    if([_otherDates containsObject:startOfDay]){
-        return;
-    }
-    
-    [_otherDates addObject:startOfDay];
-    
-    NSIndexPath *indexPath = [self indexPathForCellAtDate:startOfDay];
-    [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
-}
-
-- (void)removeOtherDate:(NSDate *)date
-{
-    NSDate *startOfDay = [self clampDate:date toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
-    if([_otherDates containsObject:startOfDay]){
-        [_otherDates removeObject:startOfDay];
-    }
-    
-    NSIndexPath *indexPath = [self indexPathForCellAtDate:startOfDay];
-    [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
-}
-
-- (void)clearOtherDates
-{
-    for (NSDate* date in _otherDates) {
-        [self removeOtherDate:date];
-    }
-}
-
 - (void)setOverlayTextColor:(UIColor *)overlayTextColor
 {
     _overlayTextColor = overlayTextColor;
@@ -299,13 +259,16 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     BOOL isToday = NO;
     BOOL isSelected = NO;
-    BOOL isOtherDate = NO;
+    BOOL isCustomDate = NO;
 
     if (cellDateComponents.month == firstOfMonthsComponents.month) {
         isSelected = ([self isSelectedDate:cellDate] && (indexPath.section == [self sectionForDate:cellDate]));
         isToday = [self isTodayDate:cellDate];
-        isOtherDate = [self isOtherDate:cellDate];
         [cell setDate:cellDate calendar:self.calendar];
+
+        if (self.delegate && [self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
+            isCustomDate = [self.delegate simpleCalendarShouldUseCustomColorsForDate:cellDate];
+        }
     } else {
         [cell setDate:nil calendar:nil];
     }
@@ -318,7 +281,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         [cell setSelected:isSelected];
     }
 
-    if (isOtherDate) {
+    if (isCustomDate) {
         [cell refreshCellColors];
     }
 
@@ -434,12 +397,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     return [self clampAndCompareDate:date withReferenceDate:self.selectedDate];
 }
 
-- (BOOL)isOtherDate:(NSDate *)date
-{
-    NSDate *startOfDay = [self clampDate:date toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
-    return [_otherDates containsObject:startOfDay];
-}
-
 - (BOOL)clampAndCompareDate:(NSDate *)date withReferenceDate:(NSDate *)referenceDate
 {
     NSDate *refDate = [self clampDate:referenceDate toComponents:(NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit)];
@@ -503,7 +460,11 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date
 {
-    return [self isOtherDate:date];
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
+        return [self.delegate simpleCalendarShouldUseCustomColorsForDate:date];
+    }
+
+    return NO;
 }
 
 - (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date
@@ -511,6 +472,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if ([self.delegate respondsToSelector:@selector(simpleCalendarCircleColorForDate:)]) {
         return [self.delegate simpleCalendarCircleColorForDate:date];
     }
+
     return nil;
 }
 
@@ -519,6 +481,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if ([self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
         return [self.delegate simpleCalendarTextColorForDate:date];
     }
+    
     return nil;
 }
 

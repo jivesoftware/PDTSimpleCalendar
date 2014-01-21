@@ -13,6 +13,8 @@
 
 @interface PDTAppDelegate () <PDTSimpleCalendarViewDelegate>
 
+@property (nonatomic, strong) NSArray *customDates;
+
 @end
 
 @implementation PDTAppDelegate
@@ -24,6 +26,8 @@
 
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"dd/MM/yyyy";
+
+    _customDates = @[[dateFormatter dateFromString:@"01/02/2014"], [dateFormatter dateFromString:@"01/03/2014"], [dateFormatter dateFromString:@"01/04/2014"]];
     
     PDTSimpleCalendarViewController *calendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     [calendarViewController setDelegate:self];
@@ -31,12 +35,6 @@
 //    NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
 //    hebrewCalendar.locale = [NSLocale currentLocale];
 //    [calendarViewController setCalendar:hebrewCalendar];
-
-    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"15/01/2014"]];
-    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"31/01/2014"]];
-    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"15/02/2014"]];
-    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"28/02/2014"]];
-    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"15/03/2014"]];
 
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:calendarViewController];
     [calendarViewController setTitle:@"SimpleCalendar"];
@@ -91,6 +89,15 @@
 - (void)simpleCalendarViewDidSelectDate:(NSDate *)date
 {
     NSLog(@"Date Selected : %@",date);
+}
+
+- (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date
+{
+    if ([self.customDates containsObject:date]) {
+        return YES;
+    }
+
+    return NO;
 }
 
 - (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date
