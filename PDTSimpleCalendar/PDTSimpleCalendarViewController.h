@@ -88,6 +88,24 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
  */
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
 
+/**
+ * Removes all custom dates added to the calendar
+ */
+- (void)clearOtherDates;
+
+/**
+ *  Adds a date that should have different color.
+ *
+ *  @param date     the date you wanna add.
+ */
+- (void)addOtherDate:(NSDate*)date;
+
+/**
+ *  Removes a date that should have different color.
+ *
+ * @param date the date (Midnight GMT).
+ */
+- (void)removeOtherDate:(NSDate*)date;
 @end
 
 
@@ -105,4 +123,17 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
  */
 - (void)simpleCalendarViewDidSelectDate:(NSDate *)date;
 
+/**
+ * Asks the delegate for the circle color for a custom added date
+ *
+ * @param date the date (Midnight GMT).
+ */
+- (UIColor*)simpleCalendarCircleColorForDate:(NSDate*)date;
+
+/**
+ * Asks the delegate for the text color for a custom added date
+ *
+ * @param date the date (Midnight GMT).
+ */
+- (UIColor*)simpleCalendarTextColorForDate:(NSDate*)date;
 @end;

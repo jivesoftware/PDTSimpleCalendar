@@ -22,10 +22,13 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"dd/MM/yyyy";
+    
     PDTSimpleCalendarViewController *calendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     [calendarViewController setDelegate:self];
-
+    [calendarViewController addOtherDate:[dateFormatter dateFromString:@"28/01/2014"]];
+    
     //Example of how you can change the default calendar
 //    NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
 //    hebrewCalendar.locale = [NSLocale currentLocale];
@@ -33,8 +36,7 @@
 
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:calendarViewController];
     [calendarViewController setTitle:@"SimpleCalendar"];
-
-
+    
     //Example of how you can now customize the calendar colors
 //    [[PDTSimpleCalendarViewCell appearance] setCircleDefaultColor:[UIColor whiteColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setCircleSelectedColor:[UIColor orangeColor]];
@@ -87,5 +89,14 @@
     NSLog(@"Date Selected : %@",date);
 }
 
+- (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date
+{
+    return [UIColor blueColor];
+}
+
+- (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date
+{
+    return [UIColor whiteColor];
+}
 
 @end
