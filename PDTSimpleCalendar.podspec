@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
 
   s.name         = "PDTSimpleCalendar"
-  s.version      = "0.4"
-  s.summary      = "A simple Calendar / Date Picker for iOS using UICollectionView"
+  s.version      = "0.5"
+  s.summary      = "A simple Calendar / Date Picker with a nice iOS7 design."
 
   s.description  = <<-DESC
                    Inspired by Square's TimesSquare & Apple Calendar.
 
-                   Simple Calendar is a simple Date Picker/Calendar View Controller using UICollectionView and a flowLayout
+                   Simple Calendar is a simple Date Picker/Calendar View Controller using UICollectionView and a flowLayout.
                    DESC
 
   s.homepage     = "https://www.producteev.com"
