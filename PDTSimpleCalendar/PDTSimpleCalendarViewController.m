@@ -20,7 +20,7 @@ static NSString *PDTSimpleCalendarViewCellIdentifier = @"com.producteev.collecti
 static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collection.header.identifier";
 
 
-@interface PDTSimpleCalendarViewController ()
+@interface PDTSimpleCalendarViewController () <PDTSimpleCalendarViewCellDelegate>
 
 @property (nonatomic, strong) UILabel *overlayView;
 @property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
@@ -249,23 +249,29 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     PDTSimpleCalendarViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:PDTSimpleCalendarViewCellIdentifier
                                                                            forIndexPath:indexPath];
 
+    cell.delegate = self;
+    
     NSDate *firstOfMonth = [self firstOfMonthForSection:indexPath.section];
     NSDate *cellDate = [self dateForCellAtIndexPath:indexPath];
 
     NSDateComponents *cellDateComponents = [self.calendar components:NSDayCalendarUnit|NSMonthCalendarUnit fromDate:cellDate];
     NSDateComponents *firstOfMonthsComponents = [self.calendar components:NSMonthCalendarUnit fromDate:firstOfMonth];
 
-    NSString *cellTitleString = @"";
     BOOL isToday = NO;
     BOOL isSelected = NO;
+    BOOL isCustomDate = NO;
 
     if (cellDateComponents.month == firstOfMonthsComponents.month) {
-        cellTitleString = [NSString stringWithFormat:@"%@", @(cellDateComponents.day)];
         isSelected = ([self isSelectedDate:cellDate] && (indexPath.section == [self sectionForDate:cellDate]));
         isToday = [self isTodayDate:cellDate];
-    }
+        [cell setDate:cellDate calendar:self.calendar];
 
-    [cell setDayNumber:cellTitleString];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
+            isCustomDate = [self.delegate simpleCalendarShouldUseCustomColorsForDate:cellDate];
+        }
+    } else {
+        [cell setDate:nil calendar:nil];
+    }
 
     if (isToday) {
         [cell setIsToday:isToday];
@@ -273,6 +279,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     if (isSelected) {
         [cell setSelected:isSelected];
+    }
+
+    if (isCustomDate) {
+        [cell refreshCellColors];
     }
 
     //We rasterize the cell for performances purposes.
@@ -444,6 +454,35 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (PDTSimpleCalendarViewCell *)cellForItemAtDate:(NSDate *)date
 {
     return (PDTSimpleCalendarViewCell *)[self.collectionView cellForItemAtIndexPath:[self indexPathForCellAtDate:date]];
+}
+
+#pragma mark PDTSimpleCalendarViewCellDelegate
+
+- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date
+{
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
+        return [self.delegate simpleCalendarShouldUseCustomColorsForDate:date];
+    }
+
+    return NO;
+}
+
+- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date
+{
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarCircleColorForDate:)]) {
+        return [self.delegate simpleCalendarCircleColorForDate:date];
+    }
+
+    return nil;
+}
+
+- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell textColorForDate:(NSDate *)date
+{
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
+        return [self.delegate simpleCalendarTextColorForDate:date];
+    }
+    
+    return nil;
 }
 
 @end

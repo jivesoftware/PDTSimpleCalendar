@@ -105,4 +105,27 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
  */
 - (void)simpleCalendarViewDidSelectDate:(NSDate *)date;
 
+/**
+ *  Asks the delegate if the Calendar should use custom colors for the specified date.
+ *
+ *  @param date the date (Midnight GMT)
+ *
+ *  @return YES if the calendar must ask the delegate for text and circle color, NO if it should use default values.
+ */
+- (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date;
+
+/**
+ * Asks the delegate for the circle color for a custom added date
+ *
+ * @param date the date (Midnight GMT).
+ */
+- (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date;
+
+/**
+ * Asks the delegate for the text color for a custom added date
+ *
+ * @param date the date (Midnight GMT).
+ */
+- (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date;
+
 @end;
