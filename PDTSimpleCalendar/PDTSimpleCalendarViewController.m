@@ -128,9 +128,18 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated
 {
+    //if newSelectedDate is nil, unselect the current selected cell
+    if (!newSelectedDate) {
+        [[self cellForItemAtDate:_selectedDate] setSelected:NO];
+        _selectedDate = newSelectedDate;
+
+        return;
+    }
+
     //Test if selectedDate between first & last date
     NSDate *startOfDay = [self clampDate:newSelectedDate toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
     if (([startOfDay compare:self.firstDate] == NSOrderedAscending) || ([startOfDay compare:self.lastDate] == NSOrderedDescending)) {
+        //the newSelectedDate is not between first & last date of the calendar, do nothing.
         return;
     }
 
