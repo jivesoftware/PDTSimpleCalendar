@@ -424,10 +424,11 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (BOOL)isEnabledDate:(NSDate *)date
 {
-    if ([date compare:self.firstDate] == NSOrderedAscending)
+    NSDate *clampedDate = [self clampDate:date toComponents:(NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit)];
+    if ([clampedDate compare:self.firstDate] == NSOrderedAscending)
         return NO;
 
-    if ([date compare:self.lastDate] == NSOrderedDescending)
+    if ([clampedDate compare:self.lastDate] == NSOrderedDescending)
         return NO;
 
     return YES;
