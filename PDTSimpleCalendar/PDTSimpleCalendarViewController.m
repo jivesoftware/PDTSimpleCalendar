@@ -48,6 +48,19 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    //Force the creation of the view with the pre-defined Flow Layout.
+    //Still possible to define a custom Flow Layout, if needed by using initWithCollectionViewLayout:
+    self = [super initWithCollectionViewLayout:[[PDTSimpleCalendarViewFlowLayout alloc] init]];
+    if (self) {
+        // Custom initialization
+        [self simpleCalendarCommonInit];
+    }
+    
+    return self;
+}
+
 - (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
 {
     self = [super initWithCollectionViewLayout:layout];
