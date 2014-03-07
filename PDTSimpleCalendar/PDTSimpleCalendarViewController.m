@@ -48,6 +48,19 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    //Force the creation of the view with the pre-defined Flow Layout.
+    //Still possible to define a custom Flow Layout, if needed by using initWithCollectionViewLayout:
+    self = [super initWithCollectionViewLayout:[[PDTSimpleCalendarViewFlowLayout alloc] init]];
+    if (self) {
+        // Custom initialization
+        [self simpleCalendarCommonInit];
+    }
+    
+    return self;
+}
+
 - (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
 {
     self = [super initWithCollectionViewLayout:layout];
@@ -220,11 +233,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" options:NSLayoutFormatAlignAllTop metrics:nil views:viewsDictionary]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView(==overlayViewHeight)]" options:NSLayoutFormatAlignAllTop metrics:metricsDictionary views:viewsDictionary]];
-
-    //iOS7 Only: We don't want the calendar to go below the status bar (&navbar if there is one).
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    }
 }
 
 #pragma mark - Rotation Handling
