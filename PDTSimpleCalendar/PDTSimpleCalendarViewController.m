@@ -78,15 +78,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     self.overlayTextColor = [UIColor blackColor];
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    
-    //iOS7 Only: We don't want the calendar to go below the status bar (&navbar if there is one).
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    }
-}
-
 #pragma mark - Accessors
 
 - (NSDateFormatter *)headerDateFormatter;
