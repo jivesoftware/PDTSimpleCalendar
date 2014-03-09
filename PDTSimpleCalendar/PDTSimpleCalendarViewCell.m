@@ -15,8 +15,6 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 @property (nonatomic, strong) UILabel *dayLabel;
 @property (nonatomic, strong) NSDate *date;
 
-- (void)setCircleColor:(BOOL)today selected:(BOOL)selected enabled:(BOOL)enabled;
-
 @end
 
 @implementation PDTSimpleCalendarViewCell
