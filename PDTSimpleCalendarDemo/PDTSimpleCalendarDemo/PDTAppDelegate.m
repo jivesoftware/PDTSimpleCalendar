@@ -63,7 +63,7 @@
 
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:calendarViewController];
     [calendarViewController setTitle:@"SimpleCalendar"];
-    //Example of how you can now customize the calendar colors
+//Example of how you can now customize the calendar colors
 //    [[PDTSimpleCalendarViewCell appearance] setCircleDefaultColor:[UIColor whiteColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setCircleSelectedColor:[UIColor orangeColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setCircleTodayColor:[UIColor blueColor]];
