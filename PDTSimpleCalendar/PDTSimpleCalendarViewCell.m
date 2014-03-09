@@ -78,9 +78,10 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 - (void)setCircleColor:(BOOL)today selected:(BOOL)selected enabled:(BOOL)enabled
 {
-    UIColor *circleColor = (today) ? [self circleTodayColor] : [self circleDefaultColor];
-    UIColor *labelColor = (today) ? [self textTodayColor] : [self textDefaultColor];
+    UIColor *circleColor = [self circleDefaultColor];
+    UIColor *labelColor = [self textDefaultColor];
 
+    // Overrule default colours in delegate
     if (self.date && self.delegate) {
         if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:shouldUseCustomColorsForDate:)] && [self.delegate simpleCalendarViewCell:self shouldUseCustomColorsForDate:self.date]) {
 
@@ -93,7 +94,13 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
             }
         }
     }
-    
+
+    // Overrule delegate ordefault colours if selected, today or disabled
+    if (today) {
+        labelColor = [self textTodayColor];
+        circleColor = [self circleTodayColor];
+    }
+
     if (selected) {
         circleColor = [self circleSelectedColor];
         labelColor = [self textSelectedColor];
@@ -124,7 +131,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     _isEnabled = NO;
     [self.dayLabel setText:@""];
     [self.dayLabel setBackgroundColor:[self circleDefaultColor]];
-    [self.dayLabel setTextColor:[self textDefaultColor]];
+    [self.dayLabel setTextColor:[self textDisabledColor]];
 }
 
 #pragma mark - Circle Color Customization Methods
