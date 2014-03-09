@@ -13,8 +13,6 @@
 
 @interface PDTAppDelegate () <PDTSimpleCalendarViewDelegate>
 
-@property (nonatomic, strong) NSArray *customDates;
-
 @end
 
 @implementation PDTAppDelegate
@@ -24,17 +22,23 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"dd/MM/yyyy";
-
-    _customDates = @[[dateFormatter dateFromString:@"01/02/2014"], [dateFormatter dateFromString:@"01/03/2014"], [dateFormatter dateFromString:@"01/04/2014"]];
-    
     PDTSimpleCalendarViewController *calendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     [calendarViewController setDelegate:self];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
     //Example of how you can change the default calendar
 //    NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
 //    hebrewCalendar.locale = [NSLocale currentLocale];
 //    [calendarViewController setCalendar:hebrewCalendar];
+
+    // Enable 10th of current month until the 10th of next month
+    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+    NSDate *date = [NSDate date];
+    NSDateComponents *comps = [calendar components:unitFlags fromDate:date];
+    comps.day = 10;
+    calendarViewController.firstDate = [calendar dateFromComponents:comps];
+    comps.month += 14;
+    calendarViewController.lastDate = [calendar dateFromComponents:comps];
+
 
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:calendarViewController];
     [calendarViewController setTitle:@"SimpleCalendar"];
@@ -91,23 +95,54 @@
     NSLog(@"Date Selected : %@",date);
 }
 
-- (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date
-{
-    if ([self.customDates containsObject:date]) {
-        return YES;
-    }
+- (BOOL)simpleCalendarDateIsEnabled:(NSDate *)date {
+  // Get day and month from date
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSDateComponents *components = [calendar components:NSDayCalendarUnit fromDate:date];
 
+  // We do not want peopel to select the 20th do we?
+  if (components.day == 20)
     return NO;
+
+  // All others are enabled
+  return YES;
 }
+
 
 - (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date
 {
-    return [UIColor whiteColor];
+  // Get day and month from date
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSDateComponents *components = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit|NSWeekdayCalendarUnit fromDate:date];
+
+  // Return X-mas as green balls with red text
+  if (components.month == 12 && (components.day == 25 || components.day == 26))
+    return [UIColor colorWithRed:0 green:0.75 blue:0 alpha:1];
+
+  // Default colour
+  return nil;
 }
 
 - (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date
 {
-    return [UIColor orangeColor];
+  // Get day and month from date
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSDateComponents *components = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit|NSWeekdayCalendarUnit fromDate:date];
+
+  // Return New Year as blue
+  if (components.month == 1 && components.day == 1)
+    return [UIColor blueColor];
+
+  // Return X-mas as green balls with red text
+  if (components.month == 12 && (components.day == 25 || components.day == 26))
+    return [UIColor redColor];
+
+  // Return Sundays as red
+  if (components.weekday == 1)
+    return [UIColor redColor];
+
+  // Default colour
+  return nil;
 }
 
 @end

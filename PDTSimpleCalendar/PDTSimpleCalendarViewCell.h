@@ -13,18 +13,7 @@
 @optional
 
 /**
- *  Asks the delegate if the Cell should use custom colors.
- *
- *  @param cell the current cell
- *  @param date the date associated with the cell
- *
- *  @return YES if the cell must ask the delegate for text and circle color, NO if it should use default values.
- */
-- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;
-
-/**
  *  Asks the delegate for the text color for a specific date.
- *  Will be called only if the delegate returns YES for `- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;`
  *
  *  @param cell the current cell
  *  @param date the date associated with the cell
@@ -35,7 +24,6 @@
 
 /**
  *  Asks the delegate for the circle color for a specific date.
- *  Will be called only if the delegate returns YES for `- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;`
  *
  *  @param cell the current cell
  *  @param date the date associated with the cell
@@ -60,6 +48,11 @@
  *  @see PDTSimpleCalendarViewCellDelegate
  */
 @property (nonatomic, weak) id<PDTSimpleCalendarViewCellDelegate> delegate;
+
+/*
+ *  Define if the cell is able to be selected.
+ */
+@property (nonatomic, assign) BOOL isEnabled;
 
 /**
  *  Define if the cell is today in the calendar.
@@ -96,9 +89,13 @@
  */
 @property (nonatomic, strong) UIColor *textSelectedColor UI_APPEARANCE_SELECTOR;
 
+/**
+ *  Customize the day's number color when cell is disabled using UIAppearance.
+ */
+@property (nonatomic, strong) UIColor *textDisabledColor UI_APPEARANCE_SELECTOR;
 
 /**
- * Sets the date for this cell
+ *  Set the day number to display for the cell
  *
  * @param date the date (Midnight GMT).
  *
