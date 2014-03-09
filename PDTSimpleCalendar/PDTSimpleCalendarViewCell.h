@@ -64,7 +64,7 @@
 /*
  *  Define if the cell is able to be selected.
  */
-@property (nonatomic, assign) BOOL enabled;
+@property (nonatomic, assign) BOOL isEnabled;
 
 /**
  *  Define if the cell is today in the calendar.

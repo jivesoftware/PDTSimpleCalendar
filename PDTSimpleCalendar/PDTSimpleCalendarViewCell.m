@@ -27,6 +27,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     if (self) {
         _date = nil;
         _isToday = NO;
+        _isEnabled = NO;
         _dayLabel = [[UILabel alloc] init];
         [self.dayLabel setTextAlignment:NSTextAlignmentCenter];
         [self.contentView addSubview:self.dayLabel];
@@ -62,19 +63,19 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 - (void)setIsToday:(BOOL)isToday
 {
     _isToday = isToday;
-    [self setCircleColor:isToday selected:self.selected enabled:self.enabled];
+    [self setCircleColor:isToday selected:self.selected enabled:self.isEnabled];
 }
 
 - (void)setSelected:(BOOL)selected
 {
     [super setSelected:selected];
-    [self setCircleColor:self.isToday selected:selected enabled:self.enabled];
+    [self setCircleColor:self.isToday selected:selected enabled:self.isEnabled];
 }
 
-- (void)setEnabled:(BOOL)enabled
+- (void)setIsEnabled:(BOOL)isEnabled
 {
-    _enabled = enabled;
-    [self setCircleColor:self.isToday selected:self.selected enabled:enabled];
+    _isEnabled = isEnabled;
+    [self setCircleColor:self.isToday selected:self.selected enabled:isEnabled];
 }
 
 - (void)setCircleColor:(BOOL)today selected:(BOOL)selected enabled:(BOOL)enabled
@@ -111,7 +112,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 - (void)refreshCellColors
 {
-    [self setCircleColor:self.isToday selected:self.isSelected enabled:self.enabled];
+    [self setCircleColor:self.isToday selected:self.isSelected enabled:self.isEnabled];
 }
 
 
@@ -122,7 +123,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     [super prepareForReuse];
     _date = nil;
     _isToday = NO;
-    _enabled = NO;
+    _isEnabled = NO;
     [self.dayLabel setText:@""];
     [self.dayLabel setBackgroundColor:[self circleDefaultColor]];
     [self.dayLabel setTextColor:[self textDefaultColor]];
