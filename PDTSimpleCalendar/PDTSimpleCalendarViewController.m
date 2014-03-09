@@ -298,7 +298,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if (isEnabled) {
         [cell setEnabled:YES];
     }
-    NSLog(@"Cell %@ enabled = %d", cellDate, isEnabled);
 
     if (isSelected) {
         [cell setSelected:YES];
@@ -423,6 +422,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if ([date compare:self.lastDate] == NSOrderedDescending)
         return NO;
 
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarDateIsEnabled:)]) {
+        return [self.delegate simpleCalendarDateIsEnabled:date];
+    }
+
     return YES;
 }
 
@@ -513,5 +516,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     
     return nil;
 }
+
 
 @end

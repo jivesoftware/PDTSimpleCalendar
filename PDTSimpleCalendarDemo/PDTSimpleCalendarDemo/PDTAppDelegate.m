@@ -13,8 +13,6 @@
 
 @interface PDTAppDelegate () <PDTSimpleCalendarViewDelegate>
 
-@property (nonatomic, strong) NSArray *customDates;
-
 @end
 
 @implementation PDTAppDelegate
@@ -24,11 +22,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"dd/MM/yyyy";
-
-    _customDates = @[[dateFormatter dateFromString:@"01/02/2014"], [dateFormatter dateFromString:@"01/03/2014"], [dateFormatter dateFromString:@"01/04/2014"]];
-    
     PDTSimpleCalendarViewController *calendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     [calendarViewController setDelegate:self];
     //Example of how you can change the default calendar
@@ -37,7 +30,6 @@
 //    [calendarViewController setCalendar:hebrewCalendar];
 
     // Enable 10th of current month until the 10th of next month
-    NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
     NSDate *date = [NSDate date];
     NSDateComponents *comps = [calendar components:unitFlags fromDate:date];
@@ -104,12 +96,39 @@
 
 - (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date
 {
-    if ([self.customDates containsObject:date]) {
-        return YES;
-    }
+  // Get day and month from date
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSDateComponents *components = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit|NSWeekdayCalendarUnit fromDate:date];
 
-    return NO;
+  // Return X-mas as special days
+  if (components.month == 12 && (components.day == 25 || components.day == 26))
+    return YES;
+
+  // Return New Year as special days
+  if (components.month == 1 && components.day == 1)
+    return YES;
+
+  // Return Sundays as special days
+  if (components.weekday == 1)
+    return YES;
+
+  // Otherwise return NO
+  return NO;
 }
+
+- (BOOL)simpleCalendarDateIsEnabled:(NSDate *)date {
+  // Get day and month from date
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSDateComponents *components = [calendar components:NSDayCalendarUnit fromDate:date];
+
+  // Disable the 20th for some reason
+  if (components.day == 20)
+    return NO;
+
+  // All others are enabled
+  return YES;
+}
+
 
 - (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date
 {
@@ -118,7 +137,7 @@
 
 - (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date
 {
-    return [UIColor orangeColor];
+    return [UIColor redColor];
 }
 
 @end

@@ -100,10 +100,19 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
 @optional
 
 /** Tells the delegate that a date was selected by the user.
-
- @param date the date being selected (Midnight GMT).
+ *
+ *  @param date the date being selected (Midnight GMT).
  */
 - (void)simpleCalendarViewDidSelectDate:(NSDate *)date;
+
+/** Asks the delegate whether a date can be selected by the user.
+ *  Disabled dates will be shown with disabled colour, unless overruled by simpleCalendarCircleColorForDate
+ *
+ *  @param date the date being selected (Midnight GMT).
+ *
+ *  @return YES if the date can be selected of NO when the date cannot be selected
+ */
+- (BOOL)simpleCalendarDateIsEnabled:(NSDate *)date;
 
 /**
  *  Asks the delegate if the Calendar should use custom colors for the specified date.
