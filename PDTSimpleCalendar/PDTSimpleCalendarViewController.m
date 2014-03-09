@@ -273,39 +273,16 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     NSDateComponents *cellDateComponents = [self.calendar components:NSDayCalendarUnit|NSMonthCalendarUnit fromDate:cellDate];
     NSDateComponents *firstOfMonthsComponents = [self.calendar components:NSMonthCalendarUnit fromDate:firstOfMonth];
 
-    BOOL isToday = NO;
-    BOOL isEnabled = NO;
-    BOOL isSelected = NO;
-    BOOL isCustomDate = NO;
-
-    if (cellDateComponents.month == firstOfMonthsComponents.month) {
-        isSelected = ([self isSelectedDate:cellDate] && (indexPath.section == [self sectionForDate:cellDate]));
-        isEnabled = [self isEnabledDate:cellDate];
-        isToday = [self isTodayDate:cellDate];
+     if (cellDateComponents.month == firstOfMonthsComponents.month) {
+        cell.selected = [self isSelectedDate:cellDate] && (indexPath.section == [self sectionForDate:cellDate]);
+        cell.isEnabled = [self isEnabledDate:cellDate];
+        cell.isToday = [self isTodayDate:cellDate];
         [cell setDate:cellDate calendar:self.calendar];
-
-        if (self.delegate && [self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
-            isCustomDate = [self.delegate simpleCalendarShouldUseCustomColorsForDate:cellDate];
-        }
     } else {
         [cell setDate:nil calendar:nil];
     }
 
-    if (isToday) {
-        [cell setIsToday:YES];
-    }
-
-    if (isEnabled) {
-        [cell setIsEnabled:YES];
-    }
-
-    if (isSelected) {
-        [cell setSelected:YES];
-    }
-
-    if (isCustomDate) {
-        [cell refreshCellColors];
-    }
+    [cell refreshCellColors];
 
     //We rasterize the cell for performances purposes.
     //The circle background is made using roundedCorner which is a super expensive operation, specially with a lot of items on the screen to display (like we do)
@@ -490,15 +467,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 }
 
 #pragma mark PDTSimpleCalendarViewCellDelegate
-
-- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date
-{
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
-        return [self.delegate simpleCalendarShouldUseCustomColorsForDate:date];
-    }
-
-    return NO;
-}
 
 - (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date
 {

@@ -35,7 +35,7 @@
     NSDateComponents *comps = [calendar components:unitFlags fromDate:date];
     comps.day = 10;
     calendarViewController.firstDate = [calendar dateFromComponents:comps];
-    comps.month += 1;
+    comps.month += 14;
     calendarViewController.lastDate = [calendar dateFromComponents:comps];
 
 
@@ -94,34 +94,12 @@
     NSLog(@"Date Selected : %@",date);
 }
 
-- (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date
-{
-  // Get day and month from date
-  NSCalendar *calendar = [NSCalendar currentCalendar];
-  NSDateComponents *components = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit|NSWeekdayCalendarUnit fromDate:date];
-
-  // Return X-mas as special days
-  if (components.month == 12 && (components.day == 25 || components.day == 26))
-    return YES;
-
-  // Return New Year as special days
-  if (components.month == 1 && components.day == 1)
-    return YES;
-
-  // Return Sundays as special days
-  if (components.weekday == 1)
-    return YES;
-
-  // Otherwise return NO
-  return NO;
-}
-
 - (BOOL)simpleCalendarDateIsEnabled:(NSDate *)date {
   // Get day and month from date
   NSCalendar *calendar = [NSCalendar currentCalendar];
   NSDateComponents *components = [calendar components:NSDayCalendarUnit fromDate:date];
 
-  // Disable the 20th for some reason
+  // We do not want peopel to select the 20th do we?
   if (components.day == 20)
     return NO;
 
@@ -132,12 +110,38 @@
 
 - (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date
 {
-    return [UIColor whiteColor];
+  // Get day and month from date
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSDateComponents *components = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit|NSWeekdayCalendarUnit fromDate:date];
+
+  // Return X-mas as green balls with red text
+  if (components.month == 12 && (components.day == 25 || components.day == 26))
+    return [UIColor colorWithRed:0 green:0.75 blue:0 alpha:1];
+
+  // Default colour
+  return nil;
 }
 
 - (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date
 {
+  // Get day and month from date
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSDateComponents *components = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit|NSWeekdayCalendarUnit fromDate:date];
+
+  // Return New Year as blue
+  if (components.month == 1 && components.day == 1)
+    return [UIColor blueColor];
+
+  // Return X-mas as green balls with red text
+  if (components.month == 12 && (components.day == 25 || components.day == 26))
     return [UIColor redColor];
+
+  // Return Sundays as red
+  if (components.weekday == 1)
+    return [UIColor redColor];
+
+  // Default colour
+  return nil;
 }
 
 @end

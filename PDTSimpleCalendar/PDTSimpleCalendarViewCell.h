@@ -13,18 +13,7 @@
 @optional
 
 /**
- *  Asks the delegate if the Cell should use custom colors.
- *
- *  @param cell the current cell
- *  @param date the date associated with the cell
- *
- *  @return YES if the cell must ask the delegate for text and circle color, NO if it should use default values.
- */
-- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;
-
-/**
  *  Asks the delegate for the text color for a specific date.
- *  Will be called only if the delegate returns YES for `- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;`
  *
  *  @param cell the current cell
  *  @param date the date associated with the cell
@@ -35,7 +24,6 @@
 
 /**
  *  Asks the delegate for the circle color for a specific date.
- *  Will be called only if the delegate returns YES for `- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;`
  *
  *  @param cell the current cell
  *  @param date the date associated with the cell

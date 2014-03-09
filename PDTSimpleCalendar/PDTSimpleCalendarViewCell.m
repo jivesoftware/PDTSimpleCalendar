@@ -78,40 +78,44 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 - (void)setCircleColor:(BOOL)today selected:(BOOL)selected enabled:(BOOL)enabled
 {
-    UIColor *circleColor = [self circleDefaultColor];
-    UIColor *labelColor = [self textDefaultColor];
+    self.dayLabel.textColor = [self textDefaultColor];
+    self.dayLabel.backgroundColor = [self circleDefaultColor];
 
-    // Overrule default colours in delegate
-    if (self.date && self.delegate) {
-        if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:shouldUseCustomColorsForDate:)] && [self.delegate simpleCalendarViewCell:self shouldUseCustomColorsForDate:self.date]) {
-
-            if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:textColorForDate:)] && [self.delegate simpleCalendarViewCell:self textColorForDate:self.date]) {
-                labelColor = [self.delegate simpleCalendarViewCell:self textColorForDate:self.date];
-            }
-
-            if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:circleColorForDate:)] && [self.delegate simpleCalendarViewCell:self circleColorForDate:self.date]) {
-                circleColor = [self.delegate simpleCalendarViewCell:self circleColorForDate:self.date];
-            }
-        }
+    if (!enabled) {
+        self.dayLabel.textColor = [self textDisabledColor];
+        return;
     }
 
-    // Overrule delegate ordefault colours if selected, today or disabled
     if (today) {
-        labelColor = [self textTodayColor];
-        circleColor = [self circleTodayColor];
+        self.dayLabel.textColor = [self textTodayColor];
+        self.dayLabel.backgroundColor = [self circleTodayColor];
+        return;
     }
 
     if (selected) {
-        circleColor = [self circleSelectedColor];
-        labelColor = [self textSelectedColor];
+        self.dayLabel.textColor = [self textSelectedColor];
+        self.dayLabel.backgroundColor = [self circleSelectedColor];
+        return;
     }
 
-    if (!enabled) {
-        labelColor = [self textDisabledColor];
+    // Overrule default colours in delegate if not today, selected or disabled
+    if (self.date && self.delegate) {
+        if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:textColorForDate:)]) {
+            UIColor *textColor = [self.delegate simpleCalendarViewCell:self textColorForDate:self.date];
+            if (textColor) {
+                self.dayLabel.textColor = textColor;
+            }
+        }
+
+        if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:circleColorForDate:)]) {
+            UIColor *circleColor = [self.delegate simpleCalendarViewCell:self circleColorForDate:self.date];
+            if (circleColor) {
+                self.dayLabel.backgroundColor = circleColor;
+            }
+        }
+        return;
     }
-    
-    [self.dayLabel setBackgroundColor:circleColor];
-    [self.dayLabel setTextColor:labelColor];
+
 }
 
 
@@ -225,7 +229,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     if(_textDisabledColor != nil) {
         return _textDisabledColor;
     }
-
+    
     return [UIColor lightGrayColor];
 }
 

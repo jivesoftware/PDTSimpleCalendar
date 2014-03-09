@@ -106,7 +106,7 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
 - (void)simpleCalendarViewDidSelectDate:(NSDate *)date;
 
 /** Asks the delegate whether a date can be selected by the user.
- *  Disabled dates will be shown with disabled colour, unless overruled by simpleCalendarCircleColorForDate
+ *  Disabled dates will be shown with disabled text colour unless overruled by simpleCalendarTextColorForDate
  *
  *  @param date the date being selected (Midnight GMT).
  *
@@ -115,25 +115,23 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
 - (BOOL)simpleCalendarDateIsEnabled:(NSDate *)date;
 
 /**
- *  Asks the delegate if the Calendar should use custom colors for the specified date.
- *
- *  @param date the date (Midnight GMT)
- *
- *  @return YES if the calendar must ask the delegate for text and circle color, NO if it should use default values.
- */
-- (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date;
-
-/**
  * Asks the delegate for the circle color for a custom added date
+ * Mind that this delegate will NOT overrule the circle color of today and selected dates!
  *
  * @param date the date (Midnight GMT).
+ *
+ *  @return The color of the circle for this date. If nil is returned, then the default will be displayed
  */
 - (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date;
 
 /**
  * Asks the delegate for the text color for a custom added date
+ * Mind that this delegate will NOT overrule the disabled text color!
  *
  * @param date the date (Midnight GMT).
+ *
+ * @return The color of the text for this date. If nil is returned, then the default will be displayed
+ *
  */
 - (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date;
 
