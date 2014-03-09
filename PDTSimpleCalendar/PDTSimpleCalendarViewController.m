@@ -263,7 +263,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PDTSimpleCalendarViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:PDTSimpleCalendarViewCellIdentifier
-                                                                           forIndexPath:indexPath];
+                                                                                     forIndexPath:indexPath];
 
     cell.delegate = self;
     
@@ -416,14 +416,15 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (BOOL)isEnabledDate:(NSDate *)date
 {
-    if ([date compare:self.firstDate] == NSOrderedAscending)
+    NSDate *clampedDate = [self clampDate:date toComponents:(NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit)];
+    if ([clampedDate compare:self.firstDate] == NSOrderedAscending)
         return NO;
 
-    if ([date compare:self.lastDate] == NSOrderedDescending)
+    if ([clampedDate compare:self.lastDate] == NSOrderedDescending)
         return NO;
 
     if ([self.delegate respondsToSelector:@selector(simpleCalendarDateIsEnabled:)]) {
-        return [self.delegate simpleCalendarDateIsEnabled:date];
+        return [self.delegate simpleCalendarDateIsEnabled:clampedDate];
     }
 
     return YES;
