@@ -24,6 +24,7 @@
 
     PDTSimpleCalendarViewController *calendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     [calendarViewController setDelegate:self];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
     //Example of how you can change the default calendar
 //    NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
 //    hebrewCalendar.locale = [NSLocale currentLocale];
