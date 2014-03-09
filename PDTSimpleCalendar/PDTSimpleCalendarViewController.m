@@ -24,7 +24,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 @property (nonatomic, strong) UILabel *overlayView;
 @property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
-@property (nonatomic, strong) NSDateFormatter *dayDateFormatter; //Will be used to format day numbers.
 
 // First and last date of the months of the first and last dates
 @property (nonatomic, readonly) NSDate *firstDateMonth;
@@ -38,7 +37,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 //Explicitely @synthesize the var (it will create the iVar for us automatically as we redefine both getter and setter)
 @synthesize firstDate = _firstDate;
 @synthesize lastDate = _lastDate;
-@synthesize calendar = _calendar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -90,19 +88,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if (!_headerDateFormatter) {
         _headerDateFormatter = [[NSDateFormatter alloc] init];
         _headerDateFormatter.calendar = self.calendar;
-        _headerDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy LLLL" options:0 locale:[NSLocale currentLocale]];
+        _headerDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyyLLLL" options:0 locale:[NSLocale currentLocale]];
     }
     return _headerDateFormatter;
-}
-
-- (NSDateFormatter *)dayDateFormatter;
-{
-    if (!_dayDateFormatter) {
-        _dayDateFormatter = [[NSDateFormatter alloc] init];
-        _dayDateFormatter.calendar = self.calendar;
-        _dayDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"d" options:0 locale:[NSLocale currentLocale]];
-    }
-    return _dayDateFormatter;
 }
 
 - (NSCalendar *)calendar
@@ -111,11 +99,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         _calendar = [NSCalendar currentCalendar];
     }
     return _calendar;
-}
-
-- (void)setCalendar:(NSCalendar *)calendar {
-    _calendar = calendar;
-    self.dayDateFormatter.calendar = calendar;
 }
 
 - (NSDate *)firstDate
@@ -192,8 +175,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated
 {
-    NSAssert([date compare:self.firstDate] != NSOrderedAscending, @"date should be greater or equal to firstDate");
-    NSAssert([date compare:self.lastDate] != NSOrderedDescending, @"date should be less or equal to firstDate");
     @try {
         NSIndexPath *selectedDateIndexPath = [self indexPathForCellAtDate:date];
 
@@ -299,9 +280,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         cell.selected = [self isSelectedDate:cellDate] && (indexPath.section == [self sectionForDate:cellDate]);
         cell.isEnabled = [self isEnabledDate:cellDate];
         cell.isToday = [self isTodayDate:cellDate];
-        cell.dayText = [self.dayDateFormatter stringFromDate:cellDate];
+        [cell setDate:cellDate calendar:self.calendar];
     } else {
-        cell.dayText = nil;
+        [cell setDate:nil calendar:nil];
     }
 
     [cell refreshCellColors];

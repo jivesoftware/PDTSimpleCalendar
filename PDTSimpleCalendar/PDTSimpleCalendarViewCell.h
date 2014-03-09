@@ -95,11 +95,13 @@
 @property (nonatomic, strong) UIColor *textDisabledColor UI_APPEARANCE_SELECTOR;
 
 /**
- * Sets the day text for this cell
+ * Sets the date for this cell
  *
- * @param dayText  text to show for this cell
+ * @param date the date (Midnight GMT).
+ *
+ * @param calendar the calendar.
  */
-- (void)setDayText:(NSString*)dayText;
+- (void) setDate:(NSDate*)date calendar:(NSCalendar*)calendar;
 
 /**
  *  Force the refresh of the colors for the circle and the text
