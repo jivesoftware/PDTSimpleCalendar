@@ -52,8 +52,10 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     NSString* day = @"";
     if (date && calendar) {
         _date = date;
-        NSDateComponents *dateComponents = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit fromDate:_date];
-        day = [NSString stringWithFormat:@"%@", @(dateComponents.day)];
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        dateFormatter.calendar = calendar;
+        dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"d" options:0 locale:calendar.locale];
+        day = [dateFormatter stringFromDate:date];
     }
     self.dayLabel.text = day;
 }

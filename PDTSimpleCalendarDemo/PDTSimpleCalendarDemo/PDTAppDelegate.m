@@ -24,11 +24,28 @@
 
     PDTSimpleCalendarViewController *calendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     [calendarViewController setDelegate:self];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
     //Example of how you can change the default calendar
-//    NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
-//    hebrewCalendar.locale = [NSLocale currentLocale];
-//    [calendarViewController setCalendar:hebrewCalendar];
+
+    //#define TRY_ARAB
+    //#define TRY_HEBREW
+    //#define TRY_FARSI
+    //#define TRY_INDIAN
+
+
+#if defined(TRY_HEBREW)
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
+#elif defined(TRY_FARSI)
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSPersianCalendar];
+#elif defined(TRY_ARAB)
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSIslamicCalendar];
+#elif defined(TRY_INDIAN)
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSIndianCalendar];
+#else
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+#endif
+    [calendarViewController setCalendar:calendar];
+    NSLog(@"Calendar ID = %@", calendar.calendarIdentifier);
+    NSLog(@"Language = %@", [[NSLocale preferredLanguages] firstObject]);
 
     // Enable 10th of current month until the 10th of next month
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
