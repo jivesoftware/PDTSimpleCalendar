@@ -181,7 +181,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 	//Deprecated version.
 	//TODO: Remove in next update
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewDidSelectDate:)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.delegate simpleCalendarViewDidSelectDate:self.selectedDate];
+#pragma clang diagnostic pop
 	}
 
     // New version of delegate protocol
