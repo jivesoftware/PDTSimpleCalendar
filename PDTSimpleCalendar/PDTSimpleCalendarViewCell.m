@@ -25,6 +25,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     if (self) {
         _date = nil;
         _isToday = NO;
+        _isEnabled = NO;
         _dayLabel = [[UILabel alloc] init];
         [self.dayLabel setTextAlignment:NSTextAlignmentCenter];
         [self.contentView addSubview:self.dayLabel];
@@ -40,7 +41,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize]];
 
-        [self setCircleColor:NO selected:NO];
+        [self setCircleColor:NO selected:NO enabled:NO];
     }
 
     return self;
@@ -51,8 +52,11 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     NSString* day = @"";
     if (date && calendar) {
         _date = date;
-        NSDateComponents *dateComponents = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit fromDate:_date];
-        day = [NSString stringWithFormat:@"%@", @(dateComponents.day)];
+
+        // Use number formatter instead of dateformatter because the latter does have
+        // some unexpected side effects with Chinese & Japanese day formatting
+        NSDateComponents *dateComponents = [calendar components:NSDayCalendarUnit fromDate:date];
+        day = [[NSNumberFormatter new] stringFromNumber:@(dateComponents.day)];
     }
     self.dayLabel.text = day;
 }
@@ -60,47 +64,67 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 - (void)setIsToday:(BOOL)isToday
 {
     _isToday = isToday;
-    [self setCircleColor:isToday selected:self.selected];
+    [self setCircleColor:isToday selected:self.selected enabled:self.isEnabled];
 }
 
 - (void)setSelected:(BOOL)selected
 {
     [super setSelected:selected];
-    [self setCircleColor:self.isToday selected:selected];
+    [self setCircleColor:self.isToday selected:selected enabled:self.isEnabled];
 }
 
-
-- (void)setCircleColor:(BOOL)today selected:(BOOL)selected
+- (void)setIsEnabled:(BOOL)isEnabled
 {
-    UIColor *circleColor = (today) ? [self circleTodayColor] : [self circleDefaultColor];
-    UIColor *labelColor = (today) ? [self textTodayColor] : [self textDefaultColor];
+    _isEnabled = isEnabled;
+    [self setCircleColor:self.isToday selected:self.selected enabled:isEnabled];
+}
 
+- (void)setCircleColor:(BOOL)today selected:(BOOL)selected enabled:(BOOL)enabled
+{
+    self.dayLabel.textColor = [self textDefaultColor];
+    self.dayLabel.backgroundColor = [self circleDefaultColor];
+
+    if (!enabled) {
+        self.dayLabel.textColor = [self textDisabledColor];
+        return;
+    }
+
+    if (selected) {
+        self.dayLabel.textColor = [self textSelectedColor];
+        self.dayLabel.backgroundColor = [self circleSelectedColor];
+        return;
+    }
+
+    if (today) {
+        self.dayLabel.textColor = [self textTodayColor];
+        self.dayLabel.backgroundColor = [self circleTodayColor];
+        return;
+    }
+
+    // Overrule default colours in delegate if not today, selected or disabled
     if (self.date && self.delegate) {
-        if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:shouldUseCustomColorsForDate:)] && [self.delegate simpleCalendarViewCell:self shouldUseCustomColorsForDate:self.date]) {
-
-            if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:textColorForDate:)] && [self.delegate simpleCalendarViewCell:self textColorForDate:self.date]) {
-                labelColor = [self.delegate simpleCalendarViewCell:self textColorForDate:self.date];
-            }
-
-            if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:circleColorForDate:)] && [self.delegate simpleCalendarViewCell:self circleColorForDate:self.date]) {
-                circleColor = [self.delegate simpleCalendarViewCell:self circleColorForDate:self.date];
+        if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:textColorForDate:)]) {
+            UIColor *textColor = [self.delegate simpleCalendarViewCell:self textColorForDate:self.date];
+            if (textColor) {
+                self.dayLabel.textColor = textColor;
             }
         }
-    }
-    
-    if (selected) {
-        circleColor = [self circleSelectedColor];
-        labelColor = [self textSelectedColor];
+
+        if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:circleColorForDate:)]) {
+            UIColor *circleColor = [self.delegate simpleCalendarViewCell:self circleColorForDate:self.date];
+            if (circleColor) {
+                self.dayLabel.backgroundColor = circleColor;
+            }
+        }
+        return;
     }
 
-    [self.dayLabel setBackgroundColor:circleColor];
-    [self.dayLabel setTextColor:labelColor];
 }
 
 
 - (void)refreshCellColors
 {
-    [self setCircleColor:self.isToday selected:self.isSelected];
+    [self setCircleColor:self.isToday selected:self.isSelected enabled:self.isEnabled];
 }
 
 
@@ -111,9 +135,10 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     [super prepareForReuse];
     _date = nil;
     _isToday = NO;
+    _isEnabled = NO;
     [self.dayLabel setText:@""];
     [self.dayLabel setBackgroundColor:[self circleDefaultColor]];
-    [self.dayLabel setTextColor:[self textDefaultColor]];
+    [self.dayLabel setTextColor:[self textDisabledColor]];
 }
 
 #pragma mark - Circle Color Customization Methods
@@ -196,6 +221,19 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     }
 
     return [UIColor whiteColor];
+}
+
+- (UIColor *)textDisabledColor
+{
+    if(_textDisabledColor == nil) {
+        _textDisabledColor = [[[self class] appearance] textDisabledColor];
+    }
+
+    if(_textDisabledColor != nil) {
+        return _textDisabledColor;
+    }
+
+    return [UIColor lightGrayColor];
 }
 
 @end
