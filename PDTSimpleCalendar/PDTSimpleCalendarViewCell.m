@@ -88,15 +88,15 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         return;
     }
 
-    if (today) {
-        self.dayLabel.textColor = [self textTodayColor];
-        self.dayLabel.backgroundColor = [self circleTodayColor];
-        return;
-    }
-
     if (selected) {
         self.dayLabel.textColor = [self textSelectedColor];
         self.dayLabel.backgroundColor = [self circleSelectedColor];
+        return;
+    }
+
+    if (today) {
+        self.dayLabel.textColor = [self textTodayColor];
+        self.dayLabel.backgroundColor = [self circleTodayColor];
         return;
     }
 
