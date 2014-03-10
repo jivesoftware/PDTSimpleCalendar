@@ -65,6 +65,8 @@
     comps.month += 12;
     calendarViewController.lastDate = [calendar dateFromComponents:comps];
 
+//    calendarViewController.strictDatesRange = YES;
+
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:calendarViewController];
     [calendarViewController setTitle:@"SimpleCalendar"];
 

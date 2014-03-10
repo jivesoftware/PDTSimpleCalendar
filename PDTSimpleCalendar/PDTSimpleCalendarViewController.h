@@ -32,12 +32,16 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
 /**
  *  First date displayed by the calendar. If not set, the default value is the first day of the current month.
  *  You can pass every `NSDate`, the firstDate will be automatically set to the first day of its month.
+ *
+ *  @see 'strictDatesRange'
  */
 @property (nonatomic, strong) NSDate *firstDate;
 
 /**
  *  Last date displayed by the calendar. If not set, the default value is `firstDate` + one year using `calendar` for calculation
  *  You can pass every `NSDate`, the lastDate will be automatically set to last first day of its month.
+ *
+ *  @see 'strictDatesRange'
  */
 @property (nonatomic, strong) NSDate *lastDate;
 
@@ -46,6 +50,12 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
  *  Changing this value will cause the calendar to scroll to this date (without animation).
  */
 @property (nonatomic, strong) NSDate *selectedDate;
+
+/**
+ *  Define if dates before 'firstDate' and after 'lastDate' should be enabled or disabled.
+ *  Default value is NO.
+ */
+@property (nonatomic, assign) BOOL *strictDatesRange;
 
 /** @name Customizing Appearance */
 
