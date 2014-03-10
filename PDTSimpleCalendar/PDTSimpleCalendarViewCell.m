@@ -52,10 +52,11 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     NSString* day = @"";
     if (date && calendar) {
         _date = date;
-        NSDateFormatter *dateFormatter = [NSDateFormatter new];
-        dateFormatter.calendar = calendar;
-        dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"d" options:0 locale:calendar.locale];
-        day = [dateFormatter stringFromDate:date];
+
+        // Use number formatter instead of dateformatter because the latter does have
+        // some unexpected side effects with Chinese & Japanese day formatting
+        NSDateComponents *dateComponents = [calendar components:NSDayCalendarUnit fromDate:date];
+        day = [[NSNumberFormatter new] stringFromNumber:@(dateComponents.day)];
     }
     self.dayLabel.text = day;
 }
