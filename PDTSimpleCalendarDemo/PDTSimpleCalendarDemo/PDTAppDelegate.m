@@ -30,6 +30,8 @@
     //#define TRY_HEBREW
     //#define TRY_FARSI
     //#define TRY_INDIAN
+    //#define TRY_JAPANESE
+    //#define TRY_CHINESE
 
 
 #if defined(TRY_HEBREW)
@@ -38,6 +40,10 @@
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSPersianCalendar];
 #elif defined(TRY_ARAB)
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSIslamicCalendar];
+#elif defined(TRY_JAPANESE)
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSJapaneseCalendar];
+#elif defined(TRY_CHINESE)
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSChineseCalendar];
 #elif defined(TRY_INDIAN)
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSIndianCalendar];
 #else
