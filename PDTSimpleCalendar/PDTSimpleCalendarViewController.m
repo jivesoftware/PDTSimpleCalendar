@@ -319,9 +319,15 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         isToday = [self isTodayDate:cellDate];
         [cell setDate:cellDate calendar:self.calendar];
 
-        if (self.delegate && [self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
+        //TODO: Remove in next update - Deprecated
+        if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
             isCustomDate = [self.delegate simpleCalendarShouldUseCustomColorsForDate:cellDate];
         }
+        if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:shouldUseCustomColorsForDate:)]) {
+            isCustomDate = [self.delegate simpleCalendarViewController:self shouldUseCustomColorsForDate:cellDate];
+        }
+
+
     } else {
         [cell setDate:nil calendar:nil];
     }
@@ -529,10 +535,17 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date
 {
+    //If the date is not enabled (aka outside the first/lastDate) return YES
     if (![self isEnabledDate:date]) {
         return YES;
     }
 
+    //Otherwise we ask the delegate
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:shouldUseCustomColorsForDate:)]) {
+        return [self.delegate simpleCalendarViewController:self shouldUseCustomColorsForDate:date];
+    }
+
+    //TODO: Remove in next update - Deprecated
     if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
         return [self.delegate simpleCalendarShouldUseCustomColorsForDate:date];
     }
@@ -546,6 +559,11 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         return cell.circleDefaultColor;
     }
 
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:circleColorForDate:)]) {
+        return [self.delegate simpleCalendarViewController:self circleColorForDate:date];
+    }
+
+    //TODO: Remove in next update - Deprecated
     if ([self.delegate respondsToSelector:@selector(simpleCalendarCircleColorForDate:)]) {
         return [self.delegate simpleCalendarCircleColorForDate:date];
     }
@@ -559,6 +577,11 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         return cell.textDisabledColor;
     }
 
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textColorForDate:)]) {
+        return [self.delegate simpleCalendarViewController:self textColorForDate:date];
+    }
+
+    //TODO: Remove in next update - Deprecated
     if ([self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
         return [self.delegate simpleCalendarTextColorForDate:date];
     }

@@ -99,41 +99,47 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
 
 @optional
 
-/** Tells the delegate that a date was selected by the user.
-
- @param date the date being selected (Midnight GMT).
- */
-- (void)simpleCalendarViewDidSelectDate:(NSDate *)date __deprecated;
-
 /**
  *  Tells the delegate that a date was selected by the user.
  *
  *  @param controller the calendarView Controller
  *  @param date       the date being selected (Midnight GMT).
  */
-- (void)simpleCalendarViewController:(PDTSimpleCalendarViewController*)controller didSelectDate:(NSDate *)date;
+- (void)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller didSelectDate:(NSDate *)date;
+
+/** @name Color Customization */
 
 /**
  *  Asks the delegate if the Calendar should use custom colors for the specified date.
  *
- *  @param date the date (Midnight GMT)
+ *  @param controller the calendarView Controller
+ *  @param date       the date (Midnight GMT)
  *
  *  @return YES if the calendar must ask the delegate for text and circle color, NO if it should use default values.
  */
-- (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date;
+- (BOOL)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller shouldUseCustomColorsForDate:(NSDate *)date;
 
 /**
- * Asks the delegate for the circle color for a custom added date
+ *  Asks the delegate for the circle color for a custom added date
  *
- * @param date the date (Midnight GMT).
+ *  @param controller the calendarView Controller
+ *  @param date       the date (Midnight GMT)
  */
-- (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date;
+- (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller circleColorForDate:(NSDate *)date;
 
 /**
- * Asks the delegate for the text color for a custom added date
+ *  Asks the delegate for the text color for a custom added date
  *
- * @param date the date (Midnight GMT).
+ *  @param controller the calendarView Controller
+ *  @param date       the date (Midnight GMT)
  */
-- (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date;
+- (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textColorForDate:(NSDate *)date;
+
+#pragma mark - Deprecated Methods
+
+- (void)simpleCalendarViewDidSelectDate:(NSDate *)date __attribute__((deprecated("Use simpleCalendarViewController:didSelectDate: instead")));
+- (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date __attribute__((deprecated("Use simpleCalendarViewController:shouldUseCustomColorsForDate: instead")));
+- (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date __attribute__((deprecated("Use simpleCalendarViewController:circleColorForDate: instead")));
+- (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date __attribute__((deprecated("Use simpleCalendarViewController:textColorForDate: instead")));
 
 @end;

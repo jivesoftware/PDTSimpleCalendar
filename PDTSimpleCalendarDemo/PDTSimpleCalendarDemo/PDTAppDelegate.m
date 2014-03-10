@@ -109,12 +109,12 @@
 
 #pragma mark - PDTSimpleCalendarViewDelegate
 
-- (void)simpleCalendarViewDidSelectDate:(NSDate *)date
+- (void)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller didSelectDate:(NSDate *)date
 {
     NSLog(@"Date Selected : %@",date);
 }
 
-- (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date
+- (BOOL)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller shouldUseCustomColorsForDate:(NSDate *)date
 {
     if ([self.customDates containsObject:date]) {
         return YES;
@@ -123,12 +123,12 @@
     return NO;
 }
 
-- (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date
+- (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller circleColorForDate:(NSDate *)date
 {
     return [UIColor whiteColor];
 }
 
-- (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date
+- (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textColorForDate:(NSDate *)date
 {
     return [UIColor orangeColor];
 }
