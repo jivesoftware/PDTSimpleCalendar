@@ -170,7 +170,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     //Test if selectedDate between first & last date
     NSDate *startOfDay = [self clampDate:newSelectedDate toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
-    if ([self isEnabledDate:startOfDay]) {
+    if (![self isEnabledDate:startOfDay]) {
         // The newSelectedDate is not enabled, do nothing.
         return;
     }
