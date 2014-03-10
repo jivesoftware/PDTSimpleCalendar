@@ -1,7 +1,10 @@
 PDTSimpleCalendar
 =================
 
-PDTSimpleCalendar is a very simple calendar/date picker component for your iOS apps based on UICollectionView.
+PDTSimpleCalendar is a very simple calendar/date picker component for your iOS apps based on UICollectionView. It allows for selection within a date range. In addition, you can disable certain dates within that range if you need to.
+
+PDTSimpleCalendar is fully localised, such that the device's local calendar is selected by default, and year, month and day labels are formatted in the local character set. The calendar can be set in the API. 
+The notation can only be set by changing the device's settings in Settings > General > International > Region Format. 
 
 ![Default](Documentation/default.png)
 ![Hebrew](Documentation/hebrew.png)
