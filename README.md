@@ -3,9 +3,9 @@ PDTSimpleCalendar
 
 PDTSimpleCalendar is a very simple calendar/date picker component for your iOS apps based on UICollectionView.
 
-![Default](https://github.com/jivesoftware/PDTSimpleCalendar/raw/master/Documentation/default.png)
-![Hebrew](https://github.com/jivesoftware/PDTSimpleCalendar/raw/master/Documentation/hebrew.png)
-![Arab](https://github.com/jivesoftware/PDTSimpleCalendar/raw/master/Documentation/arab.png)
+![Default](Documentation/default.png)
+![Hebrew](Documentation/hebrew.png)
+![Arab](Documentation/arab.png)
 
 
 ##Install
