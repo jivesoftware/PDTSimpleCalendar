@@ -76,7 +76,7 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
  *  Change the selected date of the calendar, and scroll to it
  *
  *  @param newSelectedDate the date that will be selected
- *  @param animated        if you wanna animate the scrolling
+ *  @param animated        if you want to animate the scrolling
  */
 - (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated;
 
@@ -84,7 +84,7 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
  *  Scroll to a certain date in the calendar.
  *
  *  @param date     the date you wanna scroll to.
- *  @param animated if you wanna animate the scrolling
+ *  @param animated if you want to animate the scrolling
  */
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
 
@@ -103,7 +103,15 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
 
  @param date the date being selected (Midnight GMT).
  */
-- (void)simpleCalendarViewDidSelectDate:(NSDate *)date;
+- (void)simpleCalendarViewDidSelectDate:(NSDate *)date __deprecated;
+
+/**
+ *  Tells the delegate that a date was selected by the user.
+ *
+ *  @param controller the calendarView Controller
+ *  @param date       the date being selected (Midnight GMT).
+ */
+- (void)simpleCalendarViewController:(PDTSimpleCalendarViewController*)controller didSelectDate:(NSDate *)date;
 
 /**
  *  Asks the delegate if the Calendar should use custom colors for the specified date.
