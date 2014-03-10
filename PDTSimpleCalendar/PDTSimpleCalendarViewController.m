@@ -111,7 +111,12 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (NSDate *)firstDate
 {
     if (!_firstDate) {
-        _firstDate = [self clampDate:[NSDate date] toComponents:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay];
+        // Set first date to first of current month
+        NSDate *today = [NSDate date];
+        NSInteger dateUnits = NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay;
+        NSDateComponents *components = [self.calendar components:dateUnits fromDate:today];
+        components.day = 1;
+        _firstDate = [self.calendar dateFromComponents:components];
     }
 
     return _firstDate;
@@ -128,11 +133,12 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (NSDate *)lastDate
 {
     if (!_lastDate) {
-        NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
+        // Set last date to last day of next year
+       NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
                                                         fromDate:self.firstDate];
-        components.day = -1;
+        components.day = 0;
         components.month = 1;
-        components.year += 1;
+        components.year += 2;
         _lastDate = [self.calendar dateFromComponents:components];
     }
     return _lastDate;
