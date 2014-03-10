@@ -57,12 +57,9 @@
     NSLog(@"Calendar ID = %@", calendar.calendarIdentifier);
     NSLog(@"Language = %@", [[NSLocale preferredLanguages] firstObject]);
 
-    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
-    NSDate *date = [NSDate date];
-    NSDateComponents *comps = [calendar components:unitFlags fromDate:date];
-    comps.day = 5;
-    calendarViewController.firstDate = [NSDate date];
-    comps.month += 12;
+    NSDateComponents *comps = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+    comps.day = 25;
+    comps.month = 12;
     calendarViewController.lastDate = [calendar dateFromComponents:comps];
 
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:calendarViewController];

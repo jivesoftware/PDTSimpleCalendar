@@ -30,14 +30,14 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
 @property (nonatomic, strong) NSCalendar *calendar;
 
 /**
- *  First date displayed by the calendar. If not set, the default value is the first day of the current month.
- *  You can pass every `NSDate`, the firstDate will be automatically set to the first day of its month.
+ *  First date enabled in the calendar. If not set, the default value is the first day of the current month (based on `[NSDate date]`).
+ *  You can pass every `NSDate`, if the firstDate is not the first day of its month, the previous days will be automatically disabled.
  */
 @property (nonatomic, strong) NSDate *firstDate;
 
 /**
- *  Last date displayed by the calendar. If not set, the default value is `firstDate` + one year using `calendar` for calculation
- *  You can pass every `NSDate`, the lastDate will be automatically set to last first day of its month.
+ *  Last date enabled in the calendar. If not set, the default value is the first day of the month of `firstDate` + one year using `calendar` for calculation
+ *  You can pass every `NSDate`, if the lastDate is not the last day of its month, the following days will be automatically disabled.
  */
 @property (nonatomic, strong) NSDate *lastDate;
 

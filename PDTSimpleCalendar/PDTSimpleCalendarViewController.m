@@ -112,7 +112,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (NSDate *)firstDate
 {
     if (!_firstDate) {
-        _firstDate = [self clampDate:[NSDate date] toComponents:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay];
+        NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
+                                                        fromDate:[NSDate date]];
+        components.day = 1;
+        _firstDate = [self.calendar dateFromComponents:components];
     }
 
     return _firstDate;
@@ -123,23 +126,23 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     _firstDate = [self clampDate:firstDate toComponents:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay];
 }
 
+//TODO: Store the value in the variable to avoid calculation everytime.
 - (NSDate *)firstDateMonth
 {
     NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
                                                     fromDate:self.firstDate];
     components.day = 1;
+
     return [self.calendar dateFromComponents:components];
 }
 
 - (NSDate *)lastDate
 {
     if (!_lastDate) {
-        NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
-                                                        fromDate:self.firstDate];
-        components.day = -1;
-        components.month = 1;
-        components.year += 1;
-        _lastDate = [self.calendar dateFromComponents:components];
+        NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
+        offsetComponents.year = 1;
+        offsetComponents.day = -1;
+        [self setLastDate:[self.calendar dateByAddingComponents:offsetComponents toDate:self.firstDateMonth options:0]];
     }
 
     return _lastDate;
@@ -150,12 +153,13 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     _lastDate = [self clampDate:lastDate toComponents:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay];
 }
 
+//TODO: Store the value in the variable to avoid calculation everytime.
 - (NSDate *)lastDateMonth
 {
-    NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
-                                                    fromDate:self.lastDate];
+    NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:self.lastDate];
     components.month++;
-    components.day = -1;
+    components.day = 0;
+
     return [self.calendar dateFromComponents:components];
 }
 
@@ -176,7 +180,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     //Test if selectedDate between first & last date
     NSDate *startOfDay = [self clampDate:newSelectedDate toComponents:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit];
-    if (([startOfDay compare:self.firstDate] == NSOrderedAscending) || ([startOfDay compare:self.lastDate] == NSOrderedDescending)) {
+    if (([startOfDay compare:self.firstDateMonth] == NSOrderedAscending) || ([startOfDay compare:self.lastDateMonth] == NSOrderedDescending)) {
         //the newSelectedDate is not between first & last date of the calendar, do nothing.
         return;
     }
