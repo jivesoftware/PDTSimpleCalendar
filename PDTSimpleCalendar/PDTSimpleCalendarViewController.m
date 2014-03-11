@@ -13,6 +13,7 @@
 #import "PDTSimpleCalendarViewHeader.h"
 
 
+//TODO: Remove this var in next release.
 const NSUInteger PDTSimpleCalendarDaysPerWeek = 7;
 const CGFloat PDTSimpleCalendarOverlaySize = 14.0f;
 
@@ -28,6 +29,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 // First and last date of the months based on the public properties first & lastDate
 @property (nonatomic, readonly) NSDate *firstDateMonth;
 @property (nonatomic, readonly) NSDate *lastDateMonth;
+
+//Number of days per week
+@property (nonatomic, assign) NSUInteger daysPerWeek;
 
 @end
 
@@ -81,6 +85,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     self.overlayView = [[UILabel alloc] init];
     self.backgroundColor = [UIColor whiteColor];
     self.overlayTextColor = [UIColor blackColor];
+    self.daysPerWeek = 7;
 }
 
 #pragma mark - Accessors
@@ -98,7 +103,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (NSCalendar *)calendar
 {
     if (!_calendar) {
-        _calendar = [NSCalendar currentCalendar];
+        [self setCalendar:[NSCalendar currentCalendar]];
     }
     return _calendar;
 }
@@ -107,6 +112,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 {
     _calendar = calendar;
     self.headerDateFormatter.calendar = calendar;
+    self.daysPerWeek = [_calendar maximumRangeOfUnit:NSWeekdayCalendarUnit].length;
 }
 
 - (NSDate *)firstDate
@@ -293,7 +299,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     NSRange rangeOfWeeks = [self.calendar rangeOfUnit:NSWeekCalendarUnit inUnit:NSMonthCalendarUnit forDate:firstOfMonth];
 
     //We need the number of calendar weeks for the full months (it will maybe include previous month and next months cells)
-    return (rangeOfWeeks.length * PDTSimpleCalendarDaysPerWeek);
+    return (rangeOfWeeks.length * self.daysPerWeek);
 }
 
 
@@ -397,7 +403,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat itemWidth = floorf(CGRectGetWidth(self.collectionView.bounds) / PDTSimpleCalendarDaysPerWeek);
+    CGFloat itemWidth = floorf(CGRectGetWidth(self.collectionView.bounds) / self.daysPerWeek);
 
     return CGSizeMake(itemWidth, itemWidth);
 }

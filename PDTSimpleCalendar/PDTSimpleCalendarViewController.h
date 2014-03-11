@@ -13,7 +13,7 @@
 /**
  *  Define the number of days in a week. Usually 7.
  */
-extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
+extern const NSUInteger PDTSimpleCalendarDaysPerWeek __deprecated_msg("Days per week are now automatically retrieve from Calendar. This variable will be removed in the next update.");
 
 /**
  *  `PDTSimpleCalendarViewController` is a `UICollectionViewController` subclass that displays a scrollable calendar view inspired by iOS7 Apple Cal App.
