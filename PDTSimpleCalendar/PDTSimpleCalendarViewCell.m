@@ -198,4 +198,17 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     return [UIColor whiteColor];
 }
 
+- (UIColor *)textDisabledColor
+{
+    if(_textDisabledColor == nil) {
+        _textDisabledColor = [[[self class] appearance] textDisabledColor];
+    }
+
+    if(_textDisabledColor != nil) {
+        return _textDisabledColor;
+    }
+
+    return [UIColor lightGrayColor];
+}
+
 @end

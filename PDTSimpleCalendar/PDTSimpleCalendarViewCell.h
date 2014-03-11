@@ -96,9 +96,13 @@
  */
 @property (nonatomic, strong) UIColor *textSelectedColor UI_APPEARANCE_SELECTOR;
 
+/**
+ *  Customize the day's number color when cell is disabled using UIAppearance.
+ */
+@property (nonatomic, strong) UIColor *textDisabledColor UI_APPEARANCE_SELECTOR;
 
 /**
- * Sets the date for this cell
+ * Set the date for this cell
  *
  * @param date the date (Midnight GMT).
  *

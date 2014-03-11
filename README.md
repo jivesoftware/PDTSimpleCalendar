@@ -6,12 +6,15 @@ PDTSimpleCalendar is a very simple calendar/date picker component for your iOS a
 ![Default](https://github.com/jivesoftware/PDTSimpleCalendar/raw/master/Documentation/default.png)
 ![Hebrew](https://github.com/jivesoftware/PDTSimpleCalendar/raw/master/Documentation/hebrew.png)
 
+###Upgrade Note
+
+If you upgrade from a version prior to 0.6, you will notice that the delegate format have change. Previous delegate definitions (and also a static variable) have been deprecated. They will be removed in the next release.
 
 ##Install
 
 We recommend using Cocoapods, in your Podfile just add:
 
-`pod 'PDTSimpleCalendar', '~> 0.4'`
+`pod 'PDTSimpleCalendar', '~> 0.6'`
 
 then run `pod install`
 
@@ -23,9 +26,12 @@ If you don't like cocoapods, you can still import it using `git submodule` or si
 ##Customize it
 
 ###Calendar
-* `firstDate` : When the calendar must starts. If you don't specify anything, it will default to the current month (based on `[NSDate date]`)
-* `lastDate` : When the calendar must ends. If you don't specify anything, it will default to the `firstDate` + 1 year.
+* `firstDate` : When the calendar must starts. If you don't specify anything, it will default to the first day of the current month (based on `[NSDate date]`).
+* `lastDate` : When the calendar must ends. If you don't specify anything, it will default to the last day of the next year (based on `firstDate`).
 * `calendar` : Which calendar to use for display and date calculations. You can set any calendar supported by `NSCalendar`. the default value will be `[NSCalendar currentCalendar]`.
+
+**New in 0.6**: if you specify a 'firstDate' and/or 'lastDate' the calendar will display the full month, but dates < firstDate or > lastDate will be disabled. You can see this behavior in the demo app.
+
 
 ###Colors
 You can change the display of the calendar using `backgroundColor` & `overlayTextColor` properties on `PDTSimpleCalendarViewController`.
@@ -38,6 +44,7 @@ Other colors can be set using UIAppearance on `PDTSimpleCalendarViewCell` & `PDT
     [[PDTSimpleCalendarViewCell appearance] setTextDefaultColor:[UIColor redColor]];
     [[PDTSimpleCalendarViewCell appearance] setTextSelectedColor:[UIColor purpleColor]];
     [[PDTSimpleCalendarViewCell appearance] setTextTodayColor:[UIColor magentaColor]];
+    [[PDTSimpleCalendarViewCell appearance] setTextDisabledColor:[UIColor yellowColor]];
 
     [[PDTSimpleCalendarViewHeader appearance] setTextColor:[UIColor redColor]];
     [[PDTSimpleCalendarViewHeader appearance] setSeparatorColor:[UIColor orangeColor]];
