@@ -47,6 +47,13 @@
     NSDate *lastDate =[dateRangeCalendarViewController.calendar dateByAddingComponents:offsetComponents toDate:[NSDate date] options:0];
     dateRangeCalendarViewController.lastDate = lastDate;
 
+    //Set the edgesForExtendedLayout to UIRectEdgeNone
+    if ([UIViewController instancesRespondToSelector:@selector(edgesForExtendedLayout)]) {
+        [calendarViewController setEdgesForExtendedLayout:UIRectEdgeNone];
+        [hebrewCalendarViewController setEdgesForExtendedLayout:UIRectEdgeNone];
+        [dateRangeCalendarViewController setEdgesForExtendedLayout:UIRectEdgeNone];
+    }
+
     //Create Navigation Controller
     UINavigationController *defaultNavController = [[UINavigationController alloc] initWithRootViewController:calendarViewController];
     [calendarViewController setTitle:@"SimpleCalendar"];
@@ -60,6 +67,7 @@
     //Create the Tab Bar Controller
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     [tabBarController setViewControllers:@[defaultNavController, hebrewNavController, dateRangeNavController]];
+
 
     //Example of how you can now customize the calendar colors
 //    [[PDTSimpleCalendarViewCell appearance] setCircleDefaultColor:[UIColor whiteColor]];
