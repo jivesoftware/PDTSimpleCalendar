@@ -46,13 +46,25 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     return self;
 }
 
++ (NSString *)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
+{
+    static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.locale = calendar.locale;
+        dateFormatter.dateFormat = @"d";
+    });
+
+    return [dateFormatter stringFromDate:date];
+}
+
 - (void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar
 {
     NSString* day = @"";
     if (date && calendar) {
         _date = date;
-        NSDateComponents *dateComponents = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit fromDate:_date];
-        day = [NSString stringWithFormat:@"%@", @(dateComponents.day)];
+         day = [PDTSimpleCalendarViewCell formatDate:date withCalendar:calendar];
     }
     self.dayLabel.text = day;
 }
