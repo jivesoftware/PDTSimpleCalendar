@@ -10,9 +10,11 @@
 #import "PDTSimpleCalendarViewController.h"
 #import "PDTSimpleCalendarViewController+Private.h"
 
-@interface PDTSimpleCalendarDemoTests : SenTestCase
+
+@interface PDTSimpleCalendarDemoTests : SenTestCase <PDTSimpleCalendarViewDelegate>
 
 @property (nonatomic, strong) PDTSimpleCalendarViewController *calendarController;
+@property (nonatomic, strong) NSDate *expectedDate;
 
 @end
 
@@ -28,6 +30,11 @@
 {
     _calendarController = nil;
     [super tearDown];
+}
+
+- (void)simpleCalendarViewController:(PDTSimpleCalendarViewController*)controller didSelectDate:(NSDate *)date {
+    NSAssert(self.expectedDate, @"Expected date should have a value when testing this delegate");
+    STAssertTrue([date isEqualToDate:self.expectedDate], @"Selected date is not the expected date");
 }
 
 - (void)testDatesDefaultBehavior
@@ -111,6 +118,81 @@
     //If you know a calendar who doesn't have 7 days per week and is supported by iOS let me know ;-)
 
     STAssertTrue(_calendarController.daysPerWeek == 7, @"Should be 7 days a week");
+}
+
+- (void)testSelectDateTooEarly
+{
+    PDTSimpleCalendarViewController *simpleCalendarViewController = [PDTSimpleCalendarViewController new];
+    simpleCalendarViewController.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+
+    NSDateComponents *dateComponents = [simpleCalendarViewController.calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+    dateComponents.day = 1;
+    dateComponents.month = 2;
+    simpleCalendarViewController.firstDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+    dateComponents.month = 3;
+    simpleCalendarViewController.lastDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+    dateComponents.month = 1;
+    simpleCalendarViewController.selectedDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+
+    STAssertTrue(simpleCalendarViewController.selectedDate == nil, @"Select date before first date should fail");
+}
+
+- (void)testSelectDateTooLate
+{
+    PDTSimpleCalendarViewController *simpleCalendarViewController = [PDTSimpleCalendarViewController new];
+    simpleCalendarViewController.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+
+    NSDateComponents *dateComponents = [simpleCalendarViewController.calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+    dateComponents.day = 1;
+    dateComponents.month = 2;
+    simpleCalendarViewController.firstDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+    dateComponents.month = 3;
+    simpleCalendarViewController.lastDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+    dateComponents.month = 4;
+    simpleCalendarViewController.selectedDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+
+    STAssertTrue(simpleCalendarViewController.selectedDate == nil, @"Select date after last date should fail");
+}
+
+- (void)testSelectDateOk
+{
+    PDTSimpleCalendarViewController *simpleCalendarViewController = [PDTSimpleCalendarViewController new];
+    simpleCalendarViewController.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+
+    NSDateComponents *dateComponents = [simpleCalendarViewController.calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+    dateComponents.day = 1;
+    dateComponents.month = 2;
+    simpleCalendarViewController.firstDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+    dateComponents.month = 4;
+    simpleCalendarViewController.lastDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+    dateComponents.month = 3;
+    NSDate *selectedDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+    simpleCalendarViewController.selectedDate = selectedDate;
+
+    STAssertTrue([simpleCalendarViewController.selectedDate isEqualToDate:selectedDate], @"Select date in range should be ok");
+}
+
+
+- (void)testDelegateSelectDate
+{
+    PDTSimpleCalendarViewController *simpleCalendarViewController = [PDTSimpleCalendarViewController new];
+    simpleCalendarViewController.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+
+    NSDateComponents *dateComponents = [simpleCalendarViewController.calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+    dateComponents.day = 21;
+    dateComponents.month = 2;
+    simpleCalendarViewController.firstDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+    dateComponents.month = 4;
+    simpleCalendarViewController.lastDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+    dateComponents.month = 3;
+    NSDate *selectedDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+
+    // Allcate delegate object & assign, tell it to expect the selected date
+    self.expectedDate = selectedDate;
+    simpleCalendarViewController.delegate = self;
+
+    // Testing takes place in delegate
+    simpleCalendarViewController.selectedDate = selectedDate;
 }
 
 @end
