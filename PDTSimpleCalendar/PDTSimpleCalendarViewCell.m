@@ -19,6 +19,27 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 @implementation PDTSimpleCalendarViewCell
 
+#pragma mark - Class Method
+
++ (NSString *)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
+{
+    static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"d";
+    });
+
+    //Test if the calendar is different than the current dateFormatter calendar property
+    if (![dateFormatter.calendar isEqual:calendar]) {
+        dateFormatter.calendar = calendar;
+    }
+
+    return [dateFormatter stringFromDate:date];
+}
+
+#pragma mark - Instance Methods
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -44,19 +65,6 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     }
 
     return self;
-}
-
-+ (NSString *)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
-{
-    static NSDateFormatter *dateFormatter;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.locale = calendar.locale;
-        dateFormatter.dateFormat = @"d";
-    });
-
-    return [dateFormatter stringFromDate:date];
 }
 
 - (void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar
