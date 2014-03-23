@@ -11,17 +11,22 @@
 #import "PDTSimpleCalendarViewFlowLayout.h"
 #import "PDTSimpleCalendarViewCell.h"
 #import "PDTSimpleCalendarViewHeader.h"
+#import "PDTSimpleCalendarViewWeekdayHeader.h"
 
 
 //TODO: Remove this var in next release.
 const NSUInteger PDTSimpleCalendarDaysPerWeek = 7;
 const CGFloat PDTSimpleCalendarOverlaySize = 14.0f;
+const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0;
 
 static NSString *PDTSimpleCalendarViewCellIdentifier = @"com.producteev.collection.cell.identifier";
 static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collection.header.identifier";
 
 
-@interface PDTSimpleCalendarViewController () <PDTSimpleCalendarViewCellDelegate>
+@interface PDTSimpleCalendarViewController () <PDTSimpleCalendarViewCellDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate>
+
+@property (nonatomic, strong) PDTSimpleCalendarViewWeekdayHeader *headerView;
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 @property (nonatomic, strong) UILabel *overlayView;
 @property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
@@ -43,50 +48,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 @synthesize lastDate = _lastDate;
 @synthesize calendar = _calendar;
 
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    //Force the creation of the view with the pre-defined Flow Layout.
-    //Still possible to define a custom Flow Layout, if needed by using initWithCollectionViewLayout:
-    self = [super initWithCollectionViewLayout:[[PDTSimpleCalendarViewFlowLayout alloc] init]];
-    if (self) {
-        // Custom initialization
-        [self simpleCalendarCommonInit];
-    }
-
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-    //Force the creation of the view with the pre-defined Flow Layout.
-    //Still possible to define a custom Flow Layout, if needed by using initWithCollectionViewLayout:
-    self = [super initWithCollectionViewLayout:[[PDTSimpleCalendarViewFlowLayout alloc] init]];
-    if (self) {
-        // Custom initialization
-        [self simpleCalendarCommonInit];
-    }
-    
-    return self;
-}
-
-- (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
-{
-    self = [super initWithCollectionViewLayout:layout];
-    if (self) {
-        [self simpleCalendarCommonInit];
-    }
-
-    return self;
-}
-
-- (void)simpleCalendarCommonInit
-{
-    self.overlayView = [[UILabel alloc] init];
-    self.backgroundColor = [UIColor whiteColor];
-    self.overlayTextColor = [UIColor blackColor];
-    self.daysPerWeek = 7;
-}
 
 #pragma mark - Accessors
 
@@ -253,7 +214,13 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    //Configure the Collection View
+    self.backgroundColor = [UIColor whiteColor];
+    self.overlayTextColor = [UIColor blackColor];
+    self.daysPerWeek = 7;
+
+    // Configure the Collection View
+    UICollectionViewFlowLayout *flowLayout = [[PDTSimpleCalendarViewFlowLayout alloc] init];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
     [self.collectionView registerClass:[PDTSimpleCalendarViewCell class] forCellWithReuseIdentifier:PDTSimpleCalendarViewCellIdentifier];
     [self.collectionView registerClass:[PDTSimpleCalendarViewHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:PDTSimpleCalendarViewHeaderIdentifier];
 
@@ -261,7 +228,14 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     self.collectionView.dataSource = self;
     [self.collectionView setBackgroundColor:self.backgroundColor];
 
-    //Configure the Overlay View
+    [self.collectionView setBackgroundColor:self.backgroundColor];
+    [self.collectionView setAlpha:1.0];
+
+    [self.view addSubview:self.collectionView];
+    [self.collectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+    // Configure the Overlay View
+    self.overlayView = [[UILabel alloc] init];
     [self.overlayView setBackgroundColor:[self.backgroundColor colorWithAlphaComponent:0.90]];
     [self.overlayView setFont:[UIFont boldSystemFontOfSize:PDTSimpleCalendarOverlaySize]];
     [self.overlayView setTextColor:self.overlayTextColor];
@@ -270,11 +244,38 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     [self.view addSubview:self.overlayView];
     [self.overlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView};
-    NSDictionary *metricsDictionary = @{@"overlayViewHeight": @(PDTSimpleCalendarFlowLayoutHeaderHeight)};
 
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" options:NSLayoutFormatAlignAllTop metrics:nil views:viewsDictionary]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView(==overlayViewHeight)]" options:NSLayoutFormatAlignAllTop metrics:metricsDictionary views:viewsDictionary]];
+    // Configure the Header View
+    self.headerView = [[PDTSimpleCalendarViewWeekdayHeader alloc] init];
+    [self.headerView setAlpha:1.0];
+
+    // Set the weekday strings
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.calendar = self.calendar;
+    NSArray *weekdays = [dateFormatter veryShortWeekdaySymbols];
+
+    // adjust array depending on which weekday should be first
+    NSUInteger firstWeekdayIndex = [[NSCalendar currentCalendar] firstWeekday] - 1;
+    if (firstWeekdayIndex > 0) {
+        weekdays = [[weekdays subarrayWithRange:NSMakeRange(firstWeekdayIndex, self.daysPerWeek - firstWeekdayIndex)]
+                     arrayByAddingObjectsFromArray:[weekdays subarrayWithRange:NSMakeRange(0, firstWeekdayIndex)]];
+    }
+    self.headerView.weekdays = weekdays;
+
+    [self.view addSubview:self.headerView];
+    [self.headerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+    NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView,
+                                      @"headerView": self.headerView,
+                                      @"collectionView": self.collectionView};
+    NSDictionary *metricsDictionary = @{@"overlayViewHeight": @(PDTSimpleCalendarFlowLayoutHeaderHeight),
+                                        @"headerViewHeight": @(PDTSimpleCalendarWeekdayHeaderHeight)};
+
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" options:0 metrics:nil views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[headerView]|" options:0 metrics:nil views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[collectionView]|" options:0 metrics:nil views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[headerView(==headerViewHeight)][collectionView]|" options:0 metrics:metricsDictionary views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[headerView][overlayView(==overlayViewHeight)]" options:0 metrics:metricsDictionary views:viewsDictionary]];
 }
 
 #pragma mark - Rotation Handling

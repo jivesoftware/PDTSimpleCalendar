@@ -18,7 +18,7 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek __deprecated_msg("Days per 
 /**
  *  `PDTSimpleCalendarViewController` is a `UICollectionViewController` subclass that displays a scrollable calendar view inspired by iOS7 Apple Cal App.
  */
-@interface PDTSimpleCalendarViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
+@interface PDTSimpleCalendarViewController : UIViewController
 
 /** @name Calendar Setup */
 
