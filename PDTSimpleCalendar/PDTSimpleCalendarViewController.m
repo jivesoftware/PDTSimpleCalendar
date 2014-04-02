@@ -38,7 +38,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 @implementation PDTSimpleCalendarViewController
 
-//Explicitely @synthesize the var (it will create the iVar for us automatically as we redefine both getter and setter)
+//Explicitly @synthesize the var (it will create the iVar for us automatically as we redefine both getter and setter)
 @synthesize firstDate = _firstDate;
 @synthesize lastDate = _lastDate;
 @synthesize calendar = _calendar;
