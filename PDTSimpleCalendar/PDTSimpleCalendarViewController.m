@@ -199,7 +199,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     NSIndexPath *indexPath = [self indexPathForCellAtDate:_selectedDate];
     [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
-    [self scrollToDate:_selectedDate animated:animated];
+    
+    if (![self.collectionView.indexPathsForVisibleItems containsObject:indexPath]) {
+        [self scrollToDate:_selectedDate animated:animated];
+    }
 
 	//Deprecated version.
 	//TODO: Remove in next update
