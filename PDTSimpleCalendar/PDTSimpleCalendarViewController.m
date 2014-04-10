@@ -204,7 +204,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 	//Deprecated version.
 	//TODO: Remove in next update
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewDidSelectDate:)]) {
-        [self.delegate simpleCalendarViewDidSelectDate:self.selectedDate];
+        [(id)self.delegate simpleCalendarViewDidSelectDate:self.selectedDate];
 	}
 
     //New version of delegate protocol
@@ -327,7 +327,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
         //TODO: Remove in next update - Deprecated
         if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
-            isCustomDate = [self.delegate simpleCalendarShouldUseCustomColorsForDate:cellDate];
+            isCustomDate = [(id)self.delegate simpleCalendarShouldUseCustomColorsForDate:cellDate];
         }
         if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:shouldUseCustomColorsForDate:)]) {
             isCustomDate = [self.delegate simpleCalendarViewController:self shouldUseCustomColorsForDate:cellDate];
@@ -553,7 +553,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     //TODO: Remove in next update - Deprecated
     if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
-        return [self.delegate simpleCalendarShouldUseCustomColorsForDate:date];
+        return [(id)self.delegate simpleCalendarShouldUseCustomColorsForDate:date];
     }
 
     return NO;
@@ -571,7 +571,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     //TODO: Remove in next update - Deprecated
     if ([self.delegate respondsToSelector:@selector(simpleCalendarCircleColorForDate:)]) {
-        return [self.delegate simpleCalendarCircleColorForDate:date];
+        return [(id)self.delegate simpleCalendarCircleColorForDate:date];
     }
 
     return nil;
@@ -589,7 +589,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     //TODO: Remove in next update - Deprecated
     if ([self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
-        return [self.delegate simpleCalendarTextColorForDate:date];
+        return [(id)self.delegate simpleCalendarTextColorForDate:date];
     }
     
     return nil;
