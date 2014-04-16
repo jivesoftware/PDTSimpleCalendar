@@ -197,7 +197,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     NSIndexPath *indexPath = [self indexPathForCellAtDate:_selectedDate];
     [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
-    [self scrollToDate:_selectedDate animated:animated];
+    
+    if (![self.collectionView.indexPathsForVisibleItems containsObject:indexPath]) {
+        [self scrollToDate:_selectedDate animated:animated];
+    }
 
     //Notify the delegate
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:didSelectDate:)]) {
@@ -210,17 +213,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     @try {
         NSIndexPath *selectedDateIndexPath = [self indexPathForCellAtDate:date];
 
-        if (![[self.collectionView indexPathsForVisibleItems] containsObject:selectedDateIndexPath]) {
-            //First, tried to use [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:selectedDateIndexPath]; but it causes the header to be redraw multiple times (X each time you use scrollToDate:)
-            //TODO: Investigate & eventually file a radar.
-
-            NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:selectedDateIndexPath.section];
-            UICollectionViewLayoutAttributes *sectionLayoutAttributes = [self.collectionView layoutAttributesForItemAtIndexPath:sectionIndexPath];
-            CGPoint origin = sectionLayoutAttributes.frame.origin;
-            origin.x = 0;
-            origin.y -= (PDTSimpleCalendarFlowLayoutHeaderHeight + PDTSimpleCalendarFlowLayoutInsetTop);
-            [self.collectionView setContentOffset:origin animated:animated];
-        }
+        [self.collectionView scrollToItemAtIndexPath:selectedDateIndexPath
+                                    atScrollPosition:UICollectionViewScrollPositionTop
+                                            animated:animated];
     }
     @catch (NSException *exception) {
         //Exception occured (it should not according to the documentation, but in reality...) let's scroll to the IndexPath then
