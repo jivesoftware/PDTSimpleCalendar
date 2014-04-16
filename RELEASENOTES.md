@@ -31,6 +31,7 @@ You should now use:
 `PDTSimpleCalendarDaysPerWeek` has been removed from the code base. Days per week are automatically retrieve from the `calendar` property.
 
 Fix: `scrollToDate` takes into account `contentInset`
+Fix: Respect Calendar's locale formatting for days number
 
 ###0.6
 

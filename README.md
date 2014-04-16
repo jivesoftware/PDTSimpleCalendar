@@ -14,7 +14,7 @@ You should read the [Release Notes](https://github.com/jivesoftware/PDTSimpleCal
 
 We recommend using Cocoapods, in your Podfile just add:
 
-`pod 'PDTSimpleCalendar', '~> 0.6'`
+`pod 'PDTSimpleCalendar', '~> 0.7.0'`
 
 then run `pod install`
 
