@@ -169,11 +169,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (void)setSelectedDate:(NSDate *)newSelectedDate
 {
-    [self setSelectedDate:newSelectedDate animated:NO];
-}
-
-- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated
-{
     //if newSelectedDate is nil, unselect the current selected cell
     if (!newSelectedDate) {
         [[self cellForItemAtDate:_selectedDate] setSelected:NO];
@@ -197,11 +192,27 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     NSIndexPath *indexPath = [self indexPathForCellAtDate:_selectedDate];
     [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
-    [self scrollToDate:_selectedDate animated:animated];
 
     //Notify the delegate
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:didSelectDate:)]) {
         [self.delegate simpleCalendarViewController:self didSelectDate:self.selectedDate];
+    }
+}
+
+//Deprecated, You need to use setSelectedDate: and call scrollToDate:animated: or scrollToSelectedDate:animated:
+//TODO: Remove this in next release
+- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated
+{
+    [self setSelectedDate:newSelectedDate];
+    [self scrollToSelectedDate:animated];
+}
+
+#pragma mark - Scroll to a specific date
+
+- (void)scrollToSelectedDate:(BOOL)animated
+{
+    if (_selectedDate) {
+        [self scrollToDate:_selectedDate animated:animated];
     }
 }
 
