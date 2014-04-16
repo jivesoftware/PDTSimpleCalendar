@@ -2,6 +2,8 @@
 
 ###0.7.0
 
+####Spring Cleaning:
+
 Old delegates methods have been removed from the code base.
 
 ````
@@ -20,6 +22,7 @@ You should now use:
 - (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textColorForDate:(NSDate *)date;
 ````
 
+`PDTSimpleCalendarDaysPerWeek` has been removed from the code base. Days per week are automatically retrieve from the `calendar` property.
 
 ###0.6
 

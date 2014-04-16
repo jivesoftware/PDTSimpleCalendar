@@ -13,8 +13,6 @@
 #import "PDTSimpleCalendarViewHeader.h"
 
 
-//TODO: Remove this var in next release.
-const NSUInteger PDTSimpleCalendarDaysPerWeek = 7;
 const CGFloat PDTSimpleCalendarOverlaySize = 14.0f;
 
 static NSString *PDTSimpleCalendarViewCellIdentifier = @"com.producteev.collection.cell.identifier";
