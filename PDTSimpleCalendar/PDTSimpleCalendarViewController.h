@@ -135,11 +135,4 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek __deprecated_msg("Days per 
  */
 - (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textColorForDate:(NSDate *)date;
 
-#pragma mark - Deprecated Methods
-
-- (void)simpleCalendarViewDidSelectDate:(NSDate *)date __attribute__((deprecated("Use simpleCalendarViewController:didSelectDate: instead")));
-- (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date __attribute__((deprecated("Use simpleCalendarViewController:shouldUseCustomColorsForDate: instead")));
-- (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date __attribute__((deprecated("Use simpleCalendarViewController:circleColorForDate: instead")));
-- (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date __attribute__((deprecated("Use simpleCalendarViewController:textColorForDate: instead")));
-
 @end;

@@ -201,13 +201,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
     [self scrollToDate:_selectedDate animated:animated];
 
-	//Deprecated version.
-	//TODO: Remove in next update
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewDidSelectDate:)]) {
-        [self.delegate simpleCalendarViewDidSelectDate:self.selectedDate];
-	}
-
-    //New version of delegate protocol
+    //Notify the delegate
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:didSelectDate:)]) {
         [self.delegate simpleCalendarViewController:self didSelectDate:self.selectedDate];
     }
@@ -325,10 +319,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         isToday = [self isTodayDate:cellDate];
         [cell setDate:cellDate calendar:self.calendar];
 
-        //TODO: Remove in next update - Deprecated
-        if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
-            isCustomDate = [self.delegate simpleCalendarShouldUseCustomColorsForDate:cellDate];
-        }
+        //Ask the delegate if this date should have specific colors.
         if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:shouldUseCustomColorsForDate:)]) {
             isCustomDate = [self.delegate simpleCalendarViewController:self shouldUseCustomColorsForDate:cellDate];
         }
@@ -551,11 +542,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         return [self.delegate simpleCalendarViewController:self shouldUseCustomColorsForDate:date];
     }
 
-    //TODO: Remove in next update - Deprecated
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
-        return [self.delegate simpleCalendarShouldUseCustomColorsForDate:date];
-    }
-
     return NO;
 }
 
@@ -569,11 +555,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         return [self.delegate simpleCalendarViewController:self circleColorForDate:date];
     }
 
-    //TODO: Remove in next update - Deprecated
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarCircleColorForDate:)]) {
-        return [self.delegate simpleCalendarCircleColorForDate:date];
-    }
-
     return nil;
 }
 
@@ -585,11 +566,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textColorForDate:)]) {
         return [self.delegate simpleCalendarViewController:self textColorForDate:date];
-    }
-
-    //TODO: Remove in next update - Deprecated
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
-        return [self.delegate simpleCalendarTextColorForDate:date];
     }
     
     return nil;
