@@ -8,7 +8,7 @@ PDTSimpleCalendar is a very simple calendar/date picker component for your iOS a
 
 ###Upgrade Note
 
-If you upgrade from a version prior to 0.6, you will notice that the delegate format have change. Previous delegate definitions (and also a static variable) have been deprecated. They will be removed in the next release.
+You should read the [Release Notes](https://github.com/jivesoftware/PDTSimpleCalendar/blob/master/RELEASENOTES.md) when you upgrade to a newer version.
 
 ##Install
 

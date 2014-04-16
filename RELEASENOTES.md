@@ -1,6 +1,12 @@
-##PDTSimpleCalendar Release Note
+##PDTSimpleCalendar Release Notes
 
 ###0.7.0
+
+####Behavior change
+
+`setSelectedDate:animated:` is now deprecated and will be removed in next version. Selecting a date in the calendar shouldn't be tied to scrolling to it.
+
+Use `setSelectedDate:` & `scrollToSelectedDate:` instead.
 
 ####Spring Cleaning:
 
@@ -24,6 +30,10 @@ You should now use:
 
 `PDTSimpleCalendarDaysPerWeek` has been removed from the code base. Days per week are automatically retrieve from the `calendar` property.
 
+Fix: `scrollToDate` takes into account `contentInset`
+
 ###0.6
 
 if you specify a `firstDate` and/or `lastDate` the calendar will display the full month, but dates < `firstDate` or > `lastDate` will be disabled. You can see this behavior in the demo app.
+
+You will notice that the delegate format have changed. Previous delegate definitions (and also a static variable) have been deprecated. They will be removed in the next release.
