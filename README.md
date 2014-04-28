@@ -1,6 +1,8 @@
 PDTSimpleCalendar
 =================
 
+[![Pod version](https://badge.fury.io/co/PDTSimpleCalendar.svg)](http://badge.fury.io/co/PDTSimpleCalendar)
+
 PDTSimpleCalendar is a very simple calendar/date picker component for your iOS apps based on UICollectionView.
 
 ![Default](https://github.com/jivesoftware/PDTSimpleCalendar/raw/master/Documentation/default.png)
