@@ -346,15 +346,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         [cell setSelected:isSelected];
     }
 
-    //If the current Date is not enabled, or if the delegate explicitely specify custom colors
-    if (![self isEnabledDate:cellDate] || isCustomDate) {
-        [cell refreshCellColors];
-    }
-
-    //We rasterize the cell for performances purposes.
-    //The circle background is made using roundedCorner which is a super expensive operation, specially with a lot of items on the screen to display (like we do)
-    cell.layer.shouldRasterize = YES;
-    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    [cell refreshCellColors];
 
     return cell;
 }
