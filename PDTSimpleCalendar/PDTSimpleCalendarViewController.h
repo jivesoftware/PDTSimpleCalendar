@@ -60,6 +60,11 @@
  */
 @property (nonatomic, assign) CGFloat cellHeight;
 
+/**
+ *  Option to hide the overlay view. Default YES.
+ */
+@property (nonatomic, assign) BOOL shouldDisplayOverlayView;
+
 
 /** @name Getting Notified of changes */
 
