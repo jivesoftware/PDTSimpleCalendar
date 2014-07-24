@@ -49,6 +49,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     if (self) {
         _date = nil;
         _isToday = NO;
+        _enabled = YES;
     }
 
     return self;
@@ -118,6 +119,11 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         self.labelColor = [self textSelectedColor];
     }
     
+    if (self.enabled == NO) {
+        self.circleColor = self.circleDefaultColor;
+        self.labelColor = self.textDisabledColor;
+    }
+    
     [self setNeedsDisplay];
 }
 
@@ -137,6 +143,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     _circleColor = nil;
     _labelColor = nil;
     _isToday = NO;
+    _enabled = YES;
 }
 
 @end

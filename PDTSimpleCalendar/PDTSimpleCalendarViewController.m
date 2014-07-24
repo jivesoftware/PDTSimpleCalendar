@@ -336,6 +336,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     cell.textTodayColor = self.cellTextTodayColor;
     cell.textSelectedColor = self.cellTextSelectedColor;
     cell.delegate = self;
+    cell.userInteractionEnabled = YES;
     
     NSDate *firstOfMonth = [self firstOfMonthForSection:indexPath.section];
     NSDate *cellDate = [self dateForCellAtIndexPath:indexPath];
@@ -356,8 +357,12 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:shouldUseCustomColorsForDate:)]) {
             isCustomDate = [self.delegate simpleCalendarViewController:self shouldUseCustomColorsForDate:cellDate];
         }
-
-
+        
+        if ([cellDate timeIntervalSinceNow] < 0.0 && !isToday) {
+            cell.enabled = NO;
+            cell.userInteractionEnabled = NO;
+        }
+        
     } else {
         [cell setDate:nil calendar:nil];
     }
