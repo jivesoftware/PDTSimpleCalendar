@@ -18,7 +18,17 @@
  */
 @property (nonatomic, strong) UILabel *titleLabel;
 
+/**
+ *  Month text text alignment.
+ */
+@property (nonatomic, assign) NSTextAlignment textAlignment;
+
 /** @name Customizing Appearance */
+
+/**
+ *  Customize the Month text font.
+ */
+@property (nonatomic, strong) UIFont *font UI_APPEARANCE_SELECTOR;
 
 /**
  *  Customize the Month text color display.

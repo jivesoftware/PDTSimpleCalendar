@@ -54,6 +54,20 @@
  */
 @property (nonatomic, strong) UIColor *overlayTextColor;
 
+/**
+ *  Text alignment for the header view
+ */
+@property (nonatomic, assign) NSTextAlignment headerViewTextAlignment;
+
+/**
+ *  Text alignment for the header view
+ */
+@property (nonatomic, assign) CGFloat headerViewHeight;
+
+/**
+ *  Date format for the header view
+ */
+@property (nonatomic, assign) NSString *headerDateFormat;
 
 /**
  *  Height for the day's cell

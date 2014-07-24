@@ -93,6 +93,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 {
     self.shouldDisplayOverlayView = YES;
     self.shouldDisplayScrollIndicator = YES;
+    
+    self.headerViewTextAlignment = NSTextAlignmentLeft;
+    self.headerViewHeight = 30.0;
+    
     self.backgroundColor = [UIColor whiteColor];
     self.overlayTextColor = [UIColor blackColor];
     self.daysPerWeek = 7;
@@ -111,9 +115,14 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (NSDateFormatter *)headerDateFormatter;
 {
     if (!_headerDateFormatter) {
+        
+        if (!self.headerDateFormat) {
+            self.headerDateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy LLLL" options:0 locale:self.calendar.locale];
+        }
+        
         _headerDateFormatter = [[NSDateFormatter alloc] init];
         _headerDateFormatter.calendar = self.calendar;
-        _headerDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy LLLL" options:0 locale:self.calendar.locale];
+        _headerDateFormatter.dateFormat = self.headerDateFormat;
     }
     return _headerDateFormatter;
 }
@@ -418,8 +427,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if (kind == UICollectionElementKindSectionHeader) {
         PDTSimpleCalendarViewHeader *headerView = [self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:PDTSimpleCalendarViewHeaderIdentifier forIndexPath:indexPath];
 
-        headerView.titleLabel.text = [self.headerDateFormatter stringFromDate:[self firstOfMonthForSection:indexPath.section]].uppercaseString;
-
+        headerView.titleLabel.text = [self.headerDateFormatter stringFromDate:[self firstOfMonthForSection:indexPath.section]];
+        headerView.textAlignment = self.headerViewTextAlignment;
+        
         headerView.layer.shouldRasterize = YES;
         headerView.layer.rasterizationScale = [UIScreen mainScreen].scale;
 
@@ -430,6 +440,11 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 }
 
 #pragma mark - UICollectionViewFlowLayoutDelegate
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section;
+{
+    return CGSizeMake(self.view.bounds.size.width, self.headerViewHeight);
+}
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
