@@ -31,6 +31,16 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 //Number of days per week
 @property (nonatomic, assign) NSUInteger daysPerWeek;
 
+// Store the cell color so we don't need to access the appearance
+// selector each time we render the cells
+@property (nonatomic, strong) UIColor *cellCircleDefaultColor;
+@property (nonatomic, strong) UIColor *cellCircleTodayColor;
+@property (nonatomic, strong) UIColor *cellCircleSelectedColor;
+@property (nonatomic, strong) UIColor *cellTextDefaultColor;
+@property (nonatomic, strong) UIColor *cellTextTodayColor;
+@property (nonatomic, strong) UIColor *cellTextSelectedColor;
+@property (nonatomic, strong) UIColor *cellTextDisabledColor;
+
 @end
 
 
@@ -84,6 +94,14 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     self.backgroundColor = [UIColor whiteColor];
     self.overlayTextColor = [UIColor blackColor];
     self.daysPerWeek = 7;
+    
+    self.cellCircleDefaultColor = [self cellCircleDefaultColor];
+    self.cellCircleTodayColor = [self cellCircleTodayColor];
+    self.cellCircleSelectedColor = [self cellCircleSelectedColor];
+    self.cellTextDefaultColor = [self cellTextDefaultColor];
+    self.cellTextDisabledColor = [self cellTextDisabledColor];
+    self.cellTextTodayColor = [self cellTextTodayColor];
+    self.cellTextSelectedColor = [self cellTextSelectedColor];
 }
 
 #pragma mark - Accessors
@@ -310,7 +328,13 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 {
     PDTSimpleCalendarViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:PDTSimpleCalendarViewCellIdentifier
                                                                                      forIndexPath:indexPath];
-
+    cell.circleDefaultColor = self.cellCircleDefaultColor;
+    cell.circleTodayColor = self.cellCircleTodayColor;
+    cell.circleSelectedColor = self.cellCircleSelectedColor;
+    cell.textDefaultColor = self.cellTextDefaultColor;
+    cell.textDisabledColor = self.cellTextDisabledColor;
+    cell.textTodayColor = self.cellTextTodayColor;
+    cell.textSelectedColor = self.cellTextSelectedColor;
     cell.delegate = self;
     
     NSDate *firstOfMonth = [self firstOfMonthForSection:indexPath.section];
@@ -570,6 +594,101 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     }
     
     return nil;
+}
+
+#pragma mark - Circle Color Customization Methods
+
+- (UIColor *)cellCircleDefaultColor
+{
+    if(_cellCircleDefaultColor == nil) {
+        _cellCircleDefaultColor = [[[PDTSimpleCalendarViewCell class] appearance] circleDefaultColor];
+    }
+    
+    if(_cellCircleDefaultColor != nil) {
+        return _cellCircleDefaultColor;
+    }
+    
+    return [UIColor whiteColor];
+}
+
+- (UIColor *)cellCircleTodayColor
+{
+    if(_cellCircleTodayColor == nil) {
+        _cellCircleTodayColor = [[[PDTSimpleCalendarViewCell class] appearance] circleTodayColor];
+    }
+    
+    if(_cellCircleTodayColor != nil) {
+        return _cellCircleTodayColor;
+    }
+    
+    return [UIColor grayColor];
+}
+
+- (UIColor *)cellCircleSelectedColor
+{
+    if(_cellCircleSelectedColor == nil) {
+        _cellCircleSelectedColor = [[[PDTSimpleCalendarViewCell class] appearance] circleSelectedColor];
+    }
+    
+    if(_cellCircleSelectedColor != nil) {
+        return _cellCircleSelectedColor;
+    }
+    
+    return [UIColor redColor];
+}
+
+#pragma mark - Text Label Customizations Color
+
+- (UIColor *)cellTextDefaultColor
+{
+    if(_cellTextDefaultColor == nil) {
+        _cellTextDefaultColor = [[[PDTSimpleCalendarViewCell class] appearance] textDefaultColor];
+    }
+    
+    if(_cellTextDefaultColor != nil) {
+        return _cellTextDefaultColor;
+    }
+    
+    return [UIColor blackColor];
+}
+
+- (UIColor *)cellTextTodayColor
+{
+    if(_cellTextTodayColor == nil) {
+        _cellTextTodayColor = [[[PDTSimpleCalendarViewCell class] appearance] textTodayColor];
+    }
+    
+    if(_cellTextTodayColor != nil) {
+        return _cellTextTodayColor;
+    }
+    
+    return [UIColor whiteColor];
+}
+
+- (UIColor *)cellTextSelectedColor
+{
+    if(_cellTextSelectedColor == nil) {
+        _cellTextSelectedColor = [[[PDTSimpleCalendarViewCell class] appearance] textSelectedColor];
+    }
+    
+    if(_cellTextSelectedColor != nil) {
+        return _cellTextSelectedColor;
+    }
+    
+    return [UIColor whiteColor];
+}
+
+- (UIColor *)cellTextDisabledColor
+{
+    if(_cellTextDisabledColor == nil) {
+        _cellTextDisabledColor = [[[PDTSimpleCalendarViewCell class] appearance] textDisabledColor];
+    }
+    
+    if(_cellTextDisabledColor != nil) {
+        return _cellTextDisabledColor;
+    }
+    
+    return [UIColor lightGrayColor];
 }
 
 @end
