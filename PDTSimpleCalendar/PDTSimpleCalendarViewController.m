@@ -40,6 +40,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 @property (nonatomic, strong) UIColor *cellTextTodayColor;
 @property (nonatomic, strong) UIColor *cellTextSelectedColor;
 @property (nonatomic, strong) UIColor *cellTextDisabledColor;
+@property (nonatomic, strong) UIFont *cellFont;
 
 @end
 
@@ -335,6 +336,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     cell.textDisabledColor = self.cellTextDisabledColor;
     cell.textTodayColor = self.cellTextTodayColor;
     cell.textSelectedColor = self.cellTextSelectedColor;
+    cell.font = self.cellFont;
     cell.delegate = self;
     cell.userInteractionEnabled = YES;
     
@@ -694,6 +696,19 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     }
     
     return [UIColor lightGrayColor];
+}
+
+- (UIFont *)cellFont
+{
+    if(_cellFont == nil) {
+        _cellFont = [[[PDTSimpleCalendarViewCell class] appearance] font];
+    }
+    
+    if(_cellFont != nil) {
+        return _cellFont;
+    }
+    
+    return [UIFont systemFontOfSize:19.f];
 }
 
 @end

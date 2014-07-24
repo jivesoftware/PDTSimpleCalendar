@@ -67,13 +67,12 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
                                                    PDTSimpleCalendarCircleSize,
                                                    PDTSimpleCalendarCircleSize));
     
-    UIFont *font = [UIFont systemFontOfSize:19.f];
-    CGFloat inset = 22.0;
+    CGFloat inset = self.font.lineHeight;
     CGRect textBounds = CGRectMake(0, (self.bounds.size.height - inset) / 2, self.bounds.size.width, self.bounds.size.height - inset);
     
     CGContextSetFillColorWithColor(context, self.labelColor.CGColor);
     
-    [[PDTSimpleCalendarViewCell formatDate:self.date withCalendar:self.calendar] drawInRect:textBounds withFont:font lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentCenter];
+    [[PDTSimpleCalendarViewCell formatDate:self.date withCalendar:self.calendar] drawInRect:textBounds withFont:self.font lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentCenter];
 }
 
 - (void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar
