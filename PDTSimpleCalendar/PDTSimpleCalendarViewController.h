@@ -65,6 +65,10 @@
  */
 @property (nonatomic, assign) BOOL shouldDisplayOverlayView;
 
+/**
+ *  Option to hide the scroll indicator. Default YES.
+ */
+@property (nonatomic, assign) BOOL shouldDisplayScrollIndicator;
 
 /** @name Getting Notified of changes */
 

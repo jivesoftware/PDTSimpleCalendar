@@ -92,6 +92,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (void)simpleCalendarCommonInit
 {
     self.shouldDisplayOverlayView = YES;
+    self.shouldDisplayScrollIndicator = YES;
     self.backgroundColor = [UIColor whiteColor];
     self.overlayTextColor = [UIColor blackColor];
     self.daysPerWeek = 7;
@@ -281,6 +282,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
+    self.collectionView.showsVerticalScrollIndicator = self.shouldDisplayScrollIndicator;
     [self.collectionView setBackgroundColor:self.backgroundColor];
 
     if (self.shouldDisplayOverlayView == YES) {
