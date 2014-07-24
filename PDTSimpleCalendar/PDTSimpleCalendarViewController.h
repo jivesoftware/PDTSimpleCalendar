@@ -55,6 +55,11 @@
 @property (nonatomic, strong) UIColor *overlayTextColor;
 
 
+/**
+ *  Height for the day's cell
+ */
+@property (nonatomic, assign) CGFloat cellHeight;
+
 
 /** @name Getting Notified of changes */
 
