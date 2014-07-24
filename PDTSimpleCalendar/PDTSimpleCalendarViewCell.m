@@ -93,6 +93,10 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 {
     [super setSelected:selected];
     [self setCircleColor:self.isToday selected:selected];
+    
+    if (selected == YES) {
+        [self bounce];
+    }
 }
 
 - (void)setCircleColor:(BOOL)today selected:(BOOL)selected
@@ -132,6 +136,23 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     [self setCircleColor:self.isToday selected:self.isSelected];
 }
 
+- (void)bounce
+{
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+    {
+        self.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.3, 0.3);
+        
+        [UIView animateWithDuration:0.5
+                              delay:0.0
+             usingSpringWithDamping:0.5
+              initialSpringVelocity:0.0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             self.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
+                         } completion:nil];
+
+    }
+}
 
 #pragma mark - Prepare for Reuse
 
