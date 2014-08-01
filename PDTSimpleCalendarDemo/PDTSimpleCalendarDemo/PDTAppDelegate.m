@@ -68,8 +68,15 @@
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     [tabBarController setViewControllers:@[defaultNavController, hebrewNavController, dateRangeNavController]];
 
+    // Example of how you can customize the calendar
+//    calendarViewController.shouldDisplayScrollIndicator = NO;
+//    calendarViewController.shouldDisplayOverlayView = NO;
+//    calendarViewController.cellHeight = 60.0;
+//    calendarViewController.headerViewTextAlignment = NSTextAlignmentCenter;
+//    calendarViewController.headerViewHeight = 32.0;
 
-    //Example of how you can now customize the calendar colors
+    //Example of how you can now customize the calendar cells
+//    [[PDTSimpleCalendarViewCell appearance] setFont:[UIFont systemFontOfSize:15.f]];
 //    [[PDTSimpleCalendarViewCell appearance] setCircleDefaultColor:[UIColor whiteColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setCircleSelectedColor:[UIColor orangeColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setCircleTodayColor:[UIColor blueColor]];
@@ -77,9 +84,12 @@
 //    [[PDTSimpleCalendarViewCell appearance] setTextSelectedColor:[UIColor purpleColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setTextTodayColor:[UIColor magentaColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setTextDisabledColor:[UIColor purpleColor]];
-//
-//    [[PDTSimpleCalendarViewHeader appearance] setTextColor:[UIColor redColor]];
-//    [[PDTSimpleCalendarViewHeader appearance] setSeparatorColor:[UIColor orangeColor]];
+
+    // Example of how you could customize the header
+//    calendarViewController.headerDateFormat = @"yyyy-MM-dd HH:mm:ss";
+//    [[PDTSimpleCalendarViewHeader appearance] setTextColor:[UIColor blackColor]];
+//    [[PDTSimpleCalendarViewHeader appearance] setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:16.f]];
+//    [[PDTSimpleCalendarViewHeader appearance] setSeparatorColor:[UIColor colorWithWhite:0.9 alpha:1.0]];
 
     [self.window setRootViewController:tabBarController];
     [self.window makeKeyAndVisible];

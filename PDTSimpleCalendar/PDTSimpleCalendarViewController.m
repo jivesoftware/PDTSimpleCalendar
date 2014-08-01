@@ -31,6 +31,17 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 //Number of days per week
 @property (nonatomic, assign) NSUInteger daysPerWeek;
 
+// Store the cell color so we don't need to access the appearance
+// selector each time we render the cells
+@property (nonatomic, strong) UIColor *cellCircleDefaultColor;
+@property (nonatomic, strong) UIColor *cellCircleTodayColor;
+@property (nonatomic, strong) UIColor *cellCircleSelectedColor;
+@property (nonatomic, strong) UIColor *cellTextDefaultColor;
+@property (nonatomic, strong) UIColor *cellTextTodayColor;
+@property (nonatomic, strong) UIColor *cellTextSelectedColor;
+@property (nonatomic, strong) UIColor *cellTextDisabledColor;
+@property (nonatomic, strong) UIFont *cellFont;
+
 @end
 
 
@@ -80,10 +91,23 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (void)simpleCalendarCommonInit
 {
-    self.overlayView = [[UILabel alloc] init];
+    self.shouldDisplayOverlayView = YES;
+    self.shouldDisplayScrollIndicator = YES;
+    
+    self.headerViewTextAlignment = NSTextAlignmentLeft;
+    self.headerViewHeight = 30.0;
+    
     self.backgroundColor = [UIColor whiteColor];
     self.overlayTextColor = [UIColor blackColor];
     self.daysPerWeek = 7;
+    
+    self.cellCircleDefaultColor = [self cellCircleDefaultColor];
+    self.cellCircleTodayColor = [self cellCircleTodayColor];
+    self.cellCircleSelectedColor = [self cellCircleSelectedColor];
+    self.cellTextDefaultColor = [self cellTextDefaultColor];
+    self.cellTextDisabledColor = [self cellTextDisabledColor];
+    self.cellTextTodayColor = [self cellTextTodayColor];
+    self.cellTextSelectedColor = [self cellTextSelectedColor];
 }
 
 #pragma mark - Accessors
@@ -91,9 +115,14 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (NSDateFormatter *)headerDateFormatter;
 {
     if (!_headerDateFormatter) {
+        
+        if (!self.headerDateFormat) {
+            self.headerDateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy LLLL" options:0 locale:self.calendar.locale];
+        }
+        
         _headerDateFormatter = [[NSDateFormatter alloc] init];
         _headerDateFormatter.calendar = self.calendar;
-        _headerDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy LLLL" options:0 locale:self.calendar.locale];
+        _headerDateFormatter.dateFormat = self.headerDateFormat;
     }
     return _headerDateFormatter;
 }
@@ -262,22 +291,28 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
+    self.collectionView.showsVerticalScrollIndicator = self.shouldDisplayScrollIndicator;
     [self.collectionView setBackgroundColor:self.backgroundColor];
 
-    //Configure the Overlay View
-    [self.overlayView setBackgroundColor:[self.backgroundColor colorWithAlphaComponent:0.90]];
-    [self.overlayView setFont:[UIFont boldSystemFontOfSize:PDTSimpleCalendarOverlaySize]];
-    [self.overlayView setTextColor:self.overlayTextColor];
-    [self.overlayView setAlpha:0.0];
-    [self.overlayView setTextAlignment:NSTextAlignmentCenter];
-
-    [self.view addSubview:self.overlayView];
-    [self.overlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView};
-    NSDictionary *metricsDictionary = @{@"overlayViewHeight": @(PDTSimpleCalendarFlowLayoutHeaderHeight)};
-
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" options:NSLayoutFormatAlignAllTop metrics:nil views:viewsDictionary]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView(==overlayViewHeight)]" options:NSLayoutFormatAlignAllTop metrics:metricsDictionary views:viewsDictionary]];
+    if (self.shouldDisplayOverlayView == YES) {
+        
+        self.overlayView = [[UILabel alloc] init];
+        
+        //Configure the Overlay View
+        [self.overlayView setBackgroundColor:[self.backgroundColor colorWithAlphaComponent:0.90]];
+        [self.overlayView setFont:[UIFont boldSystemFontOfSize:PDTSimpleCalendarOverlaySize]];
+        [self.overlayView setTextColor:self.overlayTextColor];
+        [self.overlayView setAlpha:0.0];
+        [self.overlayView setTextAlignment:NSTextAlignmentCenter];
+    
+        [self.view addSubview:self.overlayView];
+        [self.overlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView};
+        NSDictionary *metricsDictionary = @{@"overlayViewHeight": @(PDTSimpleCalendarFlowLayoutHeaderHeight)};
+        
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" options:NSLayoutFormatAlignAllTop metrics:nil views:viewsDictionary]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView(==overlayViewHeight)]" options:NSLayoutFormatAlignAllTop metrics:metricsDictionary views:viewsDictionary]];
+    }
 }
 
 #pragma mark - Rotation Handling
@@ -310,8 +345,16 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 {
     PDTSimpleCalendarViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:PDTSimpleCalendarViewCellIdentifier
                                                                                      forIndexPath:indexPath];
-
+    cell.circleDefaultColor = self.cellCircleDefaultColor;
+    cell.circleTodayColor = self.cellCircleTodayColor;
+    cell.circleSelectedColor = self.cellCircleSelectedColor;
+    cell.textDefaultColor = self.cellTextDefaultColor;
+    cell.textDisabledColor = self.cellTextDisabledColor;
+    cell.textTodayColor = self.cellTextTodayColor;
+    cell.textSelectedColor = self.cellTextSelectedColor;
+    cell.font = self.cellFont;
     cell.delegate = self;
+    cell.userInteractionEnabled = YES;
     
     NSDate *firstOfMonth = [self firstOfMonthForSection:indexPath.section];
     NSDate *cellDate = [self dateForCellAtIndexPath:indexPath];
@@ -332,8 +375,12 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:shouldUseCustomColorsForDate:)]) {
             isCustomDate = [self.delegate simpleCalendarViewController:self shouldUseCustomColorsForDate:cellDate];
         }
-
-
+        
+        if ([cellDate timeIntervalSinceNow] < 0.0 && !isToday) {
+            cell.enabled = NO;
+            cell.userInteractionEnabled = NO;
+        }
+        
     } else {
         [cell setDate:nil calendar:nil];
     }
@@ -346,15 +393,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         [cell setSelected:isSelected];
     }
 
-    //If the current Date is not enabled, or if the delegate explicitely specify custom colors
-    if (![self isEnabledDate:cellDate] || isCustomDate) {
-        [cell refreshCellColors];
-    }
-
-    //We rasterize the cell for performances purposes.
-    //The circle background is made using roundedCorner which is a super expensive operation, specially with a lot of items on the screen to display (like we do)
-    cell.layer.shouldRasterize = YES;
-    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    [cell refreshCellColors];
 
     return cell;
 }
@@ -388,8 +427,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if (kind == UICollectionElementKindSectionHeader) {
         PDTSimpleCalendarViewHeader *headerView = [self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:PDTSimpleCalendarViewHeaderIdentifier forIndexPath:indexPath];
 
-        headerView.titleLabel.text = [self.headerDateFormatter stringFromDate:[self firstOfMonthForSection:indexPath.section]].uppercaseString;
-
+        headerView.titleLabel.text = [self.headerDateFormatter stringFromDate:[self firstOfMonthForSection:indexPath.section]];
+        headerView.textAlignment = self.headerViewTextAlignment;
+        
         headerView.layer.shouldRasterize = YES;
         headerView.layer.rasterizationScale = [UIScreen mainScreen].scale;
 
@@ -401,23 +441,35 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 #pragma mark - UICollectionViewFlowLayoutDelegate
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section;
+{
+    return CGSizeMake(self.view.bounds.size.width, self.headerViewHeight);
+}
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat itemWidth = floorf(CGRectGetWidth(self.collectionView.bounds) / self.daysPerWeek);
-
-    return CGSizeMake(itemWidth, itemWidth);
+    CGFloat itemHeight = itemWidth;
+    
+    if (self.cellHeight) {
+        itemHeight = self.cellHeight;
+    }
+    
+    return CGSizeMake(itemWidth, itemHeight);
 }
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    //We only display the overlay view if there is a vertical velocity
-    if ( fabsf(velocity.y) > 0.0f) {
-        if (self.overlayView.alpha < 1.0) {
-            [UIView animateWithDuration:0.25 animations:^{
-                [self.overlayView setAlpha:1.0];
-            }];
+    if (self.shouldDisplayOverlayView == YES) {
+        // We only display the overlay view if there is a vertical velocity
+        if ( fabsf(velocity.y) > 0.0f) {
+            if (self.overlayView.alpha < 1.0) {
+                [UIView animateWithDuration:0.25 animations:^{
+                    [self.overlayView setAlpha:1.0];
+                }];
+            }
         }
     }
 }
@@ -436,7 +488,9 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     NSArray *sortedIndexPaths = [indexPaths sortedArrayUsingSelector:@selector(compare:)];
     NSIndexPath *firstIndexPath = [sortedIndexPaths firstObject];
 
-    self.overlayView.text = [self.headerDateFormatter stringFromDate:[self firstOfMonthForSection:firstIndexPath.section]];
+    if (self.shouldDisplayOverlayView == YES) {
+        self.overlayView.text = [self.headerDateFormatter stringFromDate:[self firstOfMonthForSection:firstIndexPath.section]];
+    }
 }
 
 - (void)hideOverlayView
@@ -578,6 +632,114 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     }
     
     return nil;
+}
+
+#pragma mark - Circle Color Customization Methods
+
+- (UIColor *)cellCircleDefaultColor
+{
+    if(_cellCircleDefaultColor == nil) {
+        _cellCircleDefaultColor = [[[PDTSimpleCalendarViewCell class] appearance] circleDefaultColor];
+    }
+    
+    if(_cellCircleDefaultColor != nil) {
+        return _cellCircleDefaultColor;
+    }
+    
+    return [UIColor whiteColor];
+}
+
+- (UIColor *)cellCircleTodayColor
+{
+    if(_cellCircleTodayColor == nil) {
+        _cellCircleTodayColor = [[[PDTSimpleCalendarViewCell class] appearance] circleTodayColor];
+    }
+    
+    if(_cellCircleTodayColor != nil) {
+        return _cellCircleTodayColor;
+    }
+    
+    return [UIColor grayColor];
+}
+
+- (UIColor *)cellCircleSelectedColor
+{
+    if(_cellCircleSelectedColor == nil) {
+        _cellCircleSelectedColor = [[[PDTSimpleCalendarViewCell class] appearance] circleSelectedColor];
+    }
+    
+    if(_cellCircleSelectedColor != nil) {
+        return _cellCircleSelectedColor;
+    }
+    
+    return [UIColor redColor];
+}
+
+#pragma mark - Text Label Customizations Color
+
+- (UIColor *)cellTextDefaultColor
+{
+    if(_cellTextDefaultColor == nil) {
+        _cellTextDefaultColor = [[[PDTSimpleCalendarViewCell class] appearance] textDefaultColor];
+    }
+    
+    if(_cellTextDefaultColor != nil) {
+        return _cellTextDefaultColor;
+    }
+    
+    return [UIColor blackColor];
+}
+
+- (UIColor *)cellTextTodayColor
+{
+    if(_cellTextTodayColor == nil) {
+        _cellTextTodayColor = [[[PDTSimpleCalendarViewCell class] appearance] textTodayColor];
+    }
+    
+    if(_cellTextTodayColor != nil) {
+        return _cellTextTodayColor;
+    }
+    
+    return [UIColor whiteColor];
+}
+
+- (UIColor *)cellTextSelectedColor
+{
+    if(_cellTextSelectedColor == nil) {
+        _cellTextSelectedColor = [[[PDTSimpleCalendarViewCell class] appearance] textSelectedColor];
+    }
+    
+    if(_cellTextSelectedColor != nil) {
+        return _cellTextSelectedColor;
+    }
+    
+    return [UIColor whiteColor];
+}
+
+- (UIColor *)cellTextDisabledColor
+{
+    if(_cellTextDisabledColor == nil) {
+        _cellTextDisabledColor = [[[PDTSimpleCalendarViewCell class] appearance] textDisabledColor];
+    }
+    
+    if(_cellTextDisabledColor != nil) {
+        return _cellTextDisabledColor;
+    }
+    
+    return [UIColor lightGrayColor];
+}
+
+- (UIFont *)cellFont
+{
+    if(_cellFont == nil) {
+        _cellFont = [[[PDTSimpleCalendarViewCell class] appearance] font];
+    }
+    
+    if(_cellFont != nil) {
+        return _cellFont;
+    }
+    
+    return [UIFont systemFontOfSize:19.f];
 }
 
 @end

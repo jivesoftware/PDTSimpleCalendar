@@ -54,7 +54,35 @@
  */
 @property (nonatomic, strong) UIColor *overlayTextColor;
 
+/**
+ *  Text alignment for the header view
+ */
+@property (nonatomic, assign) NSTextAlignment headerViewTextAlignment;
 
+/**
+ *  Text alignment for the header view
+ */
+@property (nonatomic, assign) CGFloat headerViewHeight;
+
+/**
+ *  Date format for the header view
+ */
+@property (nonatomic, assign) NSString *headerDateFormat;
+
+/**
+ *  Height for the day's cell
+ */
+@property (nonatomic, assign) CGFloat cellHeight;
+
+/**
+ *  Option to hide the overlay view. Default YES.
+ */
+@property (nonatomic, assign) BOOL shouldDisplayOverlayView;
+
+/**
+ *  Option to hide the scroll indicator. Default YES.
+ */
+@property (nonatomic, assign) BOOL shouldDisplayScrollIndicator;
 
 /** @name Getting Notified of changes */
 

@@ -67,6 +67,11 @@
 @property (nonatomic, assign) BOOL isToday;
 
 /**
+ *  Define if the cell is enabled.
+ */
+@property (nonatomic, assign) BOOL enabled;
+
+/**
  *  Customize the circle behind the day's number color using UIAppearance.
  */
 @property (nonatomic, strong) UIColor *circleDefaultColor UI_APPEARANCE_SELECTOR;
@@ -100,6 +105,11 @@
  *  Customize the day's number color when cell is disabled using UIAppearance.
  */
 @property (nonatomic, strong) UIColor *textDisabledColor UI_APPEARANCE_SELECTOR;
+
+/**
+ *  Customize the day's font using UIAppearance.
+ */
+@property (nonatomic, strong) UIFont *font UI_APPEARANCE_SELECTOR;
 
 /**
  * Set the date for this cell
