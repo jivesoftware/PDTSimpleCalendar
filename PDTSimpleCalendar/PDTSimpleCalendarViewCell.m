@@ -47,6 +47,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         _date = nil;
         _isToday = NO;
         _dayLabel = [[UILabel alloc] init];
+        [self.dayLabel setFont:[self textDefaultFont]];
         [self.dayLabel setTextAlignment:NSTextAlignmentCenter];
         [self.contentView addSubview:self.dayLabel];
 
@@ -229,6 +230,22 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     }
 
     return [UIColor lightGrayColor];
+}
+
+#pragma mark - Text Label Customizations Font
+
+- (UIFont *)textDefaultFont
+{
+    if(_textDefaultFont == nil) {
+        _textDefaultFont = [[[self class] appearance] textDefaultFont];
+    }
+
+    if (_textDefaultFont != nil) {
+        return _textDefaultFont;
+    }
+
+    // default system font
+    return [UIFont systemFontOfSize:17.0];
 }
 
 @end

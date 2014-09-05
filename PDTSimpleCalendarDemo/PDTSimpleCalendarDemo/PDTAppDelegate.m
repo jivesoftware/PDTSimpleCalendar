@@ -77,9 +77,11 @@
 //    [[PDTSimpleCalendarViewCell appearance] setTextSelectedColor:[UIColor purpleColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setTextTodayColor:[UIColor magentaColor]];
 //    [[PDTSimpleCalendarViewCell appearance] setTextDisabledColor:[UIColor purpleColor]];
+//    [[PDTSimpleCalendarViewCell appearance] setTextDefaultFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:12.0]];
 //
 //    [[PDTSimpleCalendarViewHeader appearance] setTextColor:[UIColor redColor]];
 //    [[PDTSimpleCalendarViewHeader appearance] setSeparatorColor:[UIColor orangeColor]];
+//    [[PDTSimpleCalendarViewHeader appearance] setTextFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:8.0]];
 
     [self.window setRootViewController:tabBarController];
     [self.window makeKeyAndVisible];
