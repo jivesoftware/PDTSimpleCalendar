@@ -30,6 +30,13 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek __deprecated_msg("Days per 
 @property (nonatomic, strong) NSCalendar *calendar;
 
 /**
+ *  Setting this to YES shows an extra row in the header with acronymns for the the weekdays
+ *
+ *  Default value is NO.
+ */
+@property (nonatomic, assign) BOOL weekHeaderEnabled;
+
+/**
  *  First date enabled in the calendar. If not set, the default value is the first day of the current month (based on `[NSDate date]`).
  *  You can pass every `NSDate`, if the firstDate is not the first day of its month, the previous days will be automatically disabled.
  */

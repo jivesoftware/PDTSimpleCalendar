@@ -39,6 +39,7 @@
     NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSHebrewCalendar];
     hebrewCalendar.locale = [NSLocale currentLocale];
     [hebrewCalendarViewController setCalendar:hebrewCalendar];
+    [hebrewCalendarViewController setWeekHeaderEnabled:YES];
 
     PDTSimpleCalendarViewController *dateRangeCalendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     //For this calendar we're gonna allow only a selection between today and today + 3months.
