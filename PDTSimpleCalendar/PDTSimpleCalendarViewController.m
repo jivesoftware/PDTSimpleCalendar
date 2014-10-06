@@ -14,8 +14,6 @@
 #import "PDTSimpleCalendarViewWeekdayHeader.h"
 
 
-//TODO: Remove this var in next release.
-const NSUInteger PDTSimpleCalendarDaysPerWeek = 7;
 const CGFloat PDTSimpleCalendarOverlaySize = 14.0f;
 const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0;
 
@@ -48,6 +46,50 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 @synthesize lastDate = _lastDate;
 @synthesize calendar = _calendar;
 
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    //Force the creation of the view with the pre-defined Flow Layout.
+    //Still possible to define a custom Flow Layout, if needed by using initWithCollectionViewLayout:
+    self = [super initWithCollectionViewLayout:[[PDTSimpleCalendarViewFlowLayout alloc] init]];
+    if (self) {
+        // Custom initialization
+        [self simpleCalendarCommonInit];
+    }
+
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    //Force the creation of the view with the pre-defined Flow Layout.
+    //Still possible to define a custom Flow Layout, if needed by using initWithCollectionViewLayout:
+    self = [super initWithCollectionViewLayout:[[PDTSimpleCalendarViewFlowLayout alloc] init]];
+    if (self) {
+        // Custom initialization
+        [self simpleCalendarCommonInit];
+    }
+    
+    return self;
+}
+
+- (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
+{
+    self = [super initWithCollectionViewLayout:layout];
+    if (self) {
+        [self simpleCalendarCommonInit];
+    }
+
+    return self;
+}
+
+- (void)simpleCalendarCommonInit
+{
+    self.overlayView = [[UILabel alloc] init];
+    self.backgroundColor = [UIColor whiteColor];
+    self.overlayTextColor = [UIColor blackColor];
+    self.daysPerWeek = 7;
+}
 
 #pragma mark - Accessors
 
@@ -132,11 +174,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (void)setSelectedDate:(NSDate *)newSelectedDate
 {
-    [self setSelectedDate:newSelectedDate animated:NO];
-}
-
-- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated
-{
     //if newSelectedDate is nil, unselect the current selected cell
     if (!newSelectedDate) {
         [[self cellForItemAtDate:_selectedDate] setSelected:NO];
@@ -160,17 +197,27 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     NSIndexPath *indexPath = [self indexPathForCellAtDate:_selectedDate];
     [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
-    [self scrollToDate:_selectedDate animated:animated];
 
-	//Deprecated version.
-	//TODO: Remove in next update
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewDidSelectDate:)]) {
-        [self.delegate simpleCalendarViewDidSelectDate:self.selectedDate];
-	}
-
-    //New version of delegate protocol
+    //Notify the delegate
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:didSelectDate:)]) {
         [self.delegate simpleCalendarViewController:self didSelectDate:self.selectedDate];
+    }
+}
+
+//Deprecated, You need to use setSelectedDate: and call scrollToDate:animated: or scrollToSelectedDate:animated:
+//TODO: Remove this in next release
+- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated
+{
+    [self setSelectedDate:newSelectedDate];
+    [self scrollToSelectedDate:animated];
+}
+
+#pragma mark - Scroll to a specific date
+
+- (void)scrollToSelectedDate:(BOOL)animated
+{
+    if (_selectedDate) {
+        [self scrollToDate:_selectedDate animated:animated];
     }
 }
 
@@ -187,7 +234,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
             UICollectionViewLayoutAttributes *sectionLayoutAttributes = [self.collectionView layoutAttributesForItemAtIndexPath:sectionIndexPath];
             CGPoint origin = sectionLayoutAttributes.frame.origin;
             origin.x = 0;
-            origin.y -= (PDTSimpleCalendarFlowLayoutHeaderHeight + PDTSimpleCalendarFlowLayoutInsetTop);
+            origin.y -= (PDTSimpleCalendarFlowLayoutHeaderHeight + PDTSimpleCalendarFlowLayoutInsetTop + self.collectionView.contentInset.top);
             [self.collectionView setContentOffset:origin animated:animated];
         }
     }
@@ -214,13 +261,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    self.backgroundColor = [UIColor whiteColor];
-    self.overlayTextColor = [UIColor blackColor];
-    self.daysPerWeek = 7;
-
-    // Configure the Collection View
-    UICollectionViewFlowLayout *flowLayout = [[PDTSimpleCalendarViewFlowLayout alloc] init];
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+    //Configure the Collection View
     [self.collectionView registerClass:[PDTSimpleCalendarViewCell class] forCellWithReuseIdentifier:PDTSimpleCalendarViewCellIdentifier];
     [self.collectionView registerClass:[PDTSimpleCalendarViewHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:PDTSimpleCalendarViewHeaderIdentifier];
 
@@ -228,14 +269,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     self.collectionView.dataSource = self;
     [self.collectionView setBackgroundColor:self.backgroundColor];
 
-    [self.collectionView setBackgroundColor:self.backgroundColor];
-    [self.collectionView setAlpha:1.0];
-
-    [self.view addSubview:self.collectionView];
-    [self.collectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
-
-    // Configure the Overlay View
-    self.overlayView = [[UILabel alloc] init];
+    //Configure the Overlay View
     [self.overlayView setBackgroundColor:[self.backgroundColor colorWithAlphaComponent:0.90]];
     [self.overlayView setFont:[UIFont boldSystemFontOfSize:PDTSimpleCalendarOverlaySize]];
     [self.overlayView setTextColor:self.overlayTextColor];
@@ -247,7 +281,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     // Configure the Header View
     self.headerView = [[PDTSimpleCalendarViewWeekdayHeader alloc] init];
-    [self.headerView setAlpha:1.0];
 
     // Set the weekday strings
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -326,10 +359,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         isToday = [self isTodayDate:cellDate];
         [cell setDate:cellDate calendar:self.calendar];
 
-        //TODO: Remove in next update - Deprecated
-        if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
-            isCustomDate = [self.delegate simpleCalendarShouldUseCustomColorsForDate:cellDate];
-        }
+        //Ask the delegate if this date should have specific colors.
         if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:shouldUseCustomColorsForDate:)]) {
             isCustomDate = [self.delegate simpleCalendarViewController:self shouldUseCustomColorsForDate:cellDate];
         }
@@ -552,11 +582,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         return [self.delegate simpleCalendarViewController:self shouldUseCustomColorsForDate:date];
     }
 
-    //TODO: Remove in next update - Deprecated
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarShouldUseCustomColorsForDate:)]) {
-        return [self.delegate simpleCalendarShouldUseCustomColorsForDate:date];
-    }
-
     return NO;
 }
 
@@ -570,11 +595,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         return [self.delegate simpleCalendarViewController:self circleColorForDate:date];
     }
 
-    //TODO: Remove in next update - Deprecated
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarCircleColorForDate:)]) {
-        return [self.delegate simpleCalendarCircleColorForDate:date];
-    }
-
     return nil;
 }
 
@@ -586,11 +606,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textColorForDate:)]) {
         return [self.delegate simpleCalendarViewController:self textColorForDate:date];
-    }
-
-    //TODO: Remove in next update - Deprecated
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarTextColorForDate:)]) {
-        return [self.delegate simpleCalendarTextColorForDate:date];
     }
     
     return nil;
