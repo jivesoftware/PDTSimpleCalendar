@@ -19,22 +19,38 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 @implementation PDTSimpleCalendarViewCell
 
-#pragma mark - Class Method
+#pragma mark - Class Methods
 
 + (NSString *)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
 {
+    NSDateFormatter *dateFormatter = [self dateFormatter];
+    dateFormatter.dateFormat = @"d";
+    return [PDTSimpleCalendarViewCell stringFromDate:date withDateFormatter:dateFormatter withCalendar:calendar];
+}
+
++ (NSString *)accessibilityFriendlyStringFromDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
+{
+    NSDateFormatter *dateFormatter = [self dateFormatter];
+    [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    return [PDTSimpleCalendarViewCell stringFromDate:date withDateFormatter:dateFormatter withCalendar:calendar];
+}
+
++ (NSDateFormatter *)dateFormatter {
     static NSDateFormatter *dateFormatter;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"d";
+        
     });
+    return dateFormatter;
+}
 
++ (NSString *)stringFromDate:(NSDate *)date withDateFormatter:(NSDateFormatter *)dateFormatter withCalendar:(NSCalendar *)calendar {
     //Test if the calendar is different than the current dateFormatter calendar property
     if (![dateFormatter.calendar isEqual:calendar]) {
         dateFormatter.calendar = calendar;
     }
-
     return [dateFormatter stringFromDate:date];
 }
 
@@ -49,6 +65,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         _dayLabel = [[UILabel alloc] init];
         [self.dayLabel setFont:[self textDefaultFont]];
         [self.dayLabel setTextAlignment:NSTextAlignmentCenter];
+        self.dayLabel.isAccessibilityElement = YES;
         [self.contentView addSubview:self.dayLabel];
 
         //Add the Constraints
@@ -76,6 +93,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
          day = [PDTSimpleCalendarViewCell formatDate:date withCalendar:calendar];
     }
     self.dayLabel.text = day;
+    self.dayLabel.accessibilityLabel = [PDTSimpleCalendarViewCell accessibilityFriendlyStringFromDate:date withCalendar:calendar];
 }
 
 - (void)setIsToday:(BOOL)isToday
