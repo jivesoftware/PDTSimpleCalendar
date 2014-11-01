@@ -21,19 +21,15 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 #pragma mark - Class Methods
 
-+ (NSString *)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
++ (void)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar forLabel:(UILabel *)label
 {
     NSDateFormatter *dateFormatter = [self dateFormatter];
     dateFormatter.dateFormat = @"d";
-    return [PDTSimpleCalendarViewCell stringFromDate:date withDateFormatter:dateFormatter withCalendar:calendar];
-}
-
-+ (NSString *)accessibilityFriendlyStringFromDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
-{
-    NSDateFormatter *dateFormatter = [self dateFormatter];
+    label.text = [PDTSimpleCalendarViewCell stringFromDate:date withDateFormatter:dateFormatter withCalendar:calendar];
+    
     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    return [PDTSimpleCalendarViewCell stringFromDate:date withDateFormatter:dateFormatter withCalendar:calendar];
+    label.accessibilityLabel =  [PDTSimpleCalendarViewCell stringFromDate:date withDateFormatter:dateFormatter withCalendar:calendar];
 }
 
 + (NSDateFormatter *)dateFormatter {
@@ -65,7 +61,6 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         _dayLabel = [[UILabel alloc] init];
         [self.dayLabel setFont:[self textDefaultFont]];
         [self.dayLabel setTextAlignment:NSTextAlignmentCenter];
-        self.dayLabel.isAccessibilityElement = YES;
         [self.contentView addSubview:self.dayLabel];
 
         //Add the Constraints
@@ -87,13 +82,10 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 - (void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar
 {
-    NSString* day = @"";
     if (date && calendar) {
         _date = date;
-         day = [PDTSimpleCalendarViewCell formatDate:date withCalendar:calendar];
     }
-    self.dayLabel.text = day;
-    self.dayLabel.accessibilityLabel = [PDTSimpleCalendarViewCell accessibilityFriendlyStringFromDate:date withCalendar:calendar];
+    [PDTSimpleCalendarViewCell formatDate:date withCalendar:calendar forLabel:self.dayLabel];
 }
 
 - (void)setIsToday:(BOOL)isToday
