@@ -1,3 +1,4 @@
 language: objective-c
 xcode_project: PDTSimpleCalendarDemo/PDTSimpleCalendarDemo.xcodeproj
 xcode_scheme: PDTSimpleCalendarDemo
+xcode_sdk: iphonesimulator
