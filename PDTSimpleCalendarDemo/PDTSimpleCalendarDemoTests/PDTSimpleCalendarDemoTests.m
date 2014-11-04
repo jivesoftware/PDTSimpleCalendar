@@ -113,4 +113,13 @@
     XCTAssertTrue(_calendarController.daysPerWeek == 7, @"Should be 7 days a week");
 }
 
+- (void)testBasicPerformance {
+    //Time: 0.623sec (4% STDEV)
+    [self measureBlock:^{
+        PDTSimpleCalendarViewController *calendarViewController = [[PDTSimpleCalendarViewController alloc] init];
+        XCTAssert(calendarViewController.view);
+        calendarViewController.selectedDate = [NSDate date];
+    }];
+}
+
 @end
