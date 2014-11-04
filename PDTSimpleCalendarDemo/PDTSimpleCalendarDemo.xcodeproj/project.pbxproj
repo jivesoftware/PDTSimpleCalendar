@@ -18,7 +18,6 @@
 		8959434D180CB47B007DEC5D /* PDTSimpleCalendarViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89594347180CB47B007DEC5D /* PDTSimpleCalendarViewCell.m */; };
 		8959434E180CB47B007DEC5D /* PDTSimpleCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89594349180CB47B007DEC5D /* PDTSimpleCalendarViewController.m */; };
 		8959434F180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8959434B180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.m */; };
-		8971B48118CEB0D600736D3B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8971B48018CEB0D600736D3B /* SenTestingKit.framework */; };
 		8971B48218CEB0D600736D3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89594314180CB350007DEC5D /* Foundation.framework */; };
 		8971B48318CEB0D600736D3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89594318180CB350007DEC5D /* UIKit.framework */; };
 		8971B48918CEB0D600736D3B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8971B48718CEB0D600736D3B /* InfoPlist.strings */; };
@@ -56,8 +55,7 @@
 		89594349180CB47B007DEC5D /* PDTSimpleCalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PDTSimpleCalendarViewController.m; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewController.m; sourceTree = "<group>"; };
 		8959434A180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PDTSimpleCalendarViewFlowLayout.h; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewFlowLayout.h; sourceTree = "<group>"; };
 		8959434B180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PDTSimpleCalendarViewFlowLayout.m; path = ../PDTSimpleCalendar/PDTSimpleCalendarViewFlowLayout.m; sourceTree = "<group>"; };
-		8971B47F18CEB0D600736D3B /* PDTSimpleCalendarDemoTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDTSimpleCalendarDemoTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8971B48018CEB0D600736D3B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		8971B47F18CEB0D600736D3B /* PDTSimpleCalendarDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDTSimpleCalendarDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8971B48618CEB0D600736D3B /* PDTSimpleCalendarDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PDTSimpleCalendarDemoTests-Info.plist"; sourceTree = "<group>"; };
 		8971B48818CEB0D600736D3B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8971B48A18CEB0D600736D3B /* PDTSimpleCalendarDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarDemoTests.m; sourceTree = "<group>"; };
@@ -81,7 +79,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8971B48118CEB0D600736D3B /* SenTestingKit.framework in Frameworks */,
 				8971B48318CEB0D600736D3B /* UIKit.framework in Frameworks */,
 				8971B48218CEB0D600736D3B /* Foundation.framework in Frameworks */,
 			);
@@ -105,7 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				89594311180CB350007DEC5D /* PDTSimpleCalendarDemo.app */,
-				8971B47F18CEB0D600736D3B /* PDTSimpleCalendarDemoTests.octest */,
+				8971B47F18CEB0D600736D3B /* PDTSimpleCalendarDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,7 +114,6 @@
 				89594316180CB350007DEC5D /* CoreGraphics.framework */,
 				89594318180CB350007DEC5D /* UIKit.framework */,
 				8959432D180CB350007DEC5D /* XCTest.framework */,
-				8971B48018CEB0D600736D3B /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -215,8 +211,8 @@
 			);
 			name = PDTSimpleCalendarDemoTests;
 			productName = PDTSimpleCalendarDemoTests;
-			productReference = 8971B47F18CEB0D600736D3B /* PDTSimpleCalendarDemoTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 8971B47F18CEB0D600736D3B /* PDTSimpleCalendarDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -225,8 +221,8 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PDT;
-				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0500;
+				LastTestingUpgradeCheck = 0610;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Producteev;
 				TargetAttributes = {
 					8971B47E18CEB0D600736D3B = {
@@ -328,7 +324,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -368,7 +363,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -427,7 +421,6 @@
 		8971B48F18CEB0D600736D3B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PDTSimpleCalendarDemo.app/PDTSimpleCalendarDemo";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -444,14 +437,12 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
 		8971B49018CEB0D600736D3B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PDTSimpleCalendarDemo.app/PDTSimpleCalendarDemo";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -464,7 +455,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
