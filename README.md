@@ -2,6 +2,7 @@ PDTSimpleCalendar
 =================
 
 [![Pod version](https://img.shields.io/cocoapods/v/PDTSimpleCalendar.svg?style=flat)](http://cocoadocs.org/docsets/PDTSimpleCalendar)
+[![Build Status](https://img.shields.io/travis/jivesoftware/PDTSimpleCalendar.svg?style=flat)](https://travis-ci.org/jivesoftware/PDTSimpleCalendar)
 
 PDTSimpleCalendar is a very simple calendar/date picker component for your iOS apps based on UICollectionView.
 
