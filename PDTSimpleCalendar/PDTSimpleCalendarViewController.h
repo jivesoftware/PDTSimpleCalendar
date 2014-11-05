@@ -102,6 +102,16 @@
 @optional
 
 /**
+ *  Asks the delegate if the Calendar may enable selection for the specified date
+ *
+ *  @param controller the calendarView Controller
+ *  @param date       the date (Midnight GMT)
+ *
+ *  @return YES if the calendar can select the specified date, NO otherwise.
+ */
+- (BOOL)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller isEnabledDate:(NSDate *)date;
+
+/**
  *  Tells the delegate that a date was selected by the user.
  *
  *  @param controller the calendarView Controller

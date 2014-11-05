@@ -475,6 +475,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         return NO;
     }
 
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:isEnabledDate:)]) {
+        return [self.delegate simpleCalendarViewController:self isEnabledDate:date];
+    }
+
     return YES;
 }
 
@@ -576,7 +580,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textColorForDate:)]) {
         return [self.delegate simpleCalendarViewController:self textColorForDate:date];
     }
-    
+
     return nil;
 }
 
