@@ -371,8 +371,8 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         return NO;
     }
 
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:shouldSelectDate:)]) {
-        if (![self.delegate simpleCalendarViewController:self shouldSelectDate:cellDate]) {
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:isEnabledDate:)]) {
+        if (![self.delegate simpleCalendarViewController:self isEnabledDate:cellDate]) {
             return NO;
         }
     }
@@ -481,6 +481,10 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         return NO;
     }
 
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:isEnabledDate:)]) {
+        return [self.delegate simpleCalendarViewController:self isEnabledDate:date];
+    }
+
     return YES;
 }
 
@@ -582,7 +586,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textColorForDate:)]) {
         return [self.delegate simpleCalendarViewController:self textColorForDate:date];
     }
-    
+
     return nil;
 }
 

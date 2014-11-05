@@ -109,7 +109,7 @@
  *
  *  @return YES if the calendar can select the specified date, NO otherwise.
  */
-- (BOOL)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller shouldSelectDate:(NSDate *)date;
+- (BOOL)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller isEnabledDate:(NSDate *)date;
 
 /**
  *  Tells the delegate that a date was selected by the user.
