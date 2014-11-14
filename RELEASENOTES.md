@@ -1,5 +1,15 @@
 ##PDTSimpleCalendar Release Notes
 
+###0.7.1
+
+New delegate method to disable specific dates
+
+`- (BOOL)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller isEnabledDate:(NSDate *)date;`
+
+Accessibility Labels on Cell will return a proper formatted date.
+
+Change Header and Day font using appearance proxy
+
 ###0.7.0
 
 ####Behavior change
