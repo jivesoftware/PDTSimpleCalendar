@@ -6,6 +6,9 @@
 //  Copyright (c) 2013 Producteev. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
 @class PDTSimpleCalendarViewCell;
 
 @protocol PDTSimpleCalendarViewCellDelegate <NSObject>
