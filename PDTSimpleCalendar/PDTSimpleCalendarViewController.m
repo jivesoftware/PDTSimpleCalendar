@@ -86,6 +86,17 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     self.daysPerWeek = 7;
 }
 
+#pragma mark - View Lifecycle
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    if (self.selectedDate) {
+        [self.collectionViewLayout invalidateLayout];
+    }
+}
+
 #pragma mark - Accessors
 
 - (NSDateFormatter *)headerDateFormatter;
