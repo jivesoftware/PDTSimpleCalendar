@@ -38,7 +38,8 @@
 
 /**
  *  Selected date displayed by the calendar.
- *  Changing this value will cause the calendar to scroll to this date (without animation).
+ *  Changing this value will not cause the calendar to scroll to this date.
+ *  You need to manually call scrollToSelectedDate:(BOOL)animated if you want this behavior.
  */
 @property (nonatomic, strong) NSDate *selectedDate;
 
