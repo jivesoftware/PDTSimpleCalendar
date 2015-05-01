@@ -15,9 +15,9 @@
 
 const CGFloat PDTSimpleCalendarOverlaySize = 14.0f;
 
-static NSString *PDTSimpleCalendarViewCellIdentifier = @"com.producteev.collection.cell.identifier";
-static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collection.header.identifier";
-
+static NSString *const PDTSimpleCalendarViewCellIdentifier = @"com.producteev.collection.cell.identifier";
+static NSString *const PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collection.header.identifier";
+static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
 
 @interface PDTSimpleCalendarViewController () <PDTSimpleCalendarViewCellDelegate>
 
@@ -25,8 +25,8 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 @property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
 
 // First and last date of the months based on the public properties first & lastDate
-@property (nonatomic, readonly) NSDate *firstDateMonth;
-@property (nonatomic, readonly) NSDate *lastDateMonth;
+@property (nonatomic) NSDate *firstDateMonth;
+@property (nonatomic) NSDate *lastDateMonth;
 
 //Number of days per week
 @property (nonatomic, assign) NSUInteger daysPerWeek;
@@ -127,7 +127,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (NSDate *)firstDate
 {
     if (!_firstDate) {
-        NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
+        NSDateComponents *components = [self.calendar components:kCalendarUnitYMD
                                                         fromDate:[NSDate date]];
         components.day = 1;
         _firstDate = [self.calendar dateFromComponents:components];
@@ -138,17 +138,20 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (void)setFirstDate:(NSDate *)firstDate
 {
-    _firstDate = [self clampDate:firstDate toComponents:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay];
+    _firstDate = [self clampDate:firstDate toComponents:kCalendarUnitYMD];
 }
 
-//TODO: Store the value in the variable to avoid calculation everytime.
 - (NSDate *)firstDateMonth
 {
-    NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
+    if (_firstDateMonth) { return _firstDateMonth; }
+
+    NSDateComponents *components = [self.calendar components:kCalendarUnitYMD
                                                     fromDate:self.firstDate];
     components.day = 1;
 
-    return [self.calendar dateFromComponents:components];
+    _firstDateMonth = [self.calendar dateFromComponents:components];
+
+    return _firstDateMonth;
 }
 
 - (NSDate *)lastDate
@@ -165,17 +168,21 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (void)setLastDate:(NSDate *)lastDate
 {
-    _lastDate = [self clampDate:lastDate toComponents:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay];
+    _lastDate = [self clampDate:lastDate toComponents:kCalendarUnitYMD];
 }
 
-//TODO: Store the value in the variable to avoid calculation everytime.
 - (NSDate *)lastDateMonth
 {
-    NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:self.lastDate];
+    if (_lastDateMonth) { return _lastDateMonth; }
+
+    NSDateComponents *components = [self.calendar components:kCalendarUnitYMD
+                                                    fromDate:self.lastDate];
     components.month++;
     components.day = 0;
 
-    return [self.calendar dateFromComponents:components];
+    _lastDateMonth = [self.calendar dateFromComponents:components];
+
+    return _lastDateMonth;
 }
 
 - (void)setSelectedDate:(NSDate *)newSelectedDate
@@ -189,7 +196,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     }
 
     //Test if selectedDate between first & last date
-    NSDate *startOfDay = [self clampDate:newSelectedDate toComponents:NSCalendarUnitDay|NSCalendarUnitMonth|NSCalendarUnitYear];
+    NSDate *startOfDay = [self clampDate:newSelectedDate toComponents:kCalendarUnitYMD];
     if (([startOfDay compare:self.firstDateMonth] == NSOrderedAscending) || ([startOfDay compare:self.lastDateMonth] == NSOrderedDescending)) {
         //the newSelectedDate is not between first & last date of the calendar, do nothing.
         return;
@@ -327,8 +334,8 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     NSDate *firstOfMonth = [self firstOfMonthForSection:indexPath.section];
     NSDate *cellDate = [self dateForCellAtIndexPath:indexPath];
 
-    NSDateComponents *cellDateComponents = [self.calendar components:NSCalendarUnitDay|NSCalendarUnitMonth fromDate:cellDate];
-    NSDateComponents *firstOfMonthsComponents = [self.calendar components:NSCalendarUnitMonth fromDate:firstOfMonth];
+    NSDateComponents *cellDateComponents = [self.calendar components:kCalendarUnitYMD fromDate:cellDate];
+    NSDateComponents *firstOfMonthsComponents = [self.calendar components:kCalendarUnitYMD fromDate:firstOfMonth];
 
     BOOL isToday = NO;
     BOOL isSelected = NO;
@@ -481,7 +488,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (BOOL)isEnabledDate:(NSDate *)date
 {
-    NSDate *clampedDate = [self clampDate:date toComponents:(NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay)];
+    NSDate *clampedDate = [self clampDate:date toComponents:kCalendarUnitYMD];
     if (([clampedDate compare:self.firstDate] == NSOrderedAscending) || ([clampedDate compare:self.lastDate] == NSOrderedDescending)) {
         return NO;
     }
@@ -495,8 +502,8 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
 - (BOOL)clampAndCompareDate:(NSDate *)date withReferenceDate:(NSDate *)referenceDate
 {
-    NSDate *refDate = [self clampDate:referenceDate toComponents:(NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay)];
-    NSDate *clampedDate = [self clampDate:date toComponents:(NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay)];
+    NSDate *refDate = [self clampDate:referenceDate toComponents:kCalendarUnitYMD];
+    NSDate *clampedDate = [self clampDate:date toComponents:kCalendarUnitYMD];
 
     return [refDate isEqualToDate:clampedDate];
 }
@@ -520,29 +527,34 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (NSDate *)dateForCellAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDate *firstOfMonth = [self firstOfMonthForSection:indexPath.section];
-    NSInteger ordinalityOfFirstDay = [self.calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitWeekOfMonth forDate:firstOfMonth];
+
+    NSUInteger weekday = [[self.calendar components: NSCalendarUnitWeekday fromDate: firstOfMonth] weekday];
+    NSInteger startOffset = weekday - self.calendar.firstWeekday;
+    startOffset += startOffset >= 0 ? 0 : self.daysPerWeek;
+
     NSDateComponents *dateComponents = [NSDateComponents new];
-    dateComponents.day = (1 - ordinalityOfFirstDay) + indexPath.item;
+    dateComponents.day = indexPath.item - startOffset;
 
     return [self.calendar dateByAddingComponents:dateComponents toDate:firstOfMonth options:0];
 }
 
 
+static const NSInteger kFirstDay = 1;
 - (NSIndexPath *)indexPathForCellAtDate:(NSDate *)date
 {
     if (!date) {
         return nil;
     }
-
     NSInteger section = [self sectionForDate:date];
-
     NSDate *firstOfMonth = [self firstOfMonthForSection:section];
-    NSInteger ordinalityOfFirstDay = [self.calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitWeekOfMonth forDate:firstOfMonth];
 
+    NSInteger weekday = [[self.calendar components: NSCalendarUnitWeekday fromDate: firstOfMonth] weekday];
+    NSInteger startOffset = weekday - self.calendar.firstWeekday;
+    startOffset += startOffset >= 0 ? 0 : self.daysPerWeek;
 
-    NSDateComponents *dateComponents = [self.calendar components:NSCalendarUnitDay fromDate:date];
-    NSDateComponents *firstOfMonthComponents = [self.calendar components:NSCalendarUnitDay fromDate:firstOfMonth];
-    NSInteger item = (dateComponents.day - firstOfMonthComponents.day) - (1 - ordinalityOfFirstDay);
+    NSInteger day = [[self.calendar components:kCalendarUnitYMD fromDate:date] day];
+
+    NSInteger item = (day - kFirstDay + startOffset);
 
     return [NSIndexPath indexPathForItem:item inSection:section];
 }
