@@ -11,7 +11,7 @@
 #import "PDTSimpleCalendarViewFlowLayout.h"
 #import "PDTSimpleCalendarViewCell.h"
 #import "PDTSimpleCalendarViewHeader.h"
-
+#import <tgmath.h>
 
 const CGFloat PDTSimpleCalendarOverlaySize = 14.0f;
 
@@ -424,7 +424,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     //We only display the overlay view if there is a vertical velocity
-    if ( fabsf(velocity.y) > 0.0f) {
+    if ( __tg_fabs(velocity.y) > 0.0f) {
         if (self.overlayView.alpha < 1.0) {
             [UIView animateWithDuration:0.25 animations:^{
                 [self.overlayView setAlpha:1.0];
