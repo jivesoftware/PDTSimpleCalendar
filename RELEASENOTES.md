@@ -1,5 +1,10 @@
 ##PDTSimpleCalendar Release Notes
 
+###0.8.0
+Bug fixes and small improvements
+
+Carthage compatible
+
 ###0.7.1
 
 New delegate method to disable specific dates

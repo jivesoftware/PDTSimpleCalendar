@@ -2,6 +2,7 @@ PDTSimpleCalendar
 =================
 
 [![Pod version](https://img.shields.io/cocoapods/v/PDTSimpleCalendar.svg?style=flat)](http://cocoadocs.org/docsets/PDTSimpleCalendar)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Build Status](https://img.shields.io/travis/jivesoftware/PDTSimpleCalendar.svg?style=flat)](https://travis-ci.org/jivesoftware/PDTSimpleCalendar)
 
 PDTSimpleCalendar is a very simple calendar/date picker component for your iOS apps based on UICollectionView.
@@ -15,15 +16,30 @@ You should read the [Release Notes](https://github.com/jivesoftware/PDTSimpleCal
 
 ##Install
 
-We recommend using Cocoapods, in your Podfile just add:
+###Cocoapods
 
-`pod 'PDTSimpleCalendar', '~> 0.7.0'`
+in your `Podfile` just add:
+
+`pod 'PDTSimpleCalendar', '~> 0.8.0'`
 
 then run `pod install`
 
 And finally in your project import `#import <PDTSimpleCalendar/PDTSimpleCalendar.h>`
 
-If you don't like cocoapods, you can still import it using `git submodule` or simply copy/paste all the files in `PDTSimpleCalendar` to your project.
+###Carthage
+
+In your `Cartfile` simply add:
+
+`github "jivesoftware/PDTSimpleCalendar" ~> 0.8.0`
+
+run `carthage update`
+
+Finally you need to add the built framework to your project. For more information about Carthage : [github.com/Carthage/Carthage](https://github.com/Carthage/Carthage)
+
+**Warning**: Carthage uses dynamic framework and will only work if your app targets iOS 8.0 or later.
+
+###Old-School
+If you don't like cocoapods or Carthage or Cocoapods-Rome, you can still import it using `git submodule` or simply copy/paste all the source files in `PDTSimpleCalendar` to your project.
 
 
 ##Customize it
