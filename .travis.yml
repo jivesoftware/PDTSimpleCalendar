@@ -1,6 +1,5 @@
 language: objective-c
-xcode_project: PDTSimpleCalendarDemo/PDTSimpleCalendarDemo.xcodeproj
-xcode_scheme: PDTSimpleCalendarDemo
-xcode_sdk: iphonesimulator
-#Run on the new env, xctool 0.2.1 is pre-loaded
-osx_image: xcode61
+osx_image: xcode6.4
+script:
+    - pod lib lint --verbose --fail-fast
+    - xctool -project PDTSimpleCalendarDemo/PDTSimpleCalendarDemo.xcodeproj -scheme PDTSimpleCalendarDemo -sdk iphonesimulator ACTIVE_ARCH_ONLY=0 build test
