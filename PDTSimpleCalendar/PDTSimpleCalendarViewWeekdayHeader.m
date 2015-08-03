@@ -76,7 +76,7 @@
             weekdaySymbolLabel.text = [adjustedSymbols[index] uppercaseString];
             weekdaySymbolLabel.textColor = [UIColor blackColor];
             weekdaySymbolLabel.textAlignment = NSTextAlignmentCenter;
-            weekdaySymbolLabel.backgroundColor = self.backgroundColor;
+            weekdaySymbolLabel.backgroundColor = [UIColor whiteColor];
             weekdaySymbolLabel.translatesAutoresizingMaskIntoConstraints = NO;
             
             [self addSubview:weekdaySymbolLabel];
