@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "PDTSimpleCalendarViewWeekdayHeader.h"
+
 @protocol PDTSimpleCalendarViewDelegate;
 
 /**
@@ -54,6 +56,20 @@
  *  Text color for the overlay view (Month and Year when the user scrolls the calendar)
  */
 @property (nonatomic, strong) UIColor *overlayTextColor;
+
+/**
+ *  Setting this to YES shows an extra row in the header with acronymns for the the weekdays
+ *
+ *  Default value is NO.
+ */
+@property (nonatomic, assign) BOOL weekdayHeaderEnabled;
+
+/**
+ *  Setting Text type of weekday
+ *
+ *  Default value is Short.
+ */
+@property (nonatomic, assign) enum PDTSimpleCalendarViewWeekdayTextType weekdayTextType;
 
 
 
