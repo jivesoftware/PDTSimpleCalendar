@@ -69,7 +69,7 @@
  *
  *  Default value is Short.
  */
-@property (nonatomic, assign) enum PDTSimpleCalendarViewWeekdayTextType weekdayTextType;
+@property (nonatomic, assign) PDTSimpleCalendarViewWeekdayTextType weekdayTextType;
 
 
 
@@ -163,13 +163,5 @@
  *  @param date       the date (Midnight GMT)
  */
 - (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textColorForDate:(NSDate *)date;
-
-/**
- *  Tells the delegate that the user the scrollView will begin dragging
- *
- *  @param controller the calendarView Controller
- *  @param scrollView the scrollView
- */
-- (void)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller scrollViewWillBeginDragging:(UIScrollView *)scrollView;
 
 @end;

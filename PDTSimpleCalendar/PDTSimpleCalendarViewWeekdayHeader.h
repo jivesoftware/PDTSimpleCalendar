@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-enum PDTSimpleCalendarViewWeekdayTextType
-{
-    PDTSimpleCalendarViewWeekdayTextType_VeryShort,
-    PDTSimpleCalendarViewWeekdayTextType_Short,
-    PDTSimpleCalendarViewWeekdayTextType_StandAlone
+extern const CGFloat PDTSimpleCalendarWeekdayHeaderSize;
+extern const CGFloat PDTSimpleCalendarWeekdayHeaderHeight;
+
+typedef NS_ENUM (NSInteger, PDTSimpleCalendarViewWeekdayTextType) {
+    PDTSimpleCalendarViewWeekdayTextTypeVeryShort = 0,
+    PDTSimpleCalendarViewWeekdayTextTypeShort,
+    PDTSimpleCalendarViewWeekdayTextTypeStandAlone
 };
 
 @interface PDTSimpleCalendarViewWeekdayHeader : UIView
@@ -23,29 +25,21 @@ enum PDTSimpleCalendarViewWeekdayTextType
  *  @param calendar the calendar used to generate the view.
  *  @param textType
  */
-- (id)initWithCalendar:(NSCalendar *)calendar weekdayTextType:(enum PDTSimpleCalendarViewWeekdayTextType)textType;
-
-
-/**
- *  The calendar used to generate the view.
- *
- *  If not set, the default value is `[NSCalendar currentCalendar]`
- */
-@property (nonatomic, strong) NSCalendar *calendar;
+- (id)initWithCalendar:(NSCalendar *)calendar weekdayTextType:(PDTSimpleCalendarViewWeekdayTextType)textType;
 
 /**
  *  Customize the text color.
  */
-- (void)setTextColor:(UIColor *)textColor;
+@property (nonatomic, strong) UIColor *textColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  Customize the text font.
  */
-- (void)setFont:(UIFont *)font;
+@property (nonatomic, strong) UIFont *textFont UI_APPEARANCE_SELECTOR;
 
 /**
- *  Customize the text color.
+ *  Customize the head background color.
  */
-- (void)setBackgroundColor:(UIColor *)backgroundColor;
+@property (nonatomic, strong) UIColor *headerBackgroundColor UI_APPEARANCE_SELECTOR;
 
 @end

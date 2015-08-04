@@ -8,19 +8,10 @@
 
 #import "PDTSimpleCalendarViewWeekdayHeader.h"
 
-@interface PDTSimpleCalendarViewWeekdayHeader ()
-
-/**
- *  Dictionary of weekday synbol label
- */
-@property (nonatomic, strong) NSMutableDictionary *weekdaySymbolLabelDict;
-@property (nonatomic, strong) NSMutableArray *weekdaySymbolLabelNameArr;
-
-@end
+const CGFloat PDTSimpleCalendarWeekdayHeaderSize = 12.0f;
+const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
 
 @implementation PDTSimpleCalendarViewWeekdayHeader
-
-@synthesize calendar = _calendar;
 
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -30,20 +21,21 @@
 }
 */
 
-- (id)initWithCalendar:(NSCalendar *)calendar weekdayTextType:(enum PDTSimpleCalendarViewWeekdayTextType)textType
+- (id)initWithCalendar:(NSCalendar *)calendar weekdayTextType:(PDTSimpleCalendarViewWeekdayTextType)textType
 {
     self = [super init];
     if (self)
     {
+        self.backgroundColor = self.headerBackgroundColor;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.calendar = calendar;
         NSArray *weekdaySymbols = nil;
         
         switch (textType) {
-            case PDTSimpleCalendarViewWeekdayTextType_VeryShort:
+            case PDTSimpleCalendarViewWeekdayTextTypeVeryShort:
                 weekdaySymbols = [dateFormatter veryShortWeekdaySymbols];
                 break;
-            case PDTSimpleCalendarViewWeekdayTextType_Short:
+            case PDTSimpleCalendarViewWeekdayTextTypeShort:
                 weekdaySymbols = [dateFormatter shortWeekdaySymbols];
                 break;
             default:
@@ -64,26 +56,25 @@
         
         UILabel *firstWeekdaySymbolLabel = nil;
         
-        self.weekdaySymbolLabelNameArr = [NSMutableArray array];
-        self.weekdaySymbolLabelDict = [NSMutableDictionary dictionary];
+        NSMutableArray *weekdaySymbolLabelNameArr = [NSMutableArray array];
+        NSMutableDictionary *weekdaySymbolLabelDict = [NSMutableDictionary dictionary];
         for (NSInteger index = 0; index < adjustedSymbols.count; index++)
         {
             NSString *labelName = [NSString stringWithFormat:@"weekdaySymbolLabel%d", (int)index];
-            [self.weekdaySymbolLabelNameArr addObject:labelName];
+            [weekdaySymbolLabelNameArr addObject:labelName];
             
             UILabel *weekdaySymbolLabel = [[UILabel alloc] init];
-            weekdaySymbolLabel.font = [UIFont systemFontOfSize:12.0];
+            weekdaySymbolLabel.font = self.textFont;
             weekdaySymbolLabel.text = [adjustedSymbols[index] uppercaseString];
-            weekdaySymbolLabel.textColor = [UIColor blackColor];
+            weekdaySymbolLabel.textColor = self.textColor;
             weekdaySymbolLabel.textAlignment = NSTextAlignmentCenter;
-            weekdaySymbolLabel.backgroundColor = [UIColor whiteColor];
+            weekdaySymbolLabel.backgroundColor = [UIColor clearColor];
             weekdaySymbolLabel.translatesAutoresizingMaskIntoConstraints = NO;
             
             [self addSubview:weekdaySymbolLabel];
-            weekdaySymbolLabel.translatesAutoresizingMaskIntoConstraints = NO;
             
-            [self.weekdaySymbolLabelDict setObject:weekdaySymbolLabel forKey:labelName];
-            [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[%@]|", labelName] options:0 metrics:nil views:self.weekdaySymbolLabelDict]];
+            [weekdaySymbolLabelDict setObject:weekdaySymbolLabel forKey:labelName];
+            [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[%@]|", labelName] options:0 metrics:nil views:weekdaySymbolLabelDict]];
             
             if (firstWeekdaySymbolLabel == nil) {
                 firstWeekdaySymbolLabel = weekdaySymbolLabel;
@@ -92,40 +83,51 @@
             }
         }
         
-        NSString *layoutString = [NSString stringWithFormat:@"|[%@(>=0)]|", [self.weekdaySymbolLabelNameArr componentsJoinedByString:@"]["]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:layoutString options:NSLayoutFormatAlignAllCenterY metrics:nil views:self.weekdaySymbolLabelDict]];
+        NSString *layoutString = [NSString stringWithFormat:@"|[%@(>=0)]|", [weekdaySymbolLabelNameArr componentsJoinedByString:@"]["]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:layoutString options:NSLayoutFormatAlignAllCenterY metrics:nil views:weekdaySymbolLabelDict]];
 
     }
     
     return self;
 }
 
-- (NSCalendar *)calendar
+- (UIColor *)textColor
 {
-    if (!_calendar) {
-        [self setCalendar:[NSCalendar currentCalendar]];
+    if(_textColor == nil) {
+        _textColor = [[[self class] appearance] textColor];
     }
-    return _calendar;
+    
+    if(_textColor != nil) {
+        return _textColor;
+    }
+    
+    return [UIColor blackColor];
 }
 
-- (void)setTextColor:(UIColor *)textColor
+- (UIFont *)textFont
 {
-    for (NSString *labelName in self.weekdaySymbolLabelDict.keyEnumerator) {
-        [(UILabel *)[self.weekdaySymbolLabelDict objectForKey:labelName] setTextColor:textColor];
+    if(_textFont == nil) {
+        _textFont = [[[self class] appearance] textFont];
     }
+    
+    if(_textFont != nil) {
+        return _textFont;
+    }
+    
+    return [UIFont systemFontOfSize:PDTSimpleCalendarWeekdayHeaderSize];
 }
 
-- (void)setFont:(UIFont *)font
+- (UIColor *)headerBackgroundColor
 {
-    for (NSString *labelName in self.weekdaySymbolLabelDict.keyEnumerator) {
-        [(UILabel *)[self.weekdaySymbolLabelDict objectForKey:labelName] setFont:font];
+    if(_headerBackgroundColor == nil) {
+        _headerBackgroundColor = [[[self class] appearance] headerBackgroundColor];
     }
-}
-
-- (void)setBackgroundColor:(UIColor *)backgroundColor {
-    for (NSString *labelName in self.weekdaySymbolLabelDict.keyEnumerator) {
-        [(UILabel *)[self.weekdaySymbolLabelDict objectForKey:labelName] setBackgroundColor:backgroundColor];
+    
+    if(_headerBackgroundColor != nil) {
+        return _headerBackgroundColor;
     }
+    
+    return [UIColor whiteColor];
 }
 
 @end
