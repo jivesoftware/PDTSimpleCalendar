@@ -14,8 +14,6 @@
 
 
 const CGFloat PDTSimpleCalendarOverlaySize = 14.0f;
-const CGFloat PDTSimpleCalendarWeekdayHeaderSize = 14.0f;
-const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
 
 static NSString *const PDTSimpleCalendarViewCellIdentifier = @"com.producteev.collection.cell.identifier";
 static NSString *const PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collection.header.identifier";
@@ -89,7 +87,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     self.overlayTextColor = [UIColor blackColor];
     self.daysPerWeek = 7;
     self.weekdayHeaderEnabled = NO;
-    self.weekdayTextType = PDTSimpleCalendarViewWeekdayTextType_Short;
+    self.weekdayTextType = PDTSimpleCalendarViewWeekdayTextTypeShort;
 }
 
 #pragma mark - View Lifecycle
@@ -300,21 +298,20 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     
     //Configure the Weekday Header
     self.weekdayHeader = [[PDTSimpleCalendarViewWeekdayHeader alloc] initWithCalendar:self.calendar weekdayTextType:self.weekdayTextType];
-    [self.weekdayHeader setFont:[UIFont boldSystemFontOfSize:PDTSimpleCalendarWeekdayHeaderSize]];
-    [self.weekdayHeader setAlpha:1.0];
     
     [self.view addSubview:self.weekdayHeader];
     [self.weekdayHeader setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     NSInteger weekdayHeaderHeight = self.weekdayHeaderEnabled ? PDTSimpleCalendarWeekdayHeaderHeight : 0;
 
-    NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView, @"weekdayHeader": self.weekdayHeader, @"collectionView": self.collectionView};
+    NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView, @"weekdayHeader": self.weekdayHeader};
     NSDictionary *metricsDictionary = @{@"overlayViewHeight": @(PDTSimpleCalendarFlowLayoutHeaderHeight), @"weekdayHeaderHeight": @(weekdayHeaderHeight)};
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" options:NSLayoutFormatAlignAllTop metrics:nil views:viewsDictionary]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[weekdayHeader]|" options:NSLayoutFormatAlignAllTop metrics:nil views:viewsDictionary]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[collectionView]|" options:0 metrics:nil views:viewsDictionary]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[weekdayHeader(weekdayHeaderHeight)][overlayView(overlayViewHeight)]" options:0 metrics:metricsDictionary views:viewsDictionary]];
+    
+    [self.collectionView setContentInset:UIEdgeInsetsMake(weekdayHeaderHeight, 0, 0, 0)];
 }
 
 #pragma mark - Rotation Handling
@@ -446,13 +443,6 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 }
 
 #pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:scrollViewWillBeginDragging:)]) {
-        [self.delegate simpleCalendarViewController:self scrollViewWillBeginDragging:scrollView];
-    }
-}
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
