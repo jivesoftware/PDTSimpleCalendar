@@ -10,3 +10,4 @@
 #import <PDTSimpleCalendar/PDTSimpleCalendarViewHeader.h>
 #import <PDTSimpleCalendar/PDTSimpleCalendarViewCell.h>
 #import <PDTSimpleCalendar/PDTSimpleCalendarViewFlowLayout.h>
+#import <PDTSimpleCalendar/PDTSimpleCalendarViewWeekdayHeader.h>
