@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B4E30FF1B6FBA6000BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B4E30FD1B6FBA6000BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.h */; };
+		1B4E30FF1B6FBA6000BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B4E30FD1B6FBA6000BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B4E31001B6FBA6000BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E30FE1B6FBA6000BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.m */; };
 		37E204F31B3D16F20017CE84 /* PDTSimpleCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = 37E204EA1B3D16F20017CE84 /* PDTSimpleCalendar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		37E204F41B3D16F20017CE84 /* PDTSimpleCalendarViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 37E204EB1B3D16F20017CE84 /* PDTSimpleCalendarViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -137,8 +137,8 @@
 			isa = PBXGroup;
 			children = (
 				89875F4D1B755A5400CE4345 /* PDTSimpleCalendarTests.m */,
-				89875F4B1B755A5400CE4345 /* Supporting Files */,
 				897EED3C1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m */,
+				89875F4B1B755A5400CE4345 /* Supporting Files */,
 			);
 			path = PDTSimpleCalendarTests;
 			sourceTree = "<group>";
