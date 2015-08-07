@@ -87,8 +87,6 @@
 		37E204D01B3D16330017CE84 /* PDTSimpleCalendar */ = {
 			isa = PBXGroup;
 			children = (
-				1B4E30FD1B6FBA6000BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.h */,
-				1B4E30FE1B6FBA6000BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.m */,
 				37E204EA1B3D16F20017CE84 /* PDTSimpleCalendar.h */,
 				37E204EB1B3D16F20017CE84 /* PDTSimpleCalendarViewCell.h */,
 				37E204EC1B3D16F20017CE84 /* PDTSimpleCalendarViewCell.m */,
@@ -98,6 +96,8 @@
 				37E204F01B3D16F20017CE84 /* PDTSimpleCalendarViewFlowLayout.m */,
 				37E204F11B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.h */,
 				37E204F21B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.m */,
+				1B4E30FD1B6FBA6000BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.h */,
+				1B4E30FE1B6FBA6000BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.m */,
 				37E204D11B3D16330017CE84 /* Supporting Files */,
 			);
 			path = PDTSimpleCalendar;

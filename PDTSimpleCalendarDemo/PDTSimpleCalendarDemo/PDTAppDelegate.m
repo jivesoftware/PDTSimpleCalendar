@@ -24,13 +24,13 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"dd/MM/yyyy";
-    _customDates = @[[dateFormatter dateFromString:@"01/05/2014"], [dateFormatter dateFromString:@"01/06/2014"], [dateFormatter dateFromString:@"01/07/2014"]];
-    
+    [self initCustomDates];
+
     PDTSimpleCalendarViewController *calendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     //This is the default behavior, will display a full year starting the first of the current month
     [calendarViewController setDelegate:self];
+    calendarViewController.weekdayHeaderEnabled = YES;
+    calendarViewController.weekdayTextType = PDTSimpleCalendarViewWeekdayTextTypeVeryShort;
 
     PDTSimpleCalendarViewController *hebrewCalendarViewController = [[PDTSimpleCalendarViewController alloc] init];
     //Example of how you can change the default calendar
@@ -116,7 +116,6 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-
 #pragma mark - PDTSimpleCalendarViewDelegate
 
 - (void)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller didSelectDate:(NSDate *)date
@@ -143,5 +142,21 @@
 {
     return [UIColor orangeColor];
 }
+
+#pragma mark - Private
+
+//Add 3 custom dates, the 15th for the current & 2 next months.
+- (void)initCustomDates
+{
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth|NSCalendarUnitYear fromDate:[NSDate date]];
+    components.day = 15;
+    NSDate *date1 = [[NSCalendar currentCalendar] dateFromComponents:components];
+    NSDateComponents *addOneMonthComponents = [[NSDateComponents alloc] init];
+    addOneMonthComponents.month =1;
+    NSDate *date2 = [[NSCalendar currentCalendar] dateByAddingComponents:addOneMonthComponents toDate:date1 options:0];
+    NSDate *date3 = [[NSCalendar currentCalendar] dateByAddingComponents:addOneMonthComponents toDate:date2 options:0];
+    self.customDates = @[date1, date2, date3];
+}
+
 
 @end

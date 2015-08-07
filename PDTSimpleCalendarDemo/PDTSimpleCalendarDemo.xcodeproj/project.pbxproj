@@ -146,8 +146,6 @@
 		89594343180CB46B007DEC5D /* PDTSimpleCalendar */ = {
 			isa = PBXGroup;
 			children = (
-				1B4E30FA1B6FB97F00BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.h */,
-				1B4E30FB1B6FB97F00BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.m */,
 				89D411BF18109DA1001584CC /* PDTSimpleCalendar.h */,
 				89594348180CB47B007DEC5D /* PDTSimpleCalendarViewController.h */,
 				89594349180CB47B007DEC5D /* PDTSimpleCalendarViewController.m */,
@@ -157,6 +155,8 @@
 				89594347180CB47B007DEC5D /* PDTSimpleCalendarViewCell.m */,
 				8959434A180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.h */,
 				8959434B180CB47B007DEC5D /* PDTSimpleCalendarViewFlowLayout.m */,
+				1B4E30FA1B6FB97F00BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.h */,
+				1B4E30FB1B6FB97F00BF77A7 /* PDTSimpleCalendarViewWeekdayHeader.m */,
 			);
 			name = PDTSimpleCalendar;
 			sourceTree = "<group>";
