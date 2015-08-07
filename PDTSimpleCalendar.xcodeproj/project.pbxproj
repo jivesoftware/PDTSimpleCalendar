@@ -19,12 +19,23 @@
 		37E204FA1B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 37E204F11B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		37E204FB1B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E204F21B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.m */; };
 		897EED3D1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EED3C1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m */; };
+		897EED761B756BB300AE9049 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EED751B756BB300AE9049 /* main.m */; };
+		897EED791B756BB300AE9049 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EED781B756BB300AE9049 /* AppDelegate.m */; };
+		897EED811B756BB300AE9049 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 897EED801B756BB300AE9049 /* Images.xcassets */; };
+		897EED841B756BB300AE9049 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897EED821B756BB300AE9049 /* LaunchScreen.xib */; };
 		89875F4F1B755A5400CE4345 /* PDTSimpleCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E204CE1B3D16330017CE84 /* PDTSimpleCalendar.framework */; };
 		89875F551B755A9600CE4345 /* PDTSimpleCalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89875F4D1B755A5400CE4345 /* PDTSimpleCalendarTests.m */; };
 		D02EFBF69ED7B15BC1B11C82 /* libPods-PDTSimpleCalendarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28013C07C5A7CAE0E8045DFB /* libPods-PDTSimpleCalendarTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		897EED971B756BD400AE9049 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 37E204C51B3D16330017CE84 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 897EED701B756BB300AE9049;
+			remoteInfo = PDTSimpleCalendarTestsHostApp;
+		};
 		89875F501B755A5400CE4345 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 37E204C51B3D16330017CE84 /* Project object */;
@@ -51,6 +62,13 @@
 		37E204F11B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTSimpleCalendarViewHeader.h; sourceTree = "<group>"; };
 		37E204F21B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewHeader.m; sourceTree = "<group>"; };
 		897EED3C1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m; sourceTree = "<group>"; };
+		897EED711B756BB300AE9049 /* PDTSimpleCalendarTestsHostApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDTSimpleCalendarTestsHostApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		897EED741B756BB300AE9049 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		897EED751B756BB300AE9049 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		897EED771B756BB300AE9049 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		897EED781B756BB300AE9049 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		897EED801B756BB300AE9049 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		897EED831B756BB300AE9049 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		89875F491B755A5400CE4345 /* PDTSimpleCalendarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDTSimpleCalendarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89875F4C1B755A5400CE4345 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89875F4D1B755A5400CE4345 /* PDTSimpleCalendarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarTests.m; sourceTree = "<group>"; };
@@ -59,6 +77,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		37E204CA1B3D16330017CE84 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		897EED6E1B756BB300AE9049 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -82,6 +107,7 @@
 			children = (
 				37E204D01B3D16330017CE84 /* PDTSimpleCalendar */,
 				89875F4A1B755A5400CE4345 /* PDTSimpleCalendarTests */,
+				897EED721B756BB300AE9049 /* PDTSimpleCalendarTestsHostApp */,
 				37E204CF1B3D16330017CE84 /* Products */,
 				62C8D50298499303484AAB4D /* Pods */,
 				E1BEEB1AD49A925B28505E4D /* Frameworks */,
@@ -93,6 +119,7 @@
 			children = (
 				37E204CE1B3D16330017CE84 /* PDTSimpleCalendar.framework */,
 				89875F491B755A5400CE4345 /* PDTSimpleCalendarTests.xctest */,
+				897EED711B756BB300AE9049 /* PDTSimpleCalendarTestsHostApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -131,6 +158,27 @@
 				9784531216811FF98EE8049F /* Pods-PDTSimpleCalendarTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		897EED721B756BB300AE9049 /* PDTSimpleCalendarTestsHostApp */ = {
+			isa = PBXGroup;
+			children = (
+				897EED771B756BB300AE9049 /* AppDelegate.h */,
+				897EED781B756BB300AE9049 /* AppDelegate.m */,
+				897EED801B756BB300AE9049 /* Images.xcassets */,
+				897EED821B756BB300AE9049 /* LaunchScreen.xib */,
+				897EED731B756BB300AE9049 /* Supporting Files */,
+			);
+			path = PDTSimpleCalendarTestsHostApp;
+			sourceTree = "<group>";
+		};
+		897EED731B756BB300AE9049 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				897EED741B756BB300AE9049 /* Info.plist */,
+				897EED751B756BB300AE9049 /* main.m */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		89875F4A1B755A5400CE4345 /* PDTSimpleCalendarTests */ = {
@@ -196,6 +244,23 @@
 			productReference = 37E204CE1B3D16330017CE84 /* PDTSimpleCalendar.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		897EED701B756BB300AE9049 /* PDTSimpleCalendarTestsHostApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 897EED911B756BB400AE9049 /* Build configuration list for PBXNativeTarget "PDTSimpleCalendarTestsHostApp" */;
+			buildPhases = (
+				897EED6D1B756BB300AE9049 /* Sources */,
+				897EED6E1B756BB300AE9049 /* Frameworks */,
+				897EED6F1B756BB300AE9049 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PDTSimpleCalendarTestsHostApp;
+			productName = PDTSimpleCalendarTestsHostApp;
+			productReference = 897EED711B756BB300AE9049 /* PDTSimpleCalendarTestsHostApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		89875F481B755A5400CE4345 /* PDTSimpleCalendarTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89875F521B755A5400CE4345 /* Build configuration list for PBXNativeTarget "PDTSimpleCalendarTests" */;
@@ -210,6 +275,7 @@
 			);
 			dependencies = (
 				89875F511B755A5400CE4345 /* PBXTargetDependency */,
+				897EED981B756BD400AE9049 /* PBXTargetDependency */,
 			);
 			name = PDTSimpleCalendarTests;
 			productName = PDTSimpleCalendarTests;
@@ -228,8 +294,12 @@
 					37E204CD1B3D16330017CE84 = {
 						CreatedOnToolsVersion = 6.3.2;
 					};
+					897EED701B756BB300AE9049 = {
+						CreatedOnToolsVersion = 6.4;
+					};
 					89875F481B755A5400CE4345 = {
 						CreatedOnToolsVersion = 6.4;
+						TestTargetID = 897EED701B756BB300AE9049;
 					};
 				};
 			};
@@ -239,6 +309,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 37E204C41B3D16330017CE84;
 			productRefGroup = 37E204CF1B3D16330017CE84 /* Products */;
@@ -247,6 +318,7 @@
 			targets = (
 				37E204CD1B3D16330017CE84 /* PDTSimpleCalendar */,
 				89875F481B755A5400CE4345 /* PDTSimpleCalendarTests */,
+				897EED701B756BB300AE9049 /* PDTSimpleCalendarTestsHostApp */,
 			);
 		};
 /* End PBXProject section */
@@ -256,6 +328,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		897EED6F1B756BB300AE9049 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				897EED841B756BB300AE9049 /* LaunchScreen.xib in Resources */,
+				897EED811B756BB300AE9049 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +395,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		897EED6D1B756BB300AE9049 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				897EED791B756BB300AE9049 /* AppDelegate.m in Sources */,
+				897EED761B756BB300AE9049 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89875F451B755A5400CE4345 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -326,12 +416,28 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		897EED981B756BD400AE9049 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 897EED701B756BB300AE9049 /* PDTSimpleCalendarTestsHostApp */;
+			targetProxy = 897EED971B756BD400AE9049 /* PBXContainerItemProxy */;
+		};
 		89875F511B755A5400CE4345 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 37E204CD1B3D16330017CE84 /* PDTSimpleCalendar */;
 			targetProxy = 89875F501B755A5400CE4345 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		897EED821B756BB300AE9049 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				897EED831B756BB300AE9049 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		37E204E21B3D16330017CE84 /* Debug */ = {
@@ -455,6 +561,32 @@
 			};
 			name = Release;
 		};
+		897EED921B756BB400AE9049 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = PDTSimpleCalendarTestsHostApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		897EED931B756BB400AE9049 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = PDTSimpleCalendarTestsHostApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		89875F531B755A5400CE4345 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1CB6C10A9425D3E010C169C8 /* Pods-PDTSimpleCalendarTests.debug.xcconfig */;
@@ -471,6 +603,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PDTSimpleCalendarTestsHostApp.app/PDTSimpleCalendarTestsHostApp";
 			};
 			name = Debug;
 		};
@@ -486,6 +619,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PDTSimpleCalendarTestsHostApp.app/PDTSimpleCalendarTestsHostApp";
 			};
 			name = Release;
 		};
@@ -509,6 +643,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		897EED911B756BB400AE9049 /* Build configuration list for PBXNativeTarget "PDTSimpleCalendarTestsHostApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				897EED921B756BB400AE9049 /* Debug */,
+				897EED931B756BB400AE9049 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		89875F521B755A5400CE4345 /* Build configuration list for PBXNativeTarget "PDTSimpleCalendarTests" */ = {
 			isa = XCConfigurationList;
