@@ -58,8 +58,8 @@
 }
 
 - (void)testWithSelectedDate {
-    self.calendarViewController.selectedDate = [[self dateFormatter] dateFromString:@"10/05/2015"];
     [self prepareCalendarViewControllerForTest];
+    self.calendarViewController.selectedDate = [[self dateFormatter] dateFromString:@"10/05/2015"];
     FBSnapshotVerifyView(self.calendarViewController.view, nil);
 }
 
