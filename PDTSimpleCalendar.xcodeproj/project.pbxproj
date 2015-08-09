@@ -18,6 +18,7 @@
 		37E204F91B3D16F20017CE84 /* PDTSimpleCalendarViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E204F01B3D16F20017CE84 /* PDTSimpleCalendarViewFlowLayout.m */; };
 		37E204FA1B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 37E204F11B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		37E204FB1B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E204F21B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.m */; };
+		894BD52F1B77A2EE00DFC64A /* PDTSimpleCalendarViewControllerSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 894BD52E1B77A2EE00DFC64A /* PDTSimpleCalendarViewControllerSnapshotTests.m */; };
 		897EED3D1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EED3C1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m */; };
 		897EED761B756BB300AE9049 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EED751B756BB300AE9049 /* main.m */; };
 		897EED791B756BB300AE9049 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EED781B756BB300AE9049 /* AppDelegate.m */; };
@@ -61,6 +62,7 @@
 		37E204F01B3D16F20017CE84 /* PDTSimpleCalendarViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewFlowLayout.m; sourceTree = "<group>"; };
 		37E204F11B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTSimpleCalendarViewHeader.h; sourceTree = "<group>"; };
 		37E204F21B3D16F20017CE84 /* PDTSimpleCalendarViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewHeader.m; sourceTree = "<group>"; };
+		894BD52E1B77A2EE00DFC64A /* PDTSimpleCalendarViewControllerSnapshotTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewControllerSnapshotTests.m; sourceTree = "<group>"; };
 		897EED3C1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m; sourceTree = "<group>"; };
 		897EED711B756BB300AE9049 /* PDTSimpleCalendarTestsHostApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDTSimpleCalendarTestsHostApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		897EED741B756BB300AE9049 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			children = (
 				89875F4D1B755A5400CE4345 /* PDTSimpleCalendarTests.m */,
 				897EED3C1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m */,
+				894BD52E1B77A2EE00DFC64A /* PDTSimpleCalendarViewControllerSnapshotTests.m */,
 				89875F4B1B755A5400CE4345 /* Supporting Files */,
 			);
 			path = PDTSimpleCalendarTests;
@@ -408,6 +411,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				894BD52F1B77A2EE00DFC64A /* PDTSimpleCalendarViewControllerSnapshotTests.m in Sources */,
 				89875F551B755A9600CE4345 /* PDTSimpleCalendarTests.m in Sources */,
 				897EED3D1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m in Sources */,
 			);
@@ -651,6 +655,7 @@
 				897EED931B756BB400AE9049 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		89875F521B755A5400CE4345 /* Build configuration list for PBXNativeTarget "PDTSimpleCalendarTests" */ = {
 			isa = XCConfigurationList;
