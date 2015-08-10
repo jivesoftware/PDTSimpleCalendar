@@ -38,7 +38,7 @@ typedef NS_ENUM (NSInteger, PDTSimpleCalendarViewWeekdayTextType) {
 @property (nonatomic, strong) UIFont *textFont UI_APPEARANCE_SELECTOR;
 
 /**
- *  Customize the head background color.
+ *  Customize the header background color.
  */
 @property (nonatomic, strong) UIColor *headerBackgroundColor UI_APPEARANCE_SELECTOR;
 
