@@ -27,6 +27,7 @@
 		897EED841B756BB300AE9049 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897EED821B756BB300AE9049 /* LaunchScreen.xib */; };
 		89875F4F1B755A5400CE4345 /* PDTSimpleCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E204CE1B3D16330017CE84 /* PDTSimpleCalendar.framework */; };
 		89875F551B755A9600CE4345 /* PDTSimpleCalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89875F4D1B755A5400CE4345 /* PDTSimpleCalendarTests.m */; };
+		899618041B78EFEF0094E8AB /* PDTSimpleCalendarViewCellSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 899618031B78EFEF0094E8AB /* PDTSimpleCalendarViewCellSnapshotTests.m */; };
 		D02EFBF69ED7B15BC1B11C82 /* libPods-PDTSimpleCalendarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28013C07C5A7CAE0E8045DFB /* libPods-PDTSimpleCalendarTests.a */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +77,7 @@
 		89875F491B755A5400CE4345 /* PDTSimpleCalendarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDTSimpleCalendarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89875F4C1B755A5400CE4345 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89875F4D1B755A5400CE4345 /* PDTSimpleCalendarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarTests.m; sourceTree = "<group>"; };
+		899618031B78EFEF0094E8AB /* PDTSimpleCalendarViewCellSnapshotTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewCellSnapshotTests.m; sourceTree = "<group>"; };
 		9784531216811FF98EE8049F /* Pods-PDTSimpleCalendarTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PDTSimpleCalendarTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PDTSimpleCalendarTests/Pods-PDTSimpleCalendarTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				89875F4D1B755A5400CE4345 /* PDTSimpleCalendarTests.m */,
+				899618031B78EFEF0094E8AB /* PDTSimpleCalendarViewCellSnapshotTests.m */,
 				894BD52E1B77A2EE00DFC64A /* PDTSimpleCalendarViewControllerSnapshotTests.m */,
 				894BD5301B77AA4700DFC64A /* PDTSimpleCalendarViewHeaderSnapshotTests.m */,
 				897EED3C1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m */,
@@ -418,6 +421,7 @@
 				894BD52F1B77A2EE00DFC64A /* PDTSimpleCalendarViewControllerSnapshotTests.m in Sources */,
 				89875F551B755A9600CE4345 /* PDTSimpleCalendarTests.m in Sources */,
 				897EED3D1B755BDA00AE9049 /* PDTSimpleCalendarViewWeekdayHeaderSnapshotTests.m in Sources */,
+				899618041B78EFEF0094E8AB /* PDTSimpleCalendarViewCellSnapshotTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
