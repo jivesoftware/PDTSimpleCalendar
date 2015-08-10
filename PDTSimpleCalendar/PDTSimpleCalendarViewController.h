@@ -72,7 +72,6 @@
 @property (nonatomic, assign) PDTSimpleCalendarViewWeekdayTextType weekdayTextType;
 
 
-
 /** @name Getting Notified of changes */
 
 /**
@@ -83,14 +82,6 @@
  */
 @property (nonatomic, weak) id<PDTSimpleCalendarViewDelegate> delegate;
 
-
-/**
- *  Change the selected date of the calendar, and scroll to it
- *
- *  @param newSelectedDate the date that will be selected
- *  @param animated        if you want to animate the scrolling
- */
-- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated __attribute__((deprecated("Use setSelectedDate: instead. Also setSelectedDate doesn't automatically scroll to the selected date. You need to explicitly call scrollToDate:animated: (or scrollToSelectedDate:)")));
 
 /**
  *  Scroll to the current selected date in the calendar.
@@ -108,7 +99,6 @@
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
 
 @end
-
 
 
 /**

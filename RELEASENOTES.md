@@ -6,6 +6,10 @@ Last version compatible with iOS6. Following versions will be compatible iOS7+. 
 You can now display a fixed-header with the days of the week. Set `weekdayHeaderEnabled = YES` to display it. For Backward compatibility, the default behavior is NO. Although having it visible might become the default behavior in 1.0.
 You can also tweak the style of the weekdays by setting the property `weekdayTextType`;
 
+`setSelectedDate:animated:` has been removed. If you were still using it, use the `selectedDate` property +  `scrollToDate:animated:` (or `scrollToSelectedDate:`)
+
+More Tests (but still many more needed specially for date calculation)!!! If you wanna contribute run pod install before opening the Workspace.
+
 ###0.8.0
 Bug fixes and small improvements
 
