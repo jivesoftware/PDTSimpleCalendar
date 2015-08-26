@@ -21,7 +21,7 @@ You should read the [Release Notes](https://github.com/jivesoftware/PDTSimpleCal
 
 in your `Podfile` just add:
 
-`pod 'PDTSimpleCalendar', '~> 0.9.0'`
+`pod 'PDTSimpleCalendar', '~> 0.9.1'`
 
 then run `pod install`
 
@@ -31,7 +31,7 @@ And finally in your project import `#import <PDTSimpleCalendar/PDTSimpleCalendar
 
 In your `Cartfile` simply add:
 
-`github "jivesoftware/PDTSimpleCalendar" ~> 0.9.0`
+`github "jivesoftware/PDTSimpleCalendar" ~> 0.9.1`
 
 run `carthage update`
 

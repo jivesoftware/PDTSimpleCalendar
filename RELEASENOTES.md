@@ -1,5 +1,9 @@
 ##PDTSimpleCalendar Release Notes
 
+###0.9.1
+- Fix bug on iOS7 related to week calculation and resulting on a crash (#69)
+- Fix Carthage build
+
 ###0.9.0
 Last version compatible with iOS6. Following versions will be compatible iOS7+. Regarding the adoption rate of iOS8 & 7. I doubt this is gonna be an issue.
 
