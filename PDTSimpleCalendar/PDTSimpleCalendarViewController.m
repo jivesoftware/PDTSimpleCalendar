@@ -325,10 +325,30 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     NSDate *firstOfMonth = [self firstOfMonthForSection:section];
-    NSRange rangeOfWeeks = [self.calendar rangeOfUnit:NSCalendarUnitWeekOfMonth inUnit:NSCalendarUnitMonth forDate:firstOfMonth];
+    NSCalendarUnit weekCalendarUnit = [self weekCalendarUnitDependingOniOSVersion];
+    NSRange rangeOfWeeks = [self.calendar rangeOfUnit:weekCalendarUnit inUnit:NSCalendarUnitMonth forDate:firstOfMonth];
 
     //We need the number of calendar weeks for the full months (it will maybe include previous month and next months cells)
     return (rangeOfWeeks.length * self.daysPerWeek);
+}
+
+/**
+ * https://github.com/jivesoftware/PDTSimpleCalendar/issues/69
+ * On iOS7, using NSCalendarUnitWeekOfMonth (or WeekOfYear) in rangeOfUnit:inUnit is returning NSNotFound, NSNotFound
+ * Fun stuff, definition of NSNotFound is enum {NSNotFound = NSIntegerMax};
+ * So on iOS7, we're trying to allocate NSIntegerMax * 7 cells per Section
+ *
+ * //TODO: Remove when removing iOS7 Support
+ *
+ *  @return the proper NSCalendarUnit to use in rangeOfUnit:inUnit
+ */
+- (NSCalendarUnit)weekCalendarUnitDependingOniOSVersion {
+    //isDateInToday is a new (awesome) method available on iOS8 only.
+    if ([self.calendar respondsToSelector:@selector(isDateInToday:)]) {
+        return NSCalendarUnitWeekOfMonth;
+    } else {
+        return NSWeekCalendarUnit;
+    }
 }
 
 
