@@ -347,7 +347,10 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     if ([self.calendar respondsToSelector:@selector(isDateInToday:)]) {
         return NSCalendarUnitWeekOfMonth;
     } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         return NSWeekCalendarUnit;
+#pragma clang diagnostic pop
     }
 }
 
