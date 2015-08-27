@@ -459,6 +459,13 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 
 #pragma mark - UIScrollViewDelegate
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:scrollViewWillBeginDragging:)]) {
+        [self.delegate simpleCalendarViewController:self scrollViewWillBeginDragging:scrollView];
+    }
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     //We only display the overlay view if there is a vertical velocity
