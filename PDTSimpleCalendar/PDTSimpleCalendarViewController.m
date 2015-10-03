@@ -423,7 +423,8 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 {
     CGFloat itemWidth = floorf(CGRectGetWidth(self.collectionView.bounds) / self.daysPerWeek);
 
-    return CGSizeMake(itemWidth, itemWidth);
+    // Limit the height with wide displays.
+    return CGSizeMake(itemWidth, MIN(itemWidth, round(PDTSimpleCalendarCircleSize * 1.2)));
 }
 
 #pragma mark - UIScrollViewDelegate

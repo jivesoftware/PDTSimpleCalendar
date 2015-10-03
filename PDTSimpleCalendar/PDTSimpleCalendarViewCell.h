@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+extern const CGFloat PDTSimpleCalendarCircleSize;
+
 @class PDTSimpleCalendarViewCell;
 
 @protocol PDTSimpleCalendarViewCellDelegate <NSObject>
