@@ -51,8 +51,6 @@ extern const CGFloat PDTSimpleCalendarCircleSize;
 
 @end
 
-#import <UIKit/UIKit.h>
-
 /**
  *  The `PDTSimpleCalendarViewCell` class displays a day in the calendar.
  */
@@ -118,7 +116,7 @@ extern const CGFloat PDTSimpleCalendarCircleSize;
  *
  * @param calendar the calendar.
  */
-- (void) setDate:(NSDate*)date calendar:(NSCalendar*)calendar;
+- (void)setDate:(NSDate*)date calendar:(NSCalendar*)calendar;
 
 /**
  *  Force the refresh of the colors for the circle and the text

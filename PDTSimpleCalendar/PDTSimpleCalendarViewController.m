@@ -24,6 +24,8 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 @property (nonatomic, strong) UILabel *overlayView;
 @property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
 
+@property (nonatomic, strong) PDTSimpleCalendarViewWeekdayHeader *weekdayHeader;
+
 // First and last date of the months based on the public properties first & lastDate
 @property (nonatomic) NSDate *firstDateMonth;
 @property (nonatomic) NSDate *lastDateMonth;
@@ -84,6 +86,8 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     self.backgroundColor = [UIColor whiteColor];
     self.overlayTextColor = [UIColor blackColor];
     self.daysPerWeek = 7;
+    self.weekdayHeaderEnabled = NO;
+    self.weekdayTextType = PDTSimpleCalendarViewWeekdayTextTypeShort;
 }
 
 #pragma mark - View Lifecycle
@@ -217,14 +221,6 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     }
 }
 
-//Deprecated, You need to use setSelectedDate: and call scrollToDate:animated: or scrollToSelectedDate:animated:
-//TODO: Remove this in next release
-- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated
-{
-    [self setSelectedDate:newSelectedDate];
-    [self scrollToSelectedDate:animated];
-}
-
 #pragma mark - Scroll to a specific date
 
 - (void)scrollToSelectedDate:(BOOL)animated
@@ -291,11 +287,23 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 
     [self.view addSubview:self.overlayView];
     [self.overlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView};
-    NSDictionary *metricsDictionary = @{@"overlayViewHeight": @(PDTSimpleCalendarFlowLayoutHeaderHeight)};
+    
+    //Configure the Weekday Header
+    self.weekdayHeader = [[PDTSimpleCalendarViewWeekdayHeader alloc] initWithCalendar:self.calendar weekdayTextType:self.weekdayTextType];
+    
+    [self.view addSubview:self.weekdayHeader];
+    [self.weekdayHeader setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    NSInteger weekdayHeaderHeight = self.weekdayHeaderEnabled ? PDTSimpleCalendarWeekdayHeaderHeight : 0;
+
+    NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView, @"weekdayHeader": self.weekdayHeader};
+    NSDictionary *metricsDictionary = @{@"overlayViewHeight": @(PDTSimpleCalendarFlowLayoutHeaderHeight), @"weekdayHeaderHeight": @(weekdayHeaderHeight)};
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" options:NSLayoutFormatAlignAllTop metrics:nil views:viewsDictionary]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView(==overlayViewHeight)]" options:NSLayoutFormatAlignAllTop metrics:metricsDictionary views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[weekdayHeader]|" options:NSLayoutFormatAlignAllTop metrics:nil views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[weekdayHeader(weekdayHeaderHeight)][overlayView(overlayViewHeight)]" options:0 metrics:metricsDictionary views:viewsDictionary]];
+    
+    [self.collectionView setContentInset:UIEdgeInsetsMake(weekdayHeaderHeight, 0, 0, 0)];
 }
 
 #pragma mark - Rotation Handling
@@ -317,10 +325,33 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     NSDate *firstOfMonth = [self firstOfMonthForSection:section];
-    NSRange rangeOfWeeks = [self.calendar rangeOfUnit:NSCalendarUnitWeekOfMonth inUnit:NSCalendarUnitMonth forDate:firstOfMonth];
+    NSCalendarUnit weekCalendarUnit = [self weekCalendarUnitDependingOniOSVersion];
+    NSRange rangeOfWeeks = [self.calendar rangeOfUnit:weekCalendarUnit inUnit:NSCalendarUnitMonth forDate:firstOfMonth];
 
     //We need the number of calendar weeks for the full months (it will maybe include previous month and next months cells)
     return (rangeOfWeeks.length * self.daysPerWeek);
+}
+
+/**
+ * https://github.com/jivesoftware/PDTSimpleCalendar/issues/69
+ * On iOS7, using NSCalendarUnitWeekOfMonth (or WeekOfYear) in rangeOfUnit:inUnit is returning NSNotFound, NSNotFound
+ * Fun stuff, definition of NSNotFound is enum {NSNotFound = NSIntegerMax};
+ * So on iOS7, we're trying to allocate NSIntegerMax * 7 cells per Section
+ *
+ * //TODO: Remove when removing iOS7 Support
+ *
+ *  @return the proper NSCalendarUnit to use in rangeOfUnit:inUnit
+ */
+- (NSCalendarUnit)weekCalendarUnitDependingOniOSVersion {
+    //isDateInToday is a new (awesome) method available on iOS8 only.
+    if ([self.calendar respondsToSelector:@selector(isDateInToday:)]) {
+        return NSCalendarUnitWeekOfMonth;
+    } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        return NSWeekCalendarUnit;
+#pragma clang diagnostic pop
+    }
 }
 
 
