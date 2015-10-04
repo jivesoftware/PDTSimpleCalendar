@@ -12,6 +12,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 @interface PDTSimpleCalendarViewCell ()
 
+@property (nonatomic, strong) UILabel *noteLabel;
 @property (nonatomic, strong) UILabel *dayLabel;
 @property (nonatomic, strong) NSDate *date;
 
@@ -72,6 +73,22 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     if (self) {
         _date = nil;
         _isToday = NO;
+        
+        _noteLabel = [[UILabel alloc] init];
+        [self.noteLabel setFont:[UIFont systemFontOfSize:10.0]];
+        [self.noteLabel setTextAlignment:NSTextAlignmentCenter];
+        [self.contentView addSubview:self.noteLabel];
+        
+        //Add the Constraints
+        [self.noteLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.noteLabel setBackgroundColor:[UIColor clearColor]];
+        self.noteLabel.layer.masksToBounds = YES;
+        
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.noteLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.noteLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:PDTSimpleCalendarCircleSize * 0.6]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.noteLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize * 0.6]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.noteLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeWidth multiplier:0.9 constant:0.0]];
+        
         _dayLabel = [[UILabel alloc] init];
         [self.dayLabel setFont:[self textDefaultFont]];
         [self.dayLabel setTextAlignment:NSTextAlignmentCenter];
@@ -124,6 +141,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 {
     UIColor *circleColor = (today) ? [self circleTodayColor] : [self circleDefaultColor];
     UIColor *labelColor = (today) ? [self textTodayColor] : [self textDefaultColor];
+    NSString *note = @"";
 
     if (self.date && self.delegate) {
         if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:shouldUseCustomColorsForDate:)] && [self.delegate simpleCalendarViewCell:self shouldUseCustomColorsForDate:self.date]) {
@@ -135,6 +153,10 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
             if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:circleColorForDate:)] && [self.delegate simpleCalendarViewCell:self circleColorForDate:self.date]) {
                 circleColor = [self.delegate simpleCalendarViewCell:self circleColorForDate:self.date];
             }
+            
+            if ([self.delegate respondsToSelector:@selector(simpleCalendarViewCell:noteForDate:)] && [self.delegate simpleCalendarViewCell:self noteForDate:self.date]) {
+                note = [self.delegate simpleCalendarViewCell:self noteForDate:self.date];
+            }
         }
     }
     
@@ -143,6 +165,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         labelColor = [self textSelectedColor];
     }
 
+    [self.noteLabel setText:note];
     [self.dayLabel setBackgroundColor:circleColor];
     [self.dayLabel setTextColor:labelColor];
 }
@@ -161,6 +184,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     [super prepareForReuse];
     _date = nil;
     _isToday = NO;
+    [self.noteLabel setText:@""];
     [self.dayLabel setText:@""];
     [self.dayLabel setBackgroundColor:[self circleDefaultColor]];
     [self.dayLabel setTextColor:[self textDefaultColor]];

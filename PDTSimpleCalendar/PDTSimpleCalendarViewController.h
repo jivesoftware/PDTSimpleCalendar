@@ -154,4 +154,12 @@
  */
 - (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textColorForDate:(NSDate *)date;
 
+/**
+ *  Asks the delegate for the note for a custom added date
+ *
+ *  @param controller the calendarView Controller
+ *  @param date       the date (Midnight GMT)
+ */
+- (NSString *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller noteForDate:(NSDate *)date;
+
 @end;

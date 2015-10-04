@@ -47,6 +47,17 @@
  */
 - (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date;
 
+/**
+ *  Asks the delegate for the note for a specific date.
+ *  Will be called only if the delegate returns YES for `- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;`
+ *
+ *  @param cell the current cell
+ *  @param date the date associated with the cell
+ *
+ *  @return The note
+ */
+- (NSString *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell noteForDate:(NSDate *)date;
+
 @end
 
 /**

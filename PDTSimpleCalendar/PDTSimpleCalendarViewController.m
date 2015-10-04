@@ -638,4 +638,17 @@ static const NSInteger kFirstDay = 1;
     return nil;
 }
 
+- (NSString *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell noteForDate:(NSDate *)date
+{
+    if (![self isEnabledDate:date]) {
+        return @"";
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:noteForDate:)]) {
+        return [self.delegate simpleCalendarViewController:self noteForDate:date];
+    }
+    
+    return nil;
+}
+
 @end

@@ -143,6 +143,11 @@
     return [UIColor orangeColor];
 }
 
+- (NSString *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller noteForDate:(NSDate *)date
+{
+    return @"note";
+}
+
 #pragma mark - Private
 
 //Add 3 custom dates, the 15th for the current & 2 next months.
@@ -155,7 +160,7 @@
     addOneMonthComponents.month =1;
     NSDate *date2 = [[NSCalendar currentCalendar] dateByAddingComponents:addOneMonthComponents toDate:date1 options:0];
     NSDate *date3 = [[NSCalendar currentCalendar] dateByAddingComponents:addOneMonthComponents toDate:date2 options:0];
-    self.customDates = @[date1, date2, date3];
+    self.customDates = @[date1, date2, date3, [NSDate date]];
 }
 
 
