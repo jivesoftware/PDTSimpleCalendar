@@ -85,7 +85,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         self.noteLabel.layer.masksToBounds = YES;
         
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.noteLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.noteLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:PDTSimpleCalendarCircleSize * 0.6]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.noteLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:PDTSimpleCalendarCircleSize * 0.8]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.noteLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize * 0.6]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.noteLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeWidth multiplier:0.9 constant:0.0]];
         
