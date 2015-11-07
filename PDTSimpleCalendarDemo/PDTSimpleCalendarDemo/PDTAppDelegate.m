@@ -143,6 +143,27 @@
     return [UIColor orangeColor];
 }
 
+- (NSString *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller noteForDate:(NSDate *)date
+{
+    static NSString *todayStr = nil;
+    static NSDateFormatter *formatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        todayStr = [formatter stringFromDate:[NSDate date]];
+    });
+    
+    NSString *dateStr = [formatter stringFromDate:date];
+    
+    if ([dateStr isEqualToString:todayStr]) {
+        return @"today";
+    } else {
+        return nil;
+    }
+}
+
 #pragma mark - Private
 
 //Add 3 custom dates, the 15th for the current & 2 next months.

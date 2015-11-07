@@ -47,6 +47,17 @@
  */
 - (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date;
 
+/**
+ *  Asks the delegate for the note for a specific date.
+ *  Will be called only if the delegate returns YES for `- (BOOL)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell shouldUseCustomColorsForDate:(NSDate *)date;`
+ *
+ *  @param cell the current cell
+ *  @param date the date associated with the cell
+ *
+ *  @return The note
+ */
+- (NSString *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell noteForDate:(NSDate *)date;
+
 @end
 
 /**
@@ -108,6 +119,11 @@
 @property (nonatomic, strong) UIFont *textDefaultFont UI_APPEARANCE_SELECTOR;
 
 /**
+ *  Customize the note's font using UIAppearance.
+ */
+@property (nonatomic, strong) UIFont *noteFont UI_APPEARANCE_SELECTOR;
+
+/**
  * Set the date for this cell
  *
  * @param date the date (Midnight GMT).
@@ -115,6 +131,13 @@
  * @param calendar the calendar.
  */
 - (void)setDate:(NSDate*)date calendar:(NSCalendar*)calendar;
+
+/**
+ * Set note for this cell
+ *
+ * @param noteText the note.
+ */
+- (void)setNote:(NSString *)noteText;
 
 /**
  *  Force the refresh of the colors for the circle and the text
