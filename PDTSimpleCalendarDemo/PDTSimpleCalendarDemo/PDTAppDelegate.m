@@ -145,7 +145,23 @@
 
 - (NSString *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller noteForDate:(NSDate *)date
 {
-    return @"note";
+    static NSString *todayStr = nil;
+    static NSDateFormatter *formatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        todayStr = [formatter stringFromDate:[NSDate date]];
+    });
+    
+    NSString *dateStr = [formatter stringFromDate:date];
+    
+    if ([dateStr isEqualToString:todayStr]) {
+        return @"today";
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark - Private
@@ -160,7 +176,7 @@
     addOneMonthComponents.month =1;
     NSDate *date2 = [[NSCalendar currentCalendar] dateByAddingComponents:addOneMonthComponents toDate:date1 options:0];
     NSDate *date3 = [[NSCalendar currentCalendar] dateByAddingComponents:addOneMonthComponents toDate:date2 options:0];
-    self.customDates = @[date1, date2, date3, [NSDate date]];
+    self.customDates = @[date1, date2, date3];
 }
 
 

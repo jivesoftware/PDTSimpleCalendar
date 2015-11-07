@@ -119,6 +119,11 @@
 @property (nonatomic, strong) UIFont *textDefaultFont UI_APPEARANCE_SELECTOR;
 
 /**
+ *  Customize the note's font using UIAppearance.
+ */
+@property (nonatomic, strong) UIFont *noteFont UI_APPEARANCE_SELECTOR;
+
+/**
  * Set the date for this cell
  *
  * @param date the date (Midnight GMT).
@@ -126,6 +131,13 @@
  * @param calendar the calendar.
  */
 - (void)setDate:(NSDate*)date calendar:(NSCalendar*)calendar;
+
+/**
+ * Set note for this cell
+ *
+ * @param noteText the note.
+ */
+- (void)setNote:(NSString *)noteText;
 
 /**
  *  Force the refresh of the colors for the circle and the text
