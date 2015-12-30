@@ -65,6 +65,13 @@
 @property (nonatomic, assign) BOOL weekdayHeaderEnabled;
 
 /**
+ *  Setting this to YES disables the ability to select a date
+ *
+ *  Default value is NO.
+ */
+@property (nonatomic, assign) BOOL dateSelectionDisabled;
+
+/**
  *  Setting Text type of weekday
  *
  *  Default value is Short.
