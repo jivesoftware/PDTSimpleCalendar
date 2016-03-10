@@ -154,4 +154,23 @@
  */
 - (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textColorForDate:(NSDate *)date;
 
+/** @name Date cell Customization */
+
+/**
+ *  Asks the delegate custom date cell
+ *
+ *  @return Customized date cell should be inherited from `PSTSimpleCalenderViewCell`
+ */
+- (Class)customCollectionViewCellClass;
+
+/**
+ *  Give delegate a chance to manipulate custom date cell
+ *
+ *  @param cell the calendarView cell
+ *  @param date the date of cell
+ *
+ *  @return YES if the calendar must ask the delegate for text and circle color, NO if it should use default values.
+ */
+- (void)customCellManipulate:(UICollectionViewCell * __nonnull)cell withDate:( NSDate * _Nullable )date;
+
 @end;
