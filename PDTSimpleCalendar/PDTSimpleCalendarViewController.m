@@ -206,9 +206,11 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
         return;
     }
 
-
-    [[self cellForItemAtDate:_selectedDate] setSelected:NO];
-    [[self cellForItemAtDate:startOfDay] setSelected:YES];
+    // TODO:
+    if (!self.collectionView.allowsMultipleSelection) {
+        [[self cellForItemAtDate:_selectedDate] setSelected:NO];
+        [[self cellForItemAtDate:startOfDay] setSelected:YES];
+    }
 
     _selectedDate = startOfDay;
 
@@ -271,7 +273,15 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     // Do any additional setup after loading the view.
 
     //Configure the Collection View
-    [self.collectionView registerClass:[PDTSimpleCalendarViewCell class] forCellWithReuseIdentifier:PDTSimpleCalendarViewCellIdentifier];
+    Class collectionViewCellClass;
+    // if delegate offer a custom cell
+    if ([self.delegate respondsToSelector:@selector(customCollectionViewCellClass)]) {
+        collectionViewCellClass = [self.delegate customCollectionViewCellClass]; // use it
+    }
+    else {
+        collectionViewCellClass = [PDTSimpleCalendarViewCell class];  // otherwise use default cell
+    }
+    [self.collectionView registerClass:collectionViewCellClass forCellWithReuseIdentifier:PDTSimpleCalendarViewCellIdentifier];
     [self.collectionView registerClass:[PDTSimpleCalendarViewHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:PDTSimpleCalendarViewHeaderIdentifier];
 
     self.collectionView.delegate = self;
@@ -398,6 +408,12 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     //If the current Date is not enabled, or if the delegate explicitely specify custom colors
     if (![self isEnabledDate:cellDate] || isCustomDate) {
         [cell refreshCellColors];
+    }
+    
+    // let delegate manipulate cell
+    if ([self.delegate respondsToSelector:@selector(customCellManipulate:withDate:)]) {
+        BOOL hasDate = cellDateComponents.month == firstOfMonthsComponents.month;
+        [self.delegate customCellManipulate:cell withDate:hasDate ? cellDate : nil];
     }
 
     //We rasterize the cell for performances purposes.
