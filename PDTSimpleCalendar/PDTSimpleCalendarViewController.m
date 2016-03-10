@@ -206,7 +206,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
         return;
     }
 
-    // TODO:
+    // Don't clear other cell circle if collectionView in multipleSelection mode 
     if (!self.collectionView.allowsMultipleSelection) {
         [[self cellForItemAtDate:_selectedDate] setSelected:NO];
         [[self cellForItemAtDate:startOfDay] setSelected:YES];
