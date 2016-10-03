@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "PDTSimpleCalendarViewWeekdayHeader.h"
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol PDTSimpleCalendarViewDelegate;
 
@@ -43,7 +44,7 @@
  *  Changing this value will not cause the calendar to scroll to this date.
  *  You need to manually call scrollToSelectedDate:(BOOL)animated if you want this behavior.
  */
-@property (nonatomic, strong) NSDate *selectedDate;
+@property (nullable, nonatomic, strong) NSDate *selectedDate;
 
 /** @name Customizing Appearance */
 
@@ -80,7 +81,7 @@
  *
  *  @see PDTSimpleCalendarViewDelegate
  */
-@property (nonatomic, weak) id<PDTSimpleCalendarViewDelegate> delegate;
+@property (nullable, nonatomic, weak) id<PDTSimpleCalendarViewDelegate> delegate;
 
 
 /**
@@ -144,7 +145,7 @@
  *  @param controller the calendarView Controller
  *  @param date       the date (Midnight GMT)
  */
-- (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller circleColorForDate:(NSDate *)date;
+- (nullable UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller circleColorForDate:(NSDate *)date;
 
 /**
  *  Asks the delegate for the text color for a custom added date
@@ -152,6 +153,15 @@
  *  @param controller the calendarView Controller
  *  @param date       the date (Midnight GMT)
  */
-- (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textColorForDate:(NSDate *)date;
+- (nullable UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textColorForDate:(NSDate *)date;
+
+/**
+ *  Asks the delegate for custom text for a date
+ *
+ *  @param controller the calendarView Controller
+ *  @param date       the date (Midnight GMT)
+ */
+- (nullable NSString *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textForDate:(NSDate *)date;
 
 @end;
+NS_ASSUME_NONNULL_END
