@@ -523,7 +523,6 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     }];
 }
 
-#pragma mark -
 #pragma mark - Calendar calculations
 
 - (NSDate *)clampDate:(NSDate *)date toComponents:(NSUInteger)unitFlags
