@@ -46,7 +46,7 @@ If you don't like cocoapods or Carthage or Cocoapods-Rome, you can still import 
 ##Customize it
 
 ###Calendar
-* `firstDate` : When the calendar must starts. If you don't specify anything, it will default to the first day of the current month (based on `[NSDate date]`). If `firstDate` is not the 1st of the month, the calendar will display the full month, but dates < `firstDate` will be disabled.
+* `firstDate` : When the calendar must start. If you don't specify anything, it will default to the first day of the current month (based on `[NSDate date]`). If `firstDate` is not the 1st of the month, the calendar will display the full month, but dates < `firstDate` will be disabled.
 * `lastDate` : When the calendar must ends. If you don't specify anything, it will default to the last day of the next year (based on `firstDate`). If `lastDate` is not the last day of the month, the calendar will display the full month, but dates > `lastDate` will be disabled.
 * `calendar` : Which calendar to use for display and date calculations. You can set any calendar supported by `NSCalendar`. the default value will be `[NSCalendar currentCalendar]`.
 * `weekdayHeaderEnabled`: If enabled, add an extra header on top of the calendar with the days of the week. Default is NO.
