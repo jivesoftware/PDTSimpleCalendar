@@ -19,8 +19,6 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 @implementation PDTSimpleCalendarViewCell
 
-@synthesize textDefaultColor = _textDefaultColor;
-
 #pragma mark - Class Methods
 
 + (NSString *)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
@@ -206,6 +204,8 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 }
 
 #pragma mark - Text Label Customizations Color
+
+@synthesize textDefaultColor = _textDefaultColor;
 
 - (UIColor *)textDefaultColor
 {
