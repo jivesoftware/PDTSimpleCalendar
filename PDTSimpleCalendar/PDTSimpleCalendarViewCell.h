@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+NS_ASSUME_NONNULL_BEGIN
+
+extern const CGFloat PDTSimpleCalendarCircleSize;
 
 @class PDTSimpleCalendarViewCell;
 
@@ -34,7 +37,7 @@
  *
  *  @return The text desired color
  */
-- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell textColorForDate:(NSDate *)date;
+- (nullable UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell textColorForDate:(NSDate *)date;
 
 /**
  *  Asks the delegate for the circle color for a specific date.
@@ -45,7 +48,7 @@
  *
  *  @return The circle desired color
  */
-- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date;
+- (nullable UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date;
 
 @end
 
@@ -85,7 +88,7 @@
 /**
  *  Customize the day's number using UIAppearance.
  */
-@property (nonatomic, strong) UIColor *textDefaultColor UI_APPEARANCE_SELECTOR;
+@property (nullable, nonatomic, strong) UIColor *textDefaultColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  Customize today's number color using UIAppearance.
@@ -114,7 +117,14 @@
  *
  * @param calendar the calendar.
  */
-- (void)setDate:(NSDate*)date calendar:(NSCalendar*)calendar;
+- (void)setDate:(nullable NSDate*)date calendar:(nullable NSCalendar*)calendar;
+
+/**
+ * Set a non-standard Day Label in the cell.
+ *
+ * @param dayLabel The new label.
+ */
+- (void) setDayLabelText: (NSString *)text;
 
 /**
  *  Force the refresh of the colors for the circle and the text
@@ -122,3 +132,4 @@
 - (void)refreshCellColors;
 
 @end
+NS_ASSUME_NONNULL_END

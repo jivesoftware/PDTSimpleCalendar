@@ -19,6 +19,8 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 @implementation PDTSimpleCalendarViewCell
 
+@synthesize textDefaultColor = _textDefaultColor;
+
 #pragma mark - Class Methods
 
 + (NSString *)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
@@ -107,6 +109,12 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     self.dayLabel.accessibilityLabel = accessibilityDay;
 }
 
+- (void) setDayLabelText: (NSString *)text {
+
+    self.dayLabel.text = text;
+    self.dayLabel.accessibilityLabel = text;
+}
+
 - (void)setIsToday:(BOOL)isToday
 {
     _isToday = isToday;
@@ -161,6 +169,8 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     [super prepareForReuse];
     _date = nil;
     _isToday = NO;
+    _textDefaultColor = nil;
+    _textTodayColor = nil;
     [self.dayLabel setText:@""];
     [self.dayLabel setBackgroundColor:[self circleDefaultColor]];
     [self.dayLabel setTextColor:[self textDefaultColor]];
@@ -220,6 +230,12 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     }
 
     return [UIColor blackColor];
+}
+
+- (void) setTextDefaultColor:(UIColor *)textDefaultColor
+{
+    _textDefaultColor = textDefaultColor ?: [[[self class] appearance] textDefaultColor];
+    self.dayLabel.textColor = _textDefaultColor;
 }
 
 - (UIColor *)textTodayColor
