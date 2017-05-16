@@ -180,56 +180,40 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 - (UIColor *)circleDefaultColor
 {
-    if(_circleDefaultColor == nil) {
-        _circleDefaultColor = [[[self class] appearance] circleDefaultColor];
-    }
+    if(_circleDefaultColor) { return _circleDefaultColor; }
 
-    if(_circleDefaultColor != nil) {
-        return _circleDefaultColor;
-    }
+    _circleDefaultColor = [[[self class] appearance] circleDefaultColor];
 
-    return [UIColor whiteColor];
+    return _circleDefaultColor;
 }
 
 - (UIColor *)circleTodayColor
 {
-    if(_circleTodayColor == nil) {
-        _circleTodayColor = [[[self class] appearance] circleTodayColor];
-    }
+    if(_circleTodayColor) { return _circleTodayColor; }
 
-    if(_circleTodayColor != nil) {
-        return _circleTodayColor;
-    }
+    _circleTodayColor = [[[self class] appearance] circleTodayColor];
 
-    return [UIColor grayColor];
+    return _circleTodayColor;
 }
 
 - (UIColor *)circleSelectedColor
 {
-    if(_circleSelectedColor == nil) {
-        _circleSelectedColor = [[[self class] appearance] circleSelectedColor];
-    }
+    if(_circleSelectedColor) { return _circleSelectedColor; }
 
-    if(_circleSelectedColor != nil) {
-        return _circleSelectedColor;
-    }
+    _circleSelectedColor = [[[self class] appearance] circleSelectedColor];
 
-    return [UIColor redColor];
+    return _circleSelectedColor;
 }
 
 #pragma mark - Text Label Customizations Color
 
 - (UIColor *)textDefaultColor
 {
-    if(_textDefaultColor == nil) {
-        _textDefaultColor = [[[self class] appearance] textDefaultColor];
-    }
+    if(_textDefaultColor) { return _textDefaultColor; }
 
-    if(_textDefaultColor != nil) {
-        return _textDefaultColor;
-    }
+    _textDefaultColor = [[[self class] appearance] textDefaultColor];
 
-    return [UIColor blackColor];
+    return _textDefaultColor;
 }
 
 - (void) setTextDefaultColor:(UIColor *)textDefaultColor
@@ -240,57 +224,40 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 - (UIColor *)textTodayColor
 {
-    if(_textTodayColor == nil) {
-        _textTodayColor = [[[self class] appearance] textTodayColor];
-    }
+    if(_textTodayColor) { return _textTodayColor; }
 
-    if(_textTodayColor != nil) {
-        return _textTodayColor;
-    }
+    _textTodayColor = [[[self class] appearance] textTodayColor];
 
-    return [UIColor whiteColor];
+    return _textTodayColor;
 }
 
 - (UIColor *)textSelectedColor
 {
-    if(_textSelectedColor == nil) {
-        _textSelectedColor = [[[self class] appearance] textSelectedColor];
-    }
+    if(_textSelectedColor) { return _textSelectedColor; }
 
-    if(_textSelectedColor != nil) {
-        return _textSelectedColor;
-    }
+    _textSelectedColor = [[[self class] appearance] textSelectedColor];
 
-    return [UIColor whiteColor];
+    return _textSelectedColor;
 }
 
 - (UIColor *)textDisabledColor
 {
-    if(_textDisabledColor == nil) {
-        _textDisabledColor = [[[self class] appearance] textDisabledColor];
-    }
+    if(_textDisabledColor) { return _textDisabledColor; }
 
-    if(_textDisabledColor != nil) {
-        return _textDisabledColor;
-    }
+    _textDisabledColor = [[[self class] appearance] textDisabledColor];
 
-    return [UIColor lightGrayColor];
+    return _textDisabledColor;
 }
 
 #pragma mark - Text Label Customizations Font
 
 - (UIFont *)textDefaultFont
 {
-    if(_textDefaultFont == nil) {
-        _textDefaultFont = [[[self class] appearance] textDefaultFont];
-    }
+    if(_textDefaultFont) { return _textDefaultFont; }
 
-    if (_textDefaultFont != nil) {
-        return _textDefaultFont;
-    }
+    _textDefaultFont = [[[self class] appearance] textDefaultFont];
 
-    // default system font
-    return [UIFont systemFontOfSize:17.0];
+    return _textDefaultFont;
 }
 
 @end

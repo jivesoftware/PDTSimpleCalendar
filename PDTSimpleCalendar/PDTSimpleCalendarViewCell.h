@@ -88,7 +88,7 @@ extern const CGFloat PDTSimpleCalendarCircleSize;
 /**
  *  Customize the day's number using UIAppearance.
  */
-@property (nullable, nonatomic, strong) UIColor *textDefaultColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *textDefaultColor UI_APPEARANCE_SELECTOR;
 
 /**
  *  Customize today's number color using UIAppearance.
