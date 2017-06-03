@@ -7,6 +7,7 @@
 //
 
 @import UIKit;
+NS_ASSUME_NONNULL_BEGIN
 
 extern const CGFloat PDTSimpleCalendarFlowLayoutMinInterItemSpacing;
 extern const CGFloat PDTSimpleCalendarFlowLayoutMinLineSpacing;
@@ -19,3 +20,4 @@ extern const CGFloat PDTSimpleCalendarFlowLayoutHeaderHeight;
 @interface PDTSimpleCalendarViewFlowLayout : UICollectionViewFlowLayout
 
 @end
+NS_ASSUME_NONNULL_END

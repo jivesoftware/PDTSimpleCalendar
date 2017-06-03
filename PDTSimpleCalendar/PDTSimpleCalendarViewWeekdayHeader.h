@@ -7,6 +7,7 @@
 //
 
 @import UIKit;
+NS_ASSUME_NONNULL_BEGIN
 
 extern const CGFloat PDTSimpleCalendarWeekdayHeaderSize;
 extern const CGFloat PDTSimpleCalendarWeekdayHeaderHeight;
@@ -43,3 +44,4 @@ typedef NS_ENUM (NSInteger, PDTSimpleCalendarViewWeekdayTextType) {
 @property (nonatomic, strong) UIColor *headerBackgroundColor UI_APPEARANCE_SELECTOR;
 
 @end
+NS_ASSUME_NONNULL_END

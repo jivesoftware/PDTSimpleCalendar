@@ -7,6 +7,7 @@
 //
 
 @import UIKit;
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  The `PDTSimpleCalendarViewHeader` class displays the month name and year.
@@ -36,3 +37,4 @@
 @property (nonatomic, strong) UIColor *separatorColor UI_APPEARANCE_SELECTOR;
 
 @end
+NS_ASSUME_NONNULL_END
