@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Producteev. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 #import "PDTSimpleCalendarViewWeekdayHeader.h"
 NS_ASSUME_NONNULL_BEGIN

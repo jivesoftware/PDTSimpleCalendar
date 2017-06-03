@@ -21,6 +21,23 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 #pragma mark - Class Methods
 
++ (void)initialize {
+    // Set the UIAppearance default values.
+    if (self == [PDTSimpleCalendarViewCell class]) {
+        PDTSimpleCalendarViewCell *proxy = [PDTSimpleCalendarViewCell appearance];
+
+        [proxy setCircleDefaultColor: [UIColor whiteColor]];
+        [proxy setCircleTodayColor:   [UIColor grayColor]];
+        [proxy setCircleSelectedColor:[UIColor redColor]];
+
+        [proxy setTextDefaultColor:  [UIColor blackColor]];
+        [proxy setTextTodayColor:    [UIColor whiteColor]];
+        [proxy setTextSelectedColor: [UIColor whiteColor]];
+        [proxy setTextDisabledColor: [UIColor lightGrayColor]];
+        [proxy setTextDefaultFont:   [UIFont systemFontOfSize: 17.0]];
+    }
+}
+
 + (NSString *)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
 {
     NSDateFormatter *dateFormatter = [self dateFormatter];
@@ -90,7 +107,6 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
         [self setCircleColor:NO selected:NO];
     }
-
     return self;
 }
 
@@ -167,97 +183,32 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     [super prepareForReuse];
     _date = nil;
     _isToday = NO;
-    _textDefaultColor = nil;
-    _textTodayColor = nil;
+
+    PDTSimpleCalendarViewCell *proxy = [PDTSimpleCalendarViewCell appearance];
+
+    self.circleDefaultColor  = proxy.circleDefaultColor;
+    self.circleTodayColor    = proxy.circleTodayColor;
+    self.circleSelectedColor = proxy.circleSelectedColor;
+
+    self.textDefaultColor  = proxy.textDefaultColor;
+    self.textTodayColor    = proxy.textTodayColor;
+    self.textSelectedColor = proxy.textSelectedColor;
+    self.textDisabledColor = proxy.textDisabledColor;
+    self.textDefaultFont   = proxy.textDefaultFont;
+
     [self.dayLabel setText:@""];
-    [self.dayLabel setBackgroundColor:[self circleDefaultColor]];
-    [self.dayLabel setTextColor:[self textDefaultColor]];
-}
-
-#pragma mark - Circle Color Customization Methods
-
-- (UIColor *)circleDefaultColor
-{
-    if(_circleDefaultColor) { return _circleDefaultColor; }
-
-    _circleDefaultColor = [[[self class] appearance] circleDefaultColor];
-
-    return _circleDefaultColor;
-}
-
-- (UIColor *)circleTodayColor
-{
-    if(_circleTodayColor) { return _circleTodayColor; }
-
-    _circleTodayColor = [[[self class] appearance] circleTodayColor];
-
-    return _circleTodayColor;
-}
-
-- (UIColor *)circleSelectedColor
-{
-    if(_circleSelectedColor) { return _circleSelectedColor; }
-
-    _circleSelectedColor = [[[self class] appearance] circleSelectedColor];
-
-    return _circleSelectedColor;
+    [self.dayLabel setBackgroundColor: proxy.circleDefaultColor];
+    [self.dayLabel setTextColor: proxy.textDefaultColor];
 }
 
 #pragma mark - Text Label Customizations Color
 
 @synthesize textDefaultColor = _textDefaultColor;
 
-- (UIColor *)textDefaultColor
-{
-    if(_textDefaultColor) { return _textDefaultColor; }
-
-    _textDefaultColor = [[[self class] appearance] textDefaultColor];
-
-    return _textDefaultColor;
-}
-
 - (void) setTextDefaultColor:(UIColor *)textDefaultColor
 {
     _textDefaultColor = textDefaultColor ?: [[[self class] appearance] textDefaultColor];
     self.dayLabel.textColor = _textDefaultColor;
-}
-
-- (UIColor *)textTodayColor
-{
-    if(_textTodayColor) { return _textTodayColor; }
-
-    _textTodayColor = [[[self class] appearance] textTodayColor];
-
-    return _textTodayColor;
-}
-
-- (UIColor *)textSelectedColor
-{
-    if(_textSelectedColor) { return _textSelectedColor; }
-
-    _textSelectedColor = [[[self class] appearance] textSelectedColor];
-
-    return _textSelectedColor;
-}
-
-- (UIColor *)textDisabledColor
-{
-    if(_textDisabledColor) { return _textDisabledColor; }
-
-    _textDisabledColor = [[[self class] appearance] textDisabledColor];
-
-    return _textDisabledColor;
-}
-
-#pragma mark - Text Label Customizations Font
-
-- (UIFont *)textDefaultFont
-{
-    if(_textDefaultFont) { return _textDefaultFont; }
-
-    _textDefaultFont = [[[self class] appearance] textDefaultFont];
-
-    return _textDefaultFont;
 }
 
 @end

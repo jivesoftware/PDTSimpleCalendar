@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 MorningCall. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 extern const CGFloat PDTSimpleCalendarWeekdayHeaderSize;
 extern const CGFloat PDTSimpleCalendarWeekdayHeaderHeight;

@@ -13,6 +13,19 @@ const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
 
 @implementation PDTSimpleCalendarViewWeekdayHeader
 
++ (void)initialize {
+    // Set the UIAppearance default values.
+    if (self == [PDTSimpleCalendarViewWeekdayHeader class]) {
+        PDTSimpleCalendarViewWeekdayHeader *proxy = [PDTSimpleCalendarViewWeekdayHeader appearance];
+
+        [proxy setHeaderBackgroundColor: [UIColor whiteColor]];
+
+        [proxy setTextColor: [UIColor blackColor]];
+        [proxy setTextFont: [UIFont systemFontOfSize: PDTSimpleCalendarWeekdayHeaderSize]];
+    }
+}
+
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -89,45 +102,6 @@ const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
     }
     
     return self;
-}
-
-- (UIColor *)textColor
-{
-    if(_textColor == nil) {
-        _textColor = [[[self class] appearance] textColor];
-    }
-    
-    if(_textColor != nil) {
-        return _textColor;
-    }
-    
-    return [UIColor blackColor];
-}
-
-- (UIFont *)textFont
-{
-    if(_textFont == nil) {
-        _textFont = [[[self class] appearance] textFont];
-    }
-    
-    if(_textFont != nil) {
-        return _textFont;
-    }
-    
-    return [UIFont systemFontOfSize:PDTSimpleCalendarWeekdayHeaderSize];
-}
-
-- (UIColor *)headerBackgroundColor
-{
-    if(_headerBackgroundColor == nil) {
-        _headerBackgroundColor = [[[self class] appearance] headerBackgroundColor];
-    }
-    
-    if(_headerBackgroundColor != nil) {
-        return _headerBackgroundColor;
-    }
-    
-    return [UIColor whiteColor];
 }
 
 @end

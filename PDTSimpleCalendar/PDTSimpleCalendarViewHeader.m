@@ -12,6 +12,18 @@ const CGFloat PDTSimpleCalendarHeaderTextSize = 12.0f;
 
 @implementation PDTSimpleCalendarViewHeader
 
++ (void)initialize {
+    // Set the UIAppearance default values.
+    if (self == [PDTSimpleCalendarViewHeader class]) {
+        PDTSimpleCalendarViewHeader *proxy = [PDTSimpleCalendarViewHeader appearance];
+
+        [proxy setSeparatorColor: [UIColor lightGrayColor]];
+
+        [proxy setTextColor: [UIColor blackColor]];
+        [proxy setTextFont: [UIFont systemFontOfSize: PDTSimpleCalendarHeaderTextSize]];
+    }
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -43,48 +55,5 @@ const CGFloat PDTSimpleCalendarHeaderTextSize = 12.0f;
 
     return self;
 }
-
-
-#pragma mark - Colors
-
-- (UIColor *)textColor
-{
-    if(_textColor == nil) {
-        _textColor = [[[self class] appearance] textColor];
-    }
-
-    if(_textColor != nil) {
-        return _textColor;
-    }
-
-    return [UIColor grayColor];
-}
-
-- (UIFont *)textFont
-{
-    if(_textFont == nil) {
-        _textFont = [[[self class] appearance] textFont];
-    }
-
-    if(_textFont != nil) {
-        return _textFont;
-    }
-
-    return [UIFont systemFontOfSize:PDTSimpleCalendarHeaderTextSize];
-}
-
-- (UIColor *)separatorColor
-{
-    if(_separatorColor == nil) {
-        _separatorColor = [[[self class] appearance] separatorColor];
-    }
-
-    if(_separatorColor != nil) {
-        return _separatorColor;
-    }
-
-    return [UIColor lightGrayColor];
-}
-
 
 @end
