@@ -11,6 +11,14 @@
 const CGFloat PDTSimpleCalendarWeekdayHeaderSize = 12.0f;
 const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
 
+@interface PDTSimpleCalendarViewWeekdayHeader ()
+
+@property (nonatomic, retain) NSCalendar *calendar;
+@property (nonatomic) PDTSimpleCalendarViewWeekdayTextType weekdayTextType;
+@property (nonatomic, retain) NSArray *weekdaySymbols;
+
+@end
+
 @implementation PDTSimpleCalendarViewWeekdayHeader
 
 + (void)initialize {
@@ -38,11 +46,14 @@ const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
     self = [super init];
     if (self)
     {
-        self.backgroundColor = self.headerBackgroundColor;
+        self.calendar = calendar;
+        self.weekdayTextType = textType;
+
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.calendar = calendar;
+
         NSArray *weekdaySymbols = nil;
-        
+
         switch (textType) {
             case PDTSimpleCalendarViewWeekdayTextTypeVeryShort:
                 weekdaySymbols = [dateFormatter veryShortWeekdaySymbols];
@@ -54,27 +65,37 @@ const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
                 weekdaySymbols = [dateFormatter standaloneWeekdaySymbols];
                 break;
         }
-        
-        NSMutableArray *adjustedSymbols = [NSMutableArray arrayWithArray:weekdaySymbols];
-        for (NSInteger index = 0; index < (1 - calendar.firstWeekday + weekdaySymbols.count); index++) {
+        self.weekdaySymbols = weekdaySymbols;
+    }
+    return self;
+}
+
+- (void) didMoveToWindow {
+
+    [super didMoveToWindow];
+
+    if (self.window) {
+        // Use the UIAppearance properties only after they been finalized by being
+        // inserted into a live window.
+        self.backgroundColor = self.headerBackgroundColor;
+
+        NSMutableArray *adjustedSymbols = [NSMutableArray arrayWithArray: self.weekdaySymbols];
+        for (NSInteger index = 0; index < (1 - self.calendar.firstWeekday + self.weekdaySymbols.count); index++) {
             NSString *lastObject = [adjustedSymbols lastObject];
             [adjustedSymbols removeLastObject];
             [adjustedSymbols insertObject:lastObject atIndex:0];
         }
-        
         if (adjustedSymbols.count == 0) {
-            return self;
+            return;
         }
-        
         UILabel *firstWeekdaySymbolLabel = nil;
-        
         NSMutableArray *weekdaySymbolLabelNameArr = [NSMutableArray array];
         NSMutableDictionary *weekdaySymbolLabelDict = [NSMutableDictionary dictionary];
         for (NSInteger index = 0; index < adjustedSymbols.count; index++)
         {
             NSString *labelName = [NSString stringWithFormat:@"weekdaySymbolLabel%d", (int)index];
             [weekdaySymbolLabelNameArr addObject:labelName];
-            
+
             UILabel *weekdaySymbolLabel = [[UILabel alloc] init];
             weekdaySymbolLabel.font = self.textFont;
             weekdaySymbolLabel.text = [adjustedSymbols[index] uppercaseString];
@@ -82,25 +103,21 @@ const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
             weekdaySymbolLabel.textAlignment = NSTextAlignmentCenter;
             weekdaySymbolLabel.backgroundColor = [UIColor clearColor];
             weekdaySymbolLabel.translatesAutoresizingMaskIntoConstraints = NO;
-            
+
             [self addSubview:weekdaySymbolLabel];
-            
+
             [weekdaySymbolLabelDict setObject:weekdaySymbolLabel forKey:labelName];
             [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[%@]|", labelName] options:0 metrics:nil views:weekdaySymbolLabelDict]];
-            
+
             if (firstWeekdaySymbolLabel == nil) {
                 firstWeekdaySymbolLabel = weekdaySymbolLabel;
             } else {
                 [self addConstraint:[NSLayoutConstraint constraintWithItem:weekdaySymbolLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:firstWeekdaySymbolLabel attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
             }
         }
-        
         NSString *layoutString = [NSString stringWithFormat:@"|[%@(>=0)]|", [weekdaySymbolLabelNameArr componentsJoinedByString:@"]["]];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:layoutString options:NSLayoutFormatAlignAllCenterY metrics:nil views:weekdaySymbolLabelDict]];
-
     }
-    
-    return self;
 }
 
 @end

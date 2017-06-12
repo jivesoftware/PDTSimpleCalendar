@@ -387,7 +387,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
         if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textForDate:)]) {
             NSString * customText = [self.delegate simpleCalendarViewController:self textForDate:cellDate];
             if (customText) {
-                [cell setDayLabelText: customText];
+                [cell setText: customText];
             }
             else { [cell setDate:cellDate calendar:self.calendar]; }
         }
@@ -406,14 +406,8 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     } else {
         [cell setDate:nil calendar:nil];
     }
-
-    if (isToday) {
-        [cell setIsToday:isToday];
-    }
-
-    if (isSelected) {
-        [cell setSelected:isSelected];
-    }
+    [cell setToday: isToday];
+    [cell setSelected: isSelected];
 
     //If the current Date is not enabled, or if the delegate explicitely specify custom colors
     if (![self isEnabledDate:cellDate] || isCustomDate) {
@@ -482,7 +476,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     CGFloat itemWidth = floorf(CGRectGetWidth(self.collectionView.bounds) / self.daysPerWeek);
 
     // Limit the height with wide displays.
-    return CGSizeMake(itemWidth, MIN(itemWidth, round(PDTSimpleCalendarCircleSize * 1.2)));
+    return CGSizeMake(itemWidth, MIN(itemWidth, round(kPDTSimpleCalendarCircleSize * 1.2)));
 }
 
 #pragma mark - UIScrollViewDelegate

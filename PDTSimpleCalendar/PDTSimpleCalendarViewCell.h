@@ -9,7 +9,7 @@
 @import UIKit;
 NS_ASSUME_NONNULL_BEGIN
 
-extern const CGFloat PDTSimpleCalendarCircleSize;
+extern const CGFloat kPDTSimpleCalendarCircleSize;
 
 @class PDTSimpleCalendarViewCell;
 
@@ -54,7 +54,7 @@ extern const CGFloat PDTSimpleCalendarCircleSize;
 /**
  *  The `PDTSimpleCalendarViewCell` class displays a day in the calendar.
  */
-@interface PDTSimpleCalendarViewCell : UICollectionViewCell
+@interface PDTSimpleCalendarViewCell : UICollectionViewCell <UIAppearanceContainer>
 
 /**
  *  The delegate of the cell.
@@ -67,7 +67,7 @@ extern const CGFloat PDTSimpleCalendarCircleSize;
 /**
  *  Define if the cell is today in the calendar.
  */
-@property (nonatomic, assign) BOOL isToday;
+@property (nonatomic, assign, getter=isToday) BOOL today;
 
 /**
  *  Customize the circle behind the day's number color using UIAppearance.
@@ -119,11 +119,9 @@ extern const CGFloat PDTSimpleCalendarCircleSize;
 - (void)setDate:(nullable NSDate*)date calendar:(nullable NSCalendar*)calendar;
 
 /**
- * Set a non-standard Day Label in the cell.
- *
- * @param dayLabel The new label.
+ * Set the text for this cell.
  */
-- (void) setDayLabelText: (NSString *)text;
+@property (nonatomic, strong) NSString *text;
 
 /**
  *  Force the refresh of the colors for the circle and the text

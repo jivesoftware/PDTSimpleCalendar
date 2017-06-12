@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The `PDTSimpleCalendarViewHeader` class displays the month name and year.
  */
-@interface PDTSimpleCalendarViewHeader : UICollectionReusableView
+@interface PDTSimpleCalendarViewHeader : UICollectionReusableView <UIAppearanceContainer>
 
 /**
  *  Label that display the month and year

@@ -8,43 +8,44 @@
 
 #import "PDTSimpleCalendarViewHeader.h"
 
-const CGFloat PDTSimpleCalendarHeaderTextSize = 12.0f;
+const CGFloat kPDTSimpleCalendarHeaderTextSize = 12.0f;
+
+@interface PDTSimpleCalendarViewHeader ()
+
+@property (nonatomic, nonnull, retain) UIView *separatorView;
+
+@end
 
 @implementation PDTSimpleCalendarViewHeader
 
 + (void)initialize {
-    // Set the UIAppearance default values.
     if (self == [PDTSimpleCalendarViewHeader class]) {
+        // Set the UIAppearance default values.
         PDTSimpleCalendarViewHeader *proxy = [PDTSimpleCalendarViewHeader appearance];
 
         [proxy setSeparatorColor: [UIColor lightGrayColor]];
 
         [proxy setTextColor: [UIColor blackColor]];
-        [proxy setTextFont: [UIFont systemFontOfSize: PDTSimpleCalendarHeaderTextSize]];
+        [proxy setTextFont: [UIFont systemFontOfSize: kPDTSimpleCalendarHeaderTextSize]];
     }
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         _titleLabel = [[UILabel alloc] init];
-        [_titleLabel setFont:self.textFont];
-        [_titleLabel setTextColor:self.textColor];
-        [_titleLabel setBackgroundColor:[UIColor clearColor]];
-
         [self addSubview:_titleLabel];
         [_titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
 
-        UIView *separatorView = [[UIView alloc] init];
-        [separatorView setBackgroundColor:self.separatorColor];
-        [self addSubview:separatorView];
-        [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        _separatorView = [[UIView alloc] init];
+        [self addSubview: _separatorView];
+        [_separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
 
         CGFloat onePixel = 1.0f / [UIScreen mainScreen].scale;
         NSDictionary *metricsDictionary = @{@"onePixel" : [NSNumber numberWithFloat:onePixel]};
-        NSDictionary *viewsDictionary = @{@"titleLabel" : self.titleLabel, @"separatorView" : separatorView};
+        NSDictionary *viewsDictionary = @{@"titleLabel" : _titleLabel, @"separatorView" : _separatorView};
 
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(==10)-[titleLabel]-(==10)-|" options:0 metrics:nil views:viewsDictionary]];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[titleLabel]|" options:0 metrics:nil views:viewsDictionary]];
@@ -54,6 +55,21 @@ const CGFloat PDTSimpleCalendarHeaderTextSize = 12.0f;
     }
 
     return self;
+}
+
+- (void) didMoveToWindow {
+
+    [super didMoveToWindow];
+
+    if (self.window) {
+        // Use the UIAppearance properties only after they been finalized by being
+        // inserted into a live window.
+        self.separatorView.backgroundColor = self.separatorColor;
+
+        self.titleLabel.font = self.textFont;
+        self.titleLabel.textColor = self.textColor;
+        self.titleLabel.backgroundColor = UIColor.clearColor;
+    }
 }
 
 @end
