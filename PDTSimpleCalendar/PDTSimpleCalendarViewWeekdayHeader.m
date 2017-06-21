@@ -33,25 +33,16 @@ const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
     }
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
-
 - (id)initWithCalendar:(NSCalendar *)calendar weekdayTextType:(PDTSimpleCalendarViewWeekdayTextType)textType
 {
     self = [super init];
     if (self)
     {
-        self.calendar = calendar;
-        self.weekdayTextType = textType;
+        _calendar = calendar;
+        _weekdayTextType = textType;
 
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.calendar = calendar;
-
         NSArray *weekdaySymbols = nil;
 
         switch (textType) {
@@ -65,7 +56,7 @@ const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
                 weekdaySymbols = [dateFormatter standaloneWeekdaySymbols];
                 break;
         }
-        self.weekdaySymbols = weekdaySymbols;
+        _weekdaySymbols = weekdaySymbols;
     }
     return self;
 }
