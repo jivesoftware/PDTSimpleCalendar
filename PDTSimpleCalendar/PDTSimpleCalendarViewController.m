@@ -633,19 +633,6 @@ static const NSInteger kFirstDay = 1;
     return NO;
 }
 
-- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell textColorForDate:(NSDate *)date {
-
-    if (![self isEnabledDate:date]) {
-        return cell.textDefaultColor;
-    }
-
-    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textColorForDate:)]) {
-        return [self.delegate simpleCalendarViewController:self textColorForDate:date] ?: cell.textDefaultColor;
-    }
-
-    return nil;
-}
-
 - (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date
 {
     if (![self isEnabledDate:date]) {
@@ -654,6 +641,19 @@ static const NSInteger kFirstDay = 1;
 
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:circleColorForDate:)]) {
         return [self.delegate simpleCalendarViewController:self circleColorForDate:date] ?: cell.circleDefaultColor;
+    }
+
+    return nil;
+}
+
+- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell textColorForDate:(NSDate *)date
+{
+    if (![self isEnabledDate:date]) {
+        return cell.textDefaultColor;
+    }
+
+    if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textColorForDate:)]) {
+        return [self.delegate simpleCalendarViewController:self textColorForDate:date] ?: cell.textDefaultColor;
     }
 
     return nil;
