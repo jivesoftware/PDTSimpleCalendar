@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "PDTSimpleCalendar"
-  s.version      = "0.9.1"
+  s.version      = "0.9.2"
   s.summary      = "A simple Calendar/Date Picker with a nice iOS7/iOS8 design."
 
   s.description  = <<-DESC
