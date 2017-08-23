@@ -29,6 +29,7 @@ const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0f;
         self.backgroundColor = self.headerBackgroundColor;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.calendar = calendar;
+        dateFormatter.locale = calendar.locale
         NSArray *weekdaySymbols = nil;
         
         switch (textType) {
