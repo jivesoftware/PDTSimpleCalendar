@@ -6,8 +6,10 @@
 //  Copyright (c) 2013 Producteev. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+@import UIKit;
+NS_ASSUME_NONNULL_BEGIN
+
+extern const CGFloat kPDTSimpleCalendarCircleSize;
 
 @class PDTSimpleCalendarViewCell;
 
@@ -34,7 +36,7 @@
  *
  *  @return The text desired color
  */
-- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell textColorForDate:(NSDate *)date;
+- (nullable UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell textColorForDate:(NSDate *)date;
 
 /**
  *  Asks the delegate for the circle color for a specific date.
@@ -45,14 +47,14 @@
  *
  *  @return The circle desired color
  */
-- (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date;
+- (nullable UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell circleColorForDate:(NSDate *)date;
 
 @end
 
 /**
  *  The `PDTSimpleCalendarViewCell` class displays a day in the calendar.
  */
-@interface PDTSimpleCalendarViewCell : UICollectionViewCell
+@interface PDTSimpleCalendarViewCell : UICollectionViewCell <UIAppearanceContainer>
 
 /**
  *  The delegate of the cell.
@@ -65,7 +67,7 @@
 /**
  *  Define if the cell is today in the calendar.
  */
-@property (nonatomic, assign) BOOL isToday;
+@property (nonatomic, assign, getter=isToday) BOOL today;
 
 /**
  *  Customize the circle behind the day's number color using UIAppearance.
@@ -114,7 +116,12 @@
  *
  * @param calendar the calendar.
  */
-- (void)setDate:(NSDate*)date calendar:(NSCalendar*)calendar;
+- (void)setDate:(nullable NSDate*)date calendar:(nullable NSCalendar*)calendar;
+
+/**
+ * Set the text for this cell.
+ */
+@property (nonatomic, strong) NSString *text;
 
 /**
  *  Force the refresh of the colors for the circle and the text
@@ -122,3 +129,4 @@
 - (void)refreshCellColors;
 
 @end
+NS_ASSUME_NONNULL_END

@@ -6,7 +6,8 @@
 //  Copyright (c) 2015 MorningCall. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+NS_ASSUME_NONNULL_BEGIN
 
 extern const CGFloat PDTSimpleCalendarWeekdayHeaderSize;
 extern const CGFloat PDTSimpleCalendarWeekdayHeaderHeight;
@@ -17,13 +18,13 @@ typedef NS_ENUM (NSInteger, PDTSimpleCalendarViewWeekdayTextType) {
     PDTSimpleCalendarViewWeekdayTextTypeStandAlone
 };
 
-@interface PDTSimpleCalendarViewWeekdayHeader : UIView
+@interface PDTSimpleCalendarViewWeekdayHeader : UIView <UIAppearanceContainer>
 
 /**
  *  Init with calendar
  *
  *  @param calendar the calendar used to generate the view.
- *  @param textType
+ *  @param textType The text style.
  */
 - (id)initWithCalendar:(NSCalendar *)calendar weekdayTextType:(PDTSimpleCalendarViewWeekdayTextType)textType;
 
@@ -43,3 +44,4 @@ typedef NS_ENUM (NSInteger, PDTSimpleCalendarViewWeekdayTextType) {
 @property (nonatomic, strong) UIColor *headerBackgroundColor UI_APPEARANCE_SELECTOR;
 
 @end
+NS_ASSUME_NONNULL_END

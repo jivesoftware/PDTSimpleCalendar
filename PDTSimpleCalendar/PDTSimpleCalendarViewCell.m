@@ -8,7 +8,7 @@
 
 #import "PDTSimpleCalendarViewCell.h"
 
-const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
+const CGFloat kPDTSimpleCalendarCircleSize = 32.0f;
 
 @interface PDTSimpleCalendarViewCell ()
 
@@ -21,6 +21,23 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 #pragma mark - Class Methods
 
++ (void)initialize {
+    if (self == [PDTSimpleCalendarViewCell class]) {
+        // Set the UIAppearance default values.
+        PDTSimpleCalendarViewCell *proxy = [PDTSimpleCalendarViewCell appearance];
+
+        proxy.circleDefaultColor  = [UIColor whiteColor];
+        proxy.circleTodayColor    = [UIColor grayColor];
+        proxy.circleSelectedColor = [UIColor redColor];
+
+        proxy.textDefaultColor  = [UIColor blackColor];
+        proxy.textTodayColor    = [UIColor whiteColor];
+        proxy.textSelectedColor = [UIColor whiteColor];
+        proxy.textDisabledColor = [UIColor lightGrayColor];
+        proxy.textDefaultFont   = [UIFont systemFontOfSize: 17.0];
+    }
+}
+
 + (NSString *)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
 {
     NSDateFormatter *dateFormatter = [self dateFormatter];
@@ -32,7 +49,6 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     NSDateFormatter *dateFormatter = [self accessibilityDateFormatter];
     return [PDTSimpleCalendarViewCell stringFromDate:date withDateFormatter:dateFormatter withCalendar:calendar];
 }
-
 
 + (NSDateFormatter *)dateFormatter {
     static NSDateFormatter *dateFormatter;
@@ -51,7 +67,6 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterLongStyle];
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-        
     });
     return dateFormatter;
 }
@@ -66,32 +81,39 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 #pragma mark - Instance Methods
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         _date = nil;
-        _isToday = NO;
+        _today = NO;
         _dayLabel = [[UILabel alloc] init];
-        [self.dayLabel setFont:[self textDefaultFont]];
-        [self.dayLabel setTextAlignment:NSTextAlignmentCenter];
-        [self.contentView addSubview:self.dayLabel];
+        [_dayLabel setTextAlignment: NSTextAlignmentCenter];
+        [self.contentView addSubview: _dayLabel];
 
         //Add the Constraints
-        [self.dayLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.dayLabel setBackgroundColor:[UIColor clearColor]];
-        self.dayLabel.layer.cornerRadius = PDTSimpleCalendarCircleSize/2;
-        self.dayLabel.layer.masksToBounds = YES;
+        [_dayLabel setTranslatesAutoresizingMaskIntoConstraints: NO];
+        [_dayLabel setBackgroundColor:[UIColor clearColor]];
+        _dayLabel.layer.cornerRadius = kPDTSimpleCalendarCircleSize/2;
+        _dayLabel.layer.masksToBounds = YES;
 
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize]];
-
-        [self setCircleColor:NO selected:NO];
+        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem: _dayLabel attribute: NSLayoutAttributeCenterX relatedBy: NSLayoutRelationEqual toItem: self.contentView attribute: NSLayoutAttributeCenterX multiplier: 1.0 constant: 0.0]];
+        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem: _dayLabel attribute: NSLayoutAttributeCenterY relatedBy: NSLayoutRelationEqual toItem: self.contentView attribute: NSLayoutAttributeCenterY multiplier: 1.0 constant: 0.0]];
+        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem: _dayLabel attribute: NSLayoutAttributeHeight relatedBy: NSLayoutRelationEqual toItem: nil attribute: NSLayoutAttributeNotAnAttribute multiplier: 1.0 constant: kPDTSimpleCalendarCircleSize]];
+        [self.contentView addConstraint: [NSLayoutConstraint constraintWithItem: _dayLabel attribute: NSLayoutAttributeWidth relatedBy: NSLayoutRelationEqual toItem: nil attribute: NSLayoutAttributeNotAnAttribute multiplier: 1.0 constant: kPDTSimpleCalendarCircleSize]];
     }
-
     return self;
+}
+
+- (void) didMoveToWindow {
+    // Use the UIAppearance properties only after they been finalized by being
+    // inserted into a live window.
+    [super didMoveToWindow];
+
+    if (self.window) {
+        [self.dayLabel setFont: self.textDefaultFont];
+        [self setCircleColor: self.isToday selected: self.selected];
+    }
 }
 
 - (void)setDate:(NSDate *)date calendar:(NSCalendar *)calendar
@@ -107,10 +129,23 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     self.dayLabel.accessibilityLabel = accessibilityDay;
 }
 
-- (void)setIsToday:(BOOL)isToday
+@dynamic text;
+
+- (NSString *) text {
+
+    return self.dayLabel.text;
+}
+
+- (void) setText: (NSString *)text {
+
+    self.dayLabel.text = text;
+    self.dayLabel.accessibilityLabel = text;
+}
+
+- (void) setToday: (BOOL) today
 {
-    _isToday = isToday;
-    [self setCircleColor:isToday selected:self.selected];
+    _today = today;
+    [self setCircleColor: today selected: self.selected];
 }
 
 - (void)setSelected:(BOOL)selected
@@ -137,144 +172,51 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
             }
         }
     }
-    
     if (selected) {
         circleColor = [self circleSelectedColor];
         labelColor = [self textSelectedColor];
     }
-
     [self.dayLabel setBackgroundColor:circleColor];
     [self.dayLabel setTextColor:labelColor];
 }
-
 
 - (void)refreshCellColors
 {
     [self setCircleColor:self.isToday selected:self.isSelected];
 }
 
-
 #pragma mark - Prepare for Reuse
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    _date = nil;
-    _isToday = NO;
-    [self.dayLabel setText:@""];
-    [self.dayLabel setBackgroundColor:[self circleDefaultColor]];
-    [self.dayLabel setTextColor:[self textDefaultColor]];
-}
+    self.date = nil;
+    self.today = NO;
 
-#pragma mark - Circle Color Customization Methods
+    // TODO: File a Doc bug, Thaddeus Cooper in DTS. Quinn & Larry, Kirby Turner.
+    PDTSimpleCalendarViewCell *proxy = [PDTSimpleCalendarViewCell appearance];
 
-- (UIColor *)circleDefaultColor
-{
-    if(_circleDefaultColor == nil) {
-        _circleDefaultColor = [[[self class] appearance] circleDefaultColor];
-    }
+    if (_circleDefaultColor)  { self.circleDefaultColor  = proxy.circleDefaultColor; }
+    if (_circleTodayColor)    { self.circleTodayColor    = proxy.circleTodayColor; }
+    if (_circleSelectedColor) { self.circleSelectedColor = proxy.circleSelectedColor; }
 
-    if(_circleDefaultColor != nil) {
-        return _circleDefaultColor;
-    }
+    if (_textDefaultColor)  { self.textDefaultColor  = proxy.textDefaultColor; }
+    if (_textTodayColor)    { self.textTodayColor    = proxy.textTodayColor; }
+    if (_textSelectedColor) { self.textSelectedColor = proxy.textSelectedColor; }
+    if (_textDisabledColor) { self.textDisabledColor = proxy.textDisabledColor; }
+    if (_textDefaultFont)   { self.textDefaultFont   = proxy.textDefaultFont; }
 
-    return [UIColor whiteColor];
-}
-
-- (UIColor *)circleTodayColor
-{
-    if(_circleTodayColor == nil) {
-        _circleTodayColor = [[[self class] appearance] circleTodayColor];
-    }
-
-    if(_circleTodayColor != nil) {
-        return _circleTodayColor;
-    }
-
-    return [UIColor grayColor];
-}
-
-- (UIColor *)circleSelectedColor
-{
-    if(_circleSelectedColor == nil) {
-        _circleSelectedColor = [[[self class] appearance] circleSelectedColor];
-    }
-
-    if(_circleSelectedColor != nil) {
-        return _circleSelectedColor;
-    }
-
-    return [UIColor redColor];
+    self.dayLabel.text = @"";
+    self.dayLabel.backgroundColor =  proxy.circleDefaultColor;
+    self.dayLabel.textColor = proxy.textDefaultColor;
 }
 
 #pragma mark - Text Label Customizations Color
 
-- (UIColor *)textDefaultColor
+- (void) setTextDefaultColor: (UIColor *) textDefaultColor
 {
-    if(_textDefaultColor == nil) {
-        _textDefaultColor = [[[self class] appearance] textDefaultColor];
-    }
-
-    if(_textDefaultColor != nil) {
-        return _textDefaultColor;
-    }
-
-    return [UIColor blackColor];
-}
-
-- (UIColor *)textTodayColor
-{
-    if(_textTodayColor == nil) {
-        _textTodayColor = [[[self class] appearance] textTodayColor];
-    }
-
-    if(_textTodayColor != nil) {
-        return _textTodayColor;
-    }
-
-    return [UIColor whiteColor];
-}
-
-- (UIColor *)textSelectedColor
-{
-    if(_textSelectedColor == nil) {
-        _textSelectedColor = [[[self class] appearance] textSelectedColor];
-    }
-
-    if(_textSelectedColor != nil) {
-        return _textSelectedColor;
-    }
-
-    return [UIColor whiteColor];
-}
-
-- (UIColor *)textDisabledColor
-{
-    if(_textDisabledColor == nil) {
-        _textDisabledColor = [[[self class] appearance] textDisabledColor];
-    }
-
-    if(_textDisabledColor != nil) {
-        return _textDisabledColor;
-    }
-
-    return [UIColor lightGrayColor];
-}
-
-#pragma mark - Text Label Customizations Font
-
-- (UIFont *)textDefaultFont
-{
-    if(_textDefaultFont == nil) {
-        _textDefaultFont = [[[self class] appearance] textDefaultFont];
-    }
-
-    if (_textDefaultFont != nil) {
-        return _textDefaultFont;
-    }
-
-    // default system font
-    return [UIFont systemFontOfSize:17.0];
+    _textDefaultColor = textDefaultColor ?: [[[self class] appearance] textDefaultColor];
+    self.dayLabel.textColor = _textDefaultColor;
 }
 
 @end

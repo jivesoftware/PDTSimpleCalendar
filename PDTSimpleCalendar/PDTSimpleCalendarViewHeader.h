@@ -6,12 +6,13 @@
 //  Copyright (c) 2013 Producteev. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  The `PDTSimpleCalendarViewHeader` class displays the month name and year.
  */
-@interface PDTSimpleCalendarViewHeader : UICollectionReusableView
+@interface PDTSimpleCalendarViewHeader : UICollectionReusableView <UIAppearanceContainer>
 
 /**
  *  Label that display the month and year
@@ -36,3 +37,4 @@
 @property (nonatomic, strong) UIColor *separatorColor UI_APPEARANCE_SELECTOR;
 
 @end
+NS_ASSUME_NONNULL_END

@@ -172,7 +172,14 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 
 - (void)setLastDate:(NSDate *)lastDate
 {
-    _lastDate = [self clampDate:lastDate toComponents:kCalendarUnitYMD];
+    NSDate *clampedDate = [self clampDate:lastDate toComponents:kCalendarUnitYMD];
+
+    if ([_lastDate compare: clampedDate] != NSOrderedSame) {
+
+        _lastDateMonth = nil;
+        [self.collectionViewLayout invalidateLayout];
+    }
+    _lastDate = clampedDate;
 }
 
 - (NSDate *)lastDateMonth
@@ -308,7 +315,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 
 #pragma mark - Rotation Handling
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void) viewWillTransitionToSize: (CGSize) size withTransitionCoordinator: (id<UIViewControllerTransitionCoordinator>) coordinator
 {
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
@@ -375,28 +382,36 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     if (cellDateComponents.month == firstOfMonthsComponents.month) {
         isSelected = ([self isSelectedDate:cellDate] && (indexPath.section == [self sectionForDate:cellDate]));
         isToday = [self isTodayDate:cellDate];
-        [cell setDate:cellDate calendar:self.calendar];
+
+        //Ask the delegate if this date should have custom text.
+        if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textForDate:)]) {
+            NSString * customText = [self.delegate simpleCalendarViewController:self textForDate:cellDate];
+            if (customText) {
+                [cell setText: customText];
+            }
+            else { [cell setDate:cellDate calendar:self.calendar]; }
+        }
+        else { [cell setDate:cellDate calendar:self.calendar]; }
+
+        //Ask the delegate if this date should have specific colors.
+        if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textColorForDate:)]) {
+            cell.textDefaultColor = [self.delegate simpleCalendarViewController:self textColorForDate:cellDate];
+        }
 
         //Ask the delegate if this date should have specific colors.
         if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:shouldUseCustomColorsForDate:)]) {
             isCustomDate = [self.delegate simpleCalendarViewController:self shouldUseCustomColorsForDate:cellDate];
         }
 
-
     } else {
         [cell setDate:nil calendar:nil];
     }
-
-    if (isToday) {
-        [cell setIsToday:isToday];
-    }
-
-    if (isSelected) {
-        [cell setSelected:isSelected];
-    }
+    [cell setToday: isToday];
+    [cell setSelected: isSelected];
 
     //If the current Date is not enabled, or if the delegate explicitely specify custom colors
     if (![self isEnabledDate:cellDate] || isCustomDate) {
+        cell.textDefaultColor = cell.textDisabledColor;
         [cell refreshCellColors];
     }
 
@@ -444,8 +459,14 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 
         return headerView;
     }
+    else {
 
-    return nil;
+        PDTSimpleCalendarViewHeader *headerView = [self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:PDTSimpleCalendarViewHeaderIdentifier forIndexPath:indexPath];
+
+        headerView.bounds = CGRectZero;
+
+        return headerView;
+    }
 }
 
 #pragma mark - UICollectionViewFlowLayoutDelegate
@@ -454,7 +475,8 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 {
     CGFloat itemWidth = floorf(CGRectGetWidth(self.collectionView.bounds) / self.daysPerWeek);
 
-    return CGSizeMake(itemWidth, itemWidth);
+    // Limit the height with wide displays.
+    return CGSizeMake(itemWidth, MIN(itemWidth, round(kPDTSimpleCalendarCircleSize * 1.2)));
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -495,7 +517,6 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     }];
 }
 
-#pragma mark -
 #pragma mark - Calendar calculations
 
 - (NSDate *)clampDate:(NSDate *)date toComponents:(NSUInteger)unitFlags
@@ -619,7 +640,7 @@ static const NSInteger kFirstDay = 1;
     }
 
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:circleColorForDate:)]) {
-        return [self.delegate simpleCalendarViewController:self circleColorForDate:date];
+        return [self.delegate simpleCalendarViewController:self circleColorForDate:date] ?: cell.circleDefaultColor;
     }
 
     return nil;
@@ -628,11 +649,11 @@ static const NSInteger kFirstDay = 1;
 - (UIColor *)simpleCalendarViewCell:(PDTSimpleCalendarViewCell *)cell textColorForDate:(NSDate *)date
 {
     if (![self isEnabledDate:date]) {
-        return cell.textDisabledColor;
+        return cell.textDefaultColor;
     }
 
     if ([self.delegate respondsToSelector:@selector(simpleCalendarViewController:textColorForDate:)]) {
-        return [self.delegate simpleCalendarViewController:self textColorForDate:date];
+        return [self.delegate simpleCalendarViewController:self textColorForDate:date] ?: cell.textDefaultColor;
     }
 
     return nil;
