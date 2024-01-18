@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
   s.source       = { :git => "https://github.com/jivesoftware/PDTSimpleCalendar.git", :tag => s.version.to_s }
   s.source_files  = 'PDTSimpleCalendar/**/*.{h,m}'
+  s.exclude_files = ['PDTSimpleCalendar/include/**']
   s.requires_arc = true
 
 end
